@@ -94,8 +94,6 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
 
         let podcastHeader = searchResults[indexPath.row]
         delegate?.show(podcastInfo: podcastHeader, placeholderImage: nil, isFeatured: false, listUuid: nil)
-
-        Analytics.track(.searchResultTapped, properties: ["uuid": podcastHeader, "result_type": "podcast_remote_result", "source": "discover"])
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -150,8 +148,6 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
             return
         }
 
-        Analytics.track(.searchPerformed, properties: ["source": "discover"])
-
         let finalSearch = searchTerm.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).stringByRemovingEmoji()
 
         searchState = .searching
@@ -160,7 +156,6 @@ class DiscoverPodcastSearchResultsController: UIViewController, UITableViewDeleg
             guard let response = response, response.success() else {
                 self?.searchState = .failed
                 DispatchQueue.main.async {
-                    Analytics.track(.searchFailed)
                     self?.searchResultsTable.reloadData()
                     completion()
                 }

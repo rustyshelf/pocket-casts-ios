@@ -37,8 +37,6 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         includeStarred = UserDefaults.standard.bool(forKey: Constants.UserDefaults.cleanupStarred)
 
         reloadFileSizes()
-
-        Analytics.track(.downloadsCleanUpShown)
     }
 
     // MARK: - UITableView Methods
@@ -144,7 +142,6 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
     }
 
     private func confirmCleanup() {
-        Analytics.track(.downloadsCleanUpButtonTapped)
         let confirmOption = OptionsPicker(title: nil)
         let deleteAction = OptionAction(label: L10n.delete, icon: nil) {
             self.performDelete()
@@ -161,8 +158,6 @@ class DownloadedFilesViewController: PCViewController, UITableViewDelegate, UITa
         UserDefaults.standard.set(deleteInProgress, forKey: Constants.UserDefaults.cleanupInProgress)
         UserDefaults.standard.set(deletePlayed, forKey: Constants.UserDefaults.cleanupPlayed)
         UserDefaults.standard.set(includeStarred, forKey: Constants.UserDefaults.cleanupStarred)
-
-        Analytics.track(.downloadsCleanUpCompleted, properties: ["unplayed": deleteUnplayed, "in_progress": deleteInProgress, "played": deletePlayed, "include_starred": includeStarred])
 
         DispatchQueue.global(qos: .default).async { () in
             EpisodeManager.deleteAllDownloadedFiles(unplayed: self.deleteUnplayed, inProgress: self.deleteInProgress, played: self.deletePlayed, includeStarred: self.includeStarred)

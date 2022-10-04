@@ -66,6 +66,12 @@ private extension WidgetFamily {
             return 5
         case .systemExtraLarge:
             return 5 // we don't support this size, but added to make switch exhaustive
+        case .accessoryCircular:
+            return 5 // we don't support this size, but added to make switch exhaustive
+        case .accessoryRectangular:
+            return 5 // we don't support this size, but added to make switch exhaustive
+        case .accessoryInline:
+            return 5 // we don't support this size, but added to make switch exhaustive
         @unknown default:
             return 5
         }

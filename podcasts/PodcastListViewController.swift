@@ -92,14 +92,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         addEventObservers()
         updateForVoiceOver()
         updateFolderButton()
-
-        Analytics.track(.podcastsListShown, properties: [
-            "sort_order": Settings.homeFolderSortOrder(),
-            "badge_type": Settings.podcastBadgeType(),
-            "layout": Settings.libraryType(),
-            "number_of_podcasts": homeGridDataHelper.numberOfPodcasts,
-            "number_of_folders": homeGridDataHelper.numberOfFolders
-        ])
     }
 
     override func viewWillLayoutSubviews() {
@@ -235,8 +227,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let hostingController = PCHostingController(rootView: creatFolderView.environmentObject(Theme.sharedTheme))
 
         present(hostingController, animated: true, completion: nil)
-        AnalyticsHelper.folderCreated()
-        Analytics.track(.podcastsListFolderButtonTapped)
     }
 
     @objc private func podcastOptionsTapped(_ sender: UIBarButtonItem) {
@@ -245,34 +235,26 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
         let sortOption = Settings.homeFolderSortOrder()
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: sortOption.description, icon: "podcast-sort") { [weak self] in
             self?.showSortOrderOptions()
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "sort_by"])
         }
         optionsPicker.addAction(action: sortAction)
 
         let largeGridAction = OptionAction(label: L10n.podcastsLargeGrid, icon: "podcastlist_largegrid", selected: Settings.libraryType() == .threeByThree) { [weak self] in
             Settings.setLibraryType(.threeByThree)
             self?.gridTypeChanged()
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
-            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.threeByThree])
         }
         let smallGridAction = OptionAction(label: L10n.podcastsSmallGrid, icon: "podcastlist_smallgrid", selected: Settings.libraryType() == .fourByFour) { [weak self] in
             Settings.setLibraryType(.fourByFour)
             self?.gridTypeChanged()
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
-            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.fourByFour])
         }
         let listGridAction = OptionAction(label: L10n.podcastsList, icon: "podcastlist_listview", selected: Settings.libraryType() == .list) { [weak self] in
             Settings.setLibraryType(.list)
             self?.gridTypeChanged()
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "layout"])
-            Analytics.track(.podcastsListLayoutChanged, properties: ["layout": LibraryType.list])
         }
         optionsPicker.addSegmentedAction(name: L10n.podcastsLayout, icon: "podcastlist_largegrid", actions: [largeGridAction, smallGridAction, listGridAction])
 
         let badgeType = Settings.podcastBadgeType()
         let badgesAction = OptionAction(label: L10n.podcastsBadges, secondaryLabel: badgeType.description, icon: "badges") { [weak self] in
             self?.showBadgeOptions()
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "badges"])
         }
         optionsPicker.addAction(action: badgesAction)
 
@@ -281,13 +263,10 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
             shareController.delegate = self
             let navController = SJUIUtils.navController(for: shareController)
             self.present(navController, animated: true, completion: nil)
-            Analytics.track(.podcastsListModalOptionTapped, properties: ["option": "share"])
         }
         optionsPicker.addAction(action: shareAction)
 
         optionsPicker.show(statusBarStyle: preferredStatusBarStyle)
-
-        Analytics.track(.podcastsListOptionsButtonTapped)
     }
 
     // MARK: - ShareListDelegate
@@ -330,7 +309,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
             Settings.setPodcastBadgeType(.off)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.off])
         }
         options.addAction(action: badgeOffAction)
 
@@ -339,7 +317,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
             Settings.setPodcastBadgeType(.allUnplayed)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.allUnplayed])
         }
         options.addAction(action: latestEpisodeAction)
 
@@ -348,7 +325,6 @@ class PodcastListViewController: PCViewController, UIGestureRecognizerDelegate, 
 
             Settings.setPodcastBadgeType(.latestEpisode)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListBadgesChanged, properties: ["type": BadgeType.latestEpisode])
         }
         options.addAction(action: unplayedCountAction)
 
@@ -364,9 +340,6 @@ extension PodcastListViewController {
             return
         }
 
-        refreshControl = PCRefreshControl(scrollView: podcastsCollectionView,
-                                          navBar: navController.navigationBar,
-                                          searchBar: searchController,
-                                          source: "podcast_list")
+        refreshControl = PCRefreshControl(scrollView: podcastsCollectionView, navBar: navController.navigationBar, searchBar: searchController)
     }
 }

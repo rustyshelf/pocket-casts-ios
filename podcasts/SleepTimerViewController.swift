@@ -262,7 +262,6 @@ class SleepTimerViewController: SimpleNotificationsViewController {
 
     @IBAction func endOfEpisodeTapped(_ sender: Any) {
         PlaybackManager.shared.sleepOnEpisodeEnd = true
-        Analytics.track(.playerSleepTimerEnabled, properties: ["time": "end_of_episode"])
         dismiss(animated: true, completion: nil)
     }
 
@@ -272,7 +271,6 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func cancelTapped(_ sender: Any) {
-        Analytics.track(.playerSleepTimerCancelled)
         PlaybackManager.shared.cancelSleepTimer()
         dismiss(animated: true, completion: nil)
     }
@@ -280,13 +278,11 @@ class SleepTimerViewController: SimpleNotificationsViewController {
     @IBAction func endOfEpisodeActiveTapped(_ sender: Any) {
         PlaybackManager.shared.sleepOnEpisodeEnd = true
         updateDisplay()
-        Analytics.track(.playerSleepTimerExtended, properties: ["amount": "end_of_episode"])
     }
 
     @IBAction func plusFiveTapped(_ sender: Any) {
         PlaybackManager.shared.sleepTimeRemaining += 5.minutes
         updateSleepRemainingTime()
-        Analytics.track(.playerSleepTimerExtended, properties: ["amount": Int(5.minutes)])
     }
 
     @IBAction func closeTapped(_ sender: Any) {

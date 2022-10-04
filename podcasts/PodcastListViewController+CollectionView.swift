@@ -71,10 +71,8 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
 
         let selectedItem = itemAt(indexPath: indexPath)
         if let podcast = selectedItem?.podcast {
-            Analytics.track(.podcastsListPodcastTapped)
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         } else if let folder = selectedItem?.folder {
-            Analytics.track(.podcastsListFolderTapped)
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
         }
     }
@@ -91,8 +89,6 @@ extension PodcastListViewController: UICollectionViewDelegate, UICollectionViewD
         if let index = gridItems.firstIndex(of: itemBeingMoved) {
             gridItems.remove(at: index)
             gridItems.insert(itemBeingMoved, at: destinationIndexPath.row)
-
-            Analytics.track(.podcastsListReordered)
 
             saveSortOrder()
         }

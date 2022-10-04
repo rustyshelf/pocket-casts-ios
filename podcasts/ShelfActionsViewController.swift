@@ -1,4 +1,3 @@
-import MaterialComponents.MaterialBottomSheet
 import UIKit
 
 class ShelfActionsViewController: UIViewController {
@@ -52,8 +51,6 @@ class ShelfActionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        Analytics.track(.playerShelfOverflowMenuShown)
-
         reloadActions()
         updateColors()
 
@@ -73,7 +70,6 @@ class ShelfActionsViewController: UIViewController {
 
     @IBAction func doneTapped(_ sender: UIButton) {
         if actionsTable.isEditing {
-            Analytics.track(.playerShelfOverflowMenuRearrangeFinished)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
             dismiss(animated: true, completion: nil)
             return
@@ -93,11 +89,6 @@ class ShelfActionsViewController: UIViewController {
         editButtonVerticalConstraint.isActive = false
         doneButtonVerticalConstraint.isActive = true
         setPreferredSize(animated: true)
-        if let sheetController = parent as? MDCBottomSheetController {
-            sheetController.dismissOnDraggingDownSheet = false
-        }
-
-        Analytics.track(.playerShelfOverflowMenuRearrangeStarted)
     }
 
     private func setPreferredSize(animated: Bool) {

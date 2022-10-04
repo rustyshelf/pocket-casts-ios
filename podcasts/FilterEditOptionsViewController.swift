@@ -55,20 +55,10 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        let didChangeName = filterToEdit.playlistName != filterNameTextField.text
-
         filterToEdit.setTitle(filterNameTextField.text, defaultTitle: L10n.filtersDefaultNewFilter.localizedCapitalized)
         filterToEdit.syncStatus = SyncStatus.notSynced.rawValue
         DataManager.sharedManager.save(filter: filterToEdit)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filterToEdit)
-
-        if isViewingShortcuts == false {
-            Analytics.track(.filterEditDismissed, properties: ["did_change_name": didChangeName,
-                                                               "did_change_color": didChangeColor,
-                                                               "did_change_icon": didChangeIcon,
-                                                               "did_change_auto_download": didChangeAutoDownload,
-                                                               "did_change_episode_count": didChangeEpisodeCount])
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

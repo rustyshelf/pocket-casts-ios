@@ -91,8 +91,6 @@ class ConfirmPaymentViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseDeferred), name: ServerNotifications.iapPurchaseDeferred, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseFailed), name: ServerNotifications.iapPurchaseFailed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(iapPurchaseCancelled), name: ServerNotifications.iapPurchaseCancelled, object: nil)
-
-        Analytics.track(.confirmPaymentShown, properties: ["product": newSubscription.iap_identifier])
     }
 
     @IBAction func payTapped(_ sender: Any) {
@@ -107,18 +105,14 @@ class ConfirmPaymentViewController: UIViewController {
         if !IapHelper.shared.buyProduct(identifier: newSubscription.iap_identifier) {
             iapPurchaseFailed()
         }
-
-        Analytics.track(.confirmPaymentConfirmButtonTapped)
     }
 
     @IBAction func backTapped(_ sender: Any) {
         navigationController?.popViewController(animated: true)
-        Analytics.track(.confirmPaymentDismissed)
     }
 
     @IBAction func closeTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-        Analytics.track(.confirmPaymentDismissed)
     }
 
     func showAccountUpdated() {

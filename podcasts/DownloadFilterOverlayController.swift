@@ -8,10 +8,6 @@ class DownloadFilterOverlayController: FilterSettingsOverlayController, UITableV
 
     private var selectedRow: TableRow = .all
 
-    override var playbackSource: String {
-        "download_status"
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -28,7 +28,5 @@ extension AutoAddToUpNextViewController: PodcastSelectionDelegate {
         mainTable.reloadData()
     }
 
-    func didChangePodcasts() {
-        Analytics.track(.settingsAutoAddUpNextPodcastsChanged)
-    }
+    func didChangePodcasts() { }
 }

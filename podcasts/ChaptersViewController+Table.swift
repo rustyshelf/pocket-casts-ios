@@ -55,7 +55,6 @@ extension ChaptersViewController: UITableViewDataSource, UITableViewDelegate, UI
                 containerDelegate?.scrollToNowPlaying()
             } else {
                 PlaybackManager.shared.skipToChapter(chapter, startPlaybackAfterSkip: true)
-                Analytics.track(.playerChapterSelected)
             }
         }
     }

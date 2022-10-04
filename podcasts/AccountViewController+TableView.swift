@@ -137,10 +137,8 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
             present(SJUIUtils.navController(for: cancelVC), animated: true, completion: nil)
         case .privacyPolicy:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
-            Analytics.track(.accountDetailsShowPrivacyPolicy)
         case .termsOfUse:
             NavigationManager.sharedManager.navigateTo(NavigationManager.showTermsOfUsePageKey, data: nil)
-            Analytics.track(.accountDetailsShowTOS)
         }
         tableView.deselectRow(at: indexPath, animated: false)
     }
@@ -183,8 +181,6 @@ extension AccountViewController: UITableViewDataSource, UITableViewDelegate {
                     }
 
                     DispatchQueue.main.async {
-                        Analytics.track(.userAccountDeleted)
-                        AnalyticsHelper.accountDeleted()
                         SignOutHelper.signout()
 
                         self?.navigationController?.popViewController(animated: true)

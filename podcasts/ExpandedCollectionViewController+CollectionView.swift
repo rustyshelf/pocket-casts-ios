@@ -12,10 +12,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let thisPodcast = podcasts[indexPath.row]
             if let delegate = delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
-                cell.onSubscribe = { [weak self] in
-                    if let listId = self?.item.uuid, let podcastUuid = thisPodcast.uuid {
-                        AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
-                    }
+                cell.onSubscribe = {
                     delegate.subscribe(podcast: thisPodcast)
                 }
             }
@@ -25,10 +22,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let thisPodcast = podcasts[indexPath.row]
             if let delegate = delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
-                cell.onSubscribe = { [weak self] in
-                    if let listId = self?.item.uuid, let podcastUuid = thisPodcast.uuid {
-                        AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
-                    }
+                cell.onSubscribe = {
                     delegate.subscribe(podcast: thisPodcast)
                 }
             }
@@ -40,10 +34,6 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
         let podcast = podcasts[indexPath.row]
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: false, listUuid: item.uuid)
         collectionView.deselectItem(at: indexPath, animated: true)
-
-        if let listId = item.uuid, let podcastUuid = podcast.uuid {
-            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
-        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

@@ -41,10 +41,6 @@ extension PodcastViewController {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
-        playbackSource
-    }
-
     // MARK: - Selected Episode
 
     func selectedEpisodesContains(uuid: String) -> Bool {

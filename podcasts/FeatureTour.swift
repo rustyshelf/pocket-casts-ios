@@ -23,8 +23,6 @@ class FeatureTour {
 
         rootController.overrideStatusBarStyle = statusBarStyle
         rootController.animateIn()
-
-        AnalyticsHelper.tourStarted(tourName: tourName)
     }
 
     private func setup(steps: [TourStep]) {
@@ -39,15 +37,11 @@ class FeatureTour {
     }
 
     func tourCancelled(at step: Int) {
-        AnalyticsHelper.tourCancelled(tourName: tourName, at: step)
-
         tourCompleted?()
         tourController?.animateOut()
     }
 
     func tourEnded() {
-        AnalyticsHelper.tourCompleted(tourName: tourName)
-
         tourCompleted?()
         tourController?.animateOut()
     }

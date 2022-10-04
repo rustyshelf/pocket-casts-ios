@@ -20,8 +20,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
 
         title = L10n.settingsNotifications
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
-
-        Analytics.track(.settingsNotificationsShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -122,9 +120,7 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
-    func didChangePodcasts() {
-        Analytics.track(.settingsNotificationsPodcastsChanged)
-    }
+    func didChangePodcasts() {  }
 
     @objc private func pushToggled(_ sender: UISwitch) {
         //  UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.pushEnabled)
@@ -138,8 +134,6 @@ class NotificationsViewController: PCViewController, UITableViewDataSource, UITa
             NotificationsHelper.shared.disablePush()
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         }
-
-        Settings.trackValueToggled(.settingsNotificationsNewEpisodesToggled, enabled: sender.isOn)
 
         settingsTable.reloadData()
     }

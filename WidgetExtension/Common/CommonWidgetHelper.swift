@@ -3,7 +3,7 @@ import PocketCastsUtils
 import UIKit
 
 class CommonWidgetHelper {
-    static let appGroupId = "group.au.com.shiftyjelly.pocketcasts"
+    static let appGroupId = "group.net.rustyshelf.podcasts"
     class func loadAppIconName() -> String {
         guard let sharedDefaults = UserDefaults(suiteName: SharedConstants.GroupUserDefaults.groupContainerId), let appIcon = sharedDefaults.object(forKey: SharedConstants.GroupUserDefaults.appIcon) as? String else {
             return "AppIcon-Default"

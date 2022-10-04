@@ -19,8 +19,6 @@ struct Constants {
         static let playbackFailed = NSNotification.Name(rawValue: "playbackFailed")
         static let playbackPositionSaved = NSNotification.Name(rawValue: "SJPlayPosSaved")
         static let viewWillTransitionToSize = NSNotification.Name(rawValue: "SJViewSizeChange")
-        static let googleCastStatusChanged = NSNotification.Name(rawValue: "SJGCStatusChanged")
-        static let googleCastMultiZoneStatusChanged = NSNotification.Name(rawValue: "SJGCMultiStatusChanged")
         static let dimmingViewTapped = NSNotification.Name(rawValue: "SJDimViewTapped")
         static let downloadProgress = NSNotification.Name(rawValue: "SJDwnProg")
         static let podcastImageReCacheRequired = NSNotification.Name(rawValue: "PCPodcastImageReCacheRequired")
@@ -157,7 +155,7 @@ struct Constants {
         static let maxWidthForPopups: CGFloat = 500
         static let tableSectionHeaderHeight: CGFloat = 38
 
-        static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
+        static let refreshTaskId = "net.rustyshelf.podcasts.Refresh"
 
         /// We show the free trial by default since if the app was just downloaded
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check

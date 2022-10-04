@@ -13,7 +13,6 @@ extension PodcastSettingsViewController: INUIEditVoiceShortcutViewControllerDele
         updateExistingSortcutData()
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        Analytics.track(.podcastSettingsSiriShortcutRemoved)
     }
 
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {
@@ -25,7 +24,6 @@ extension PodcastSettingsViewController: INUIEditVoiceShortcutViewControllerDele
         updateExistingSortcutData()
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-        Analytics.track(.podcastSettingsSiriShortcutAdded)
     }
 
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {

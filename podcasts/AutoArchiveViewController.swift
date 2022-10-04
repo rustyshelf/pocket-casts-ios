@@ -18,8 +18,6 @@ class AutoArchiveViewController: PCViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
 
         title = L10n.settingsAutoArchive
-
-        Analytics.track(.settingsAutoArchiveShown)
     }
 
     override func viewDidAppear(_ animated: Bool) {

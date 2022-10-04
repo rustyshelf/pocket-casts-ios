@@ -12,7 +12,7 @@ extension AppDelegate {
     }
 
     func handleContinue(_ userActivity: NSUserActivity) {
-        if userActivity.activityType == "au.com.shiftyjelly.podcasts" {
+        if userActivity.activityType == "net.rustyshelf.podcasts" {
             let info = userActivity.userInfo
             if let urlString = info?["url"] as? String, let url = URL(string: urlString) {
                 JLRoutes.routeURL(url)

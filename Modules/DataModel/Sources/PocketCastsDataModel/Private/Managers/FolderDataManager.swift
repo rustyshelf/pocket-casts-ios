@@ -15,7 +15,7 @@ class FolderDataManager {
 
     private var cachedFolders = [Folder]()
     private lazy var cachedFolderQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.FolderDataQueue")
+        let queue = DispatchQueue(label: "net.rustyshelf.podcasts.FolderDataQueue")
 
         return queue
     }()

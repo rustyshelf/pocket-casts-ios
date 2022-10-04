@@ -6,7 +6,7 @@ protocol IconSelectorCellDelegate: AnyObject {
     func iconSelectorPresentingVC() -> UIViewController
 }
 
-enum IconType: Int, CaseIterable, AnalyticsDescribable {
+enum IconType: Int, CaseIterable {
     case primary = 0, dark, roundLight, roundDark, indigo, rose, pocketCats, redVelvet, plus, classic, electricBlue, electricPink, radioactivity
 
     init(rawName: String) {
@@ -103,37 +103,6 @@ enum IconType: Int, CaseIterable, AnalyticsDescribable {
             return "AppIcon-Electric-Pink"
         case .radioactivity:
             return "AppIcon-Radioactive"
-        }
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .primary:
-            return "default"
-        case .dark:
-            return "dark"
-        case .roundLight:
-            return "round_light"
-        case .roundDark:
-            return "round_dark"
-        case .indigo:
-            return "indigo"
-        case .rose:
-            return "rose"
-        case .pocketCats:
-            return "pocket_cats"
-        case .redVelvet:
-            return "red_velvet"
-        case .plus:
-            return "plus"
-        case .classic:
-            return "classic"
-        case .electricBlue:
-            return "electric_blue"
-        case .electricPink:
-            return "electric_pink"
-        case .radioactivity:
-            return "radioactive"
         }
     }
 }

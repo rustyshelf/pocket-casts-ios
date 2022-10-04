@@ -61,14 +61,6 @@ class CollectionSummaryViewController: UIViewController, DiscoverSummaryProtocol
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if let listId = item?.uuid {
-            AnalyticsHelper.listImpression(listId: listId)
-        }
-    }
-
     func registerDiscoverDelegate(_ delegate: DiscoverDelegate) {
         self.delegate = delegate
     }

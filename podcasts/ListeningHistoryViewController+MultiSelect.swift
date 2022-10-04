@@ -38,10 +38,6 @@ extension ListeningHistoryViewController: MultiSelectActionDelegate {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
-        playbackSource
-    }
-
     // MARK: - Selected Episode
 
     func selectedEpisodesContains(uuid: String) -> Bool {
@@ -56,8 +52,6 @@ extension ListeningHistoryViewController: MultiSelectActionDelegate {
 
     @IBAction func selectAllTapped() {
         let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodeCount())
-
-        Analytics.track(.listeningHistorySelectAllButtonTapped, properties: ["select_all": shouldSelectAll])
 
         if shouldSelectAll {
             listeningHistoryTable.selectAll()

@@ -21,10 +21,6 @@ class PodcastPickerModel: ObservableObject {
     }
 
     @Published var searchTerm = "" {
-        willSet {
-            trackSearchIfNeeded(oldValue: searchTerm, newValue: newValue)
-        }
-
         didSet {
             filterPodcasts()
         }
@@ -69,17 +65,5 @@ class PodcastPickerModel: ObservableObject {
         }
 
         filteredPodcasts = allPodcasts.filter { ($0.title?.localizedCaseInsensitiveContains(searchTerm) ?? false) || ($0.author?.localizedCaseInsensitiveContains(searchTerm) ?? false) }
-    }
-}
-
-// - MARK: Analytics
-
-extension PodcastPickerModel {
-    func trackSearchIfNeeded(oldValue: String, newValue: String) {
-        if oldValue.count == 0 && newValue.count > 0 {
-            Analytics.track(.folderPodcastPickerSearchPerformed)
-        } else if oldValue.count > 0 && newValue.count == 0 {
-            Analytics.track(.folderPodcastPickerSearchCleared)
-        }
     }
 }

@@ -46,9 +46,6 @@ class DiscoverViewController: PCViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        AnalyticsHelper.navigatedToDiscover()
-        Analytics.track(.discoverShown)
-
         reloadIfRequired()
 
         NotificationCenter.default.addObserver(self, selector: #selector(searchRequested), name: Constants.Notifications.searchRequested, object: nil)
@@ -231,13 +228,5 @@ class DiscoverViewController: PCViewController {
     private func handleLoadFailed() {
         loadingIndicator.stopAnimating()
         noNetworkView.isHidden = false
-    }
-}
-
-// MARK: - Analytics
-
-extension DiscoverViewController: PlaybackSource {
-    var playbackSource: String {
-        "discover"
     }
 }

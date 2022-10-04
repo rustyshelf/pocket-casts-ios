@@ -100,7 +100,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackEnded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackPaused, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.playbackFailed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCellFromGenericEvent), name: Constants.Notifications.googleCastStatusChanged, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(downloadProgressDidUpdate), name: Constants.Notifications.downloadProgress, object: nil)
 
@@ -407,11 +406,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
 
     func playTapped() {
         guard let episode = episode else { return }
-
-        // if the user tapped play from a featured list, record that. We just want the first play, if they are unpausing it, that's not relevant (hence the last check below)
-        if let podcastUuid = podcastUuid, let listUuid = listUuid, !PlaybackManager.shared.isNowPlayingEpisode(episodeUuid: episode.uuid) {
-            AnalyticsHelper.podcastEpisodePlayedFromList(listId: listUuid, podcastUuid: podcastUuid)
-        }
 
         PlaybackActionHelper.play(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)
     }

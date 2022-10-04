@@ -43,15 +43,11 @@ class SharePodcastsViewController: PCViewController, UICollectionViewDelegate, U
 
         loadPodcasts()
         updateSelectButton()
-
-        Analytics.track(.sharePodcastsShown)
     }
 
     // MARK: - Main Actions
 
     @objc private func nextTapped() {
-        Analytics.track(.sharePodcastsPodcastsSelected, properties: ["count": selectedPodcasts.count])
-
         let nextPage = SharePublishViewController(podcasts: selectedPodcasts, delegate: delegate)
         navigationController?.pushViewController(nextPage, animated: true)
     }

@@ -11,7 +11,7 @@ public class StatsManager {
     private var savedAutoSkipping = -1 as TimeInterval
 
     private var isSynced = true
-    private var updateQueue = DispatchQueue(label: "au.com.pocketcasts.StatsManagerQueue")
+    private var updateQueue = DispatchQueue(label: "net.rustyshelf.podcasts.StatsManagerQueue")
 
     public init() {
         if UserDefaults.standard.object(forKey: ServerConstants.UserDefaults.statsStartDate) as? Date == nil {

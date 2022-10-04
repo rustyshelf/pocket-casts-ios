@@ -36,11 +36,6 @@ class SingleEpisodeViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.registerListImpression()
-    }
-
     func observeEpisodeChanges() {
         viewModel.$title
             .receive(on: RunLoop.main)

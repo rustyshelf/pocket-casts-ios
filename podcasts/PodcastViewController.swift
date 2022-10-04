@@ -161,8 +161,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         // show the expaned view for unsubscribed podcasts, as well as paid podcasts that have expired and you no longer have access to play/download
         summaryExpanded = !podcast.isSubscribed() || (podcast.isPaid && podcast.licensing == PodcastLicensing.deleteEpisodesAfterExpiry.rawValue && (SubscriptionHelper.subscriptionForPodcast(uuid: podcast.uuid)?.isExpired() ?? false))
 
-        AnalyticsHelper.podcastOpened(uuid: podcast.uuid)
-
         super.init(nibName: "PodcastViewController", bundle: nil)
     }
 
@@ -173,10 +171,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         } else {
             self.podcastInfo = podcastInfo
             summaryExpanded = true
-        }
-
-        if let uuid = podcastInfo.uuid {
-            AnalyticsHelper.podcastOpened(uuid: uuid)
         }
 
         super.init(nibName: "PodcastViewController", bundle: nil)
@@ -204,7 +198,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         operationQueue.maxConcurrentOperationCount = 1
         scrollPointToChangeTitle = 38
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
-        addGoogleCastBtn()
         loadPodcastInfo()
         updateColors()
         updateTopConstraintForiPhone14Pro()
@@ -258,19 +251,12 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         addCustomObserver(Constants.Notifications.episodeDownloaded, selector: #selector(refreshEpisodes))
         addCustomObserver(Constants.Notifications.episodePlayStatusChanged, selector: #selector(refreshEpisodes))
 
-        if featuredPodcast, !hasAppearedAlready {
-            Analytics.track(.discoverFeaturedPodcastTapped, properties: ["uuid": podcastUUID])
-            AnalyticsHelper.openedFeaturedPodcast()
-        }
-
         // if it's a local podcast, refresh it when the view appears, eg: when you tab back to it
         if let podcast = podcast, podcast.isSubscribed(), hasAppearedAlready {
             refreshEpisodes()
         }
 
         hasAppearedAlready = true // we use this so the page doesn't double load from viewDidLoad and viewDidAppear
-
-        Analytics.track(.podcastScreenShown, properties: ["uuid": podcastUUID])
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -367,7 +353,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         let sourceRect = sender.superview!.convert(sender.frame, to: view)
         SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
-        Analytics.track(.podcastScreenShareTapped)
     }
 
     private func loadPodcastInfo() {
@@ -515,8 +500,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             optionPicker.addAction(action: unsubscribeAction)
         }
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-
-        Analytics.track(.podcastScreenUnsubscribeTapped)
     }
 
     private func performUnsubscribe() {
@@ -524,7 +507,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         PodcastManager.shared.unsubscribe(podcast: podcast)
         navigationController?.popViewController(animated: true)
-        Analytics.track(.podcastUnsubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
 
     func subscribe() {
@@ -536,18 +518,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         ServerPodcastManager.shared.updateLatestEpisodeInfo(podcast: podcast, setDefaults: true)
         loadLocalEpisodes(podcast: podcast, animated: true)
 
-        if featuredPodcast {
-            Analytics.track(.discoverFeaturedPodcastSubscribed, properties: ["podcast_uuid": podcast.uuid])
-            AnalyticsHelper.subscribedToFeaturedPodcast()
-        }
-        if let listId = listUuid {
-            AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcast.uuid)
-        }
-
         HapticsHelper.triggerSubscribedHaptic()
-
-        Analytics.track(.podcastScreenSubscribeTapped)
-        Analytics.track(.podcastSubscribed, properties: ["source": playbackSource, "uuid": podcast.uuid])
     }
 
     func isSummaryExpanded() -> Bool {
@@ -592,7 +563,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         let settingsController = PodcastSettingsViewController(podcast: podcast)
         settingsController.episodes = episodeInfo
         navigationController?.pushViewController(settingsController, animated: true)
-        Analytics.track(.podcastScreenSettingsTapped)
     }
 
     func manageSubscriptionTapped() {
@@ -621,7 +591,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     }
 
     func folderTapped() {
-        Analytics.track(.podcastScreenFolderTapped)
         if !SubscriptionHelper.hasActiveSubscription() {
             NavigationManager.sharedManager.showUpsellView(from: self, source: .folders)
             return
@@ -643,7 +612,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         performEpisodeSearch(query: query)
         if !isSearching {
             isSearching = true
-            Analytics.track(.podcastScreenSearchPerformed)
         }
     }
 
@@ -653,7 +621,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         uuidsThatMatchSearch.removeAll()
         loadLocalEpisodes(podcast: podcast, animated: true)
         isSearching = false
-        Analytics.track(.podcastScreenSearchCleared)
     }
 
     func toggleShowArchived() {
@@ -662,8 +629,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         podcast.showArchived = !podcast.showArchived
         DataManager.sharedManager.save(podcast: podcast)
         loadLocalEpisodes(podcast: podcast, animated: true)
-
-        Analytics.track(.podcastScreenToggleArchived, properties: ["show_archived": podcast.showArchived])
     }
 
     func showingArchived() -> Bool {
@@ -790,8 +755,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             DataManager.sharedManager.updateFolderSyncModified(folderUuid: currentFolderUuid, syncModified: TimeFormatter.currentUTCTimeInMillis())
 
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.folderChanged, object: currentFolderUuid)
-
-            Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "remove"])
         }
         optionsPicker.addAction(action: removeAction)
 
@@ -799,14 +762,11 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             guard let self = self else { return }
 
             self.showFolderPickerDialog()
-
-            Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "change"])
         }
         optionsPicker.addAction(action: changeFolderAction)
 
         let goToFolderAction = OptionAction(label: L10n.folderGoTo.localizedCapitalized, icon: "folder-goto") {
             NavigationManager.sharedManager.navigateTo(NavigationManager.folderPageKey, data: [NavigationManager.folderKey: folder])
-            Analytics.track(.folderPodcastModalOptionTapped, properties: ["option": "go_to"])
         }
         optionsPicker.addAction(action: goToFolderAction)
 
@@ -867,19 +827,5 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
     func signingProcessCompleted() {
         navigationController?.popToViewController(self, animated: true)
-    }
-}
-
-// MARK: - Analytics
-
-extension PodcastViewController: PlaybackSource {
-    var playbackSource: String {
-        "podcast_screen"
-    }
-}
-
-private extension PodcastViewController {
-    var podcastUUID: String {
-        podcast?.uuid ?? podcastInfo?.analyticsDescription ?? "unknown"
     }
 }

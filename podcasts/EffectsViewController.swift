@@ -146,12 +146,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         }
     }
 
-    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
-
-    private var playbackSource: String {
-        "player_playback_effects"
-    }
-
     private var didChangePlaybackSpeed: Bool = false
 
     override func viewDidLoad() {
@@ -178,9 +172,9 @@ class EffectsViewController: SimpleNotificationsViewController {
         // if the trim silence view is hidden, allow enough space for it to appear
         if !PlaybackManager.shared.effects().trimSilence.isEnabled() {
             let additionalHeightRequired: CGFloat = view.bounds.width < 340 ? 100 : 50
-            preferredContentSize = CGSize(width: computedSize.width, height: computedSize.height + additionalHeightRequired)
+            preferredContentSize = CGSize(width: min(Constants.Values.maxWidthForPopups, view.frame.size.width), height: computedSize.height + additionalHeightRequired)
         } else {
-            preferredContentSize = computedSize
+            preferredContentSize = CGSize(width: min(Constants.Values.maxWidthForPopups, view.frame.size.width), height: computedSize.height)
         }
     }
 
@@ -196,19 +190,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         super.viewDidDisappear(animated)
 
         removeAllCustomObservers()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        guard didChangePlaybackSpeed else {
-            return
-        }
-
-        analyticsPlaybackHelper.currentSource = playbackSource
-
-        let speed = PlaybackManager.shared.effects().playbackSpeed
-        AnalyticsPlaybackHelper.shared.playbackSpeedChanged(to: speed)
     }
 
     @IBAction func minusTapped(_ sender: Any) {
@@ -230,9 +211,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         }
 
         PlaybackManager.shared.changeEffects(effects)
-
-        analyticsPlaybackHelper.currentSource = playbackSource
-        analyticsPlaybackHelper.trimSilenceToggled(enabled: sender.isOn)
     }
 
     @objc private func trimSilenceAmountChanged() {
@@ -241,9 +219,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         effects.trimSilence = amount
 
         PlaybackManager.shared.changeEffects(effects)
-
-        analyticsPlaybackHelper.currentSource = playbackSource
-        analyticsPlaybackHelper.trimSilenceAmountChanged(amount: amount)
     }
 
     @IBAction func volumeBoostChanged(_ sender: UISwitch) {
@@ -251,9 +226,6 @@ class EffectsViewController: SimpleNotificationsViewController {
         effects.volumeBoost = sender.isOn
 
         PlaybackManager.shared.changeEffects(effects)
-
-        analyticsPlaybackHelper.currentSource = playbackSource
-        analyticsPlaybackHelper.volumeBoostToggled(enabled: sender.isOn)
     }
 
     @IBAction func clearForPodcastTapped(_ sender: Any) {

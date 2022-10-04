@@ -28,12 +28,6 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
         settingsTable.reloadData()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        Analytics.track(.privacySettingsShown)
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         3
     }
@@ -44,9 +38,6 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
             cell.cellLabel.text = L10n.settingsCollectInformation
             cell.cellSwitch.isOn = !Settings.analyticsOptOut()
-
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(pushToggled(_:)), for: UIControl.Event.valueChanged)
 
             return cell
 
@@ -74,14 +65,6 @@ class PrivacySettingsViewController: PCViewController, UITableViewDataSource, UI
         guard indexPath.row == 2 else { return }
 
         NavigationManager.sharedManager.navigateTo(NavigationManager.showPrivacyPolicyPageKey, data: nil)
-    }
-
-    @objc private func pushToggled(_ sender: UISwitch) {
-        if sender.isOn {
-            Analytics.shared.optInOfAnalytics()
-        } else {
-            Analytics.shared.optOutOfAnalytics()
-        }
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

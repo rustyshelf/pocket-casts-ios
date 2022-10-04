@@ -47,7 +47,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
             Settings.setHomeFolderSortOrder(order: .titleAtoZ)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.titleAtoZ])
         }
         options.addAction(action: podcastNameAction)
 
@@ -56,7 +55,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
             Settings.setHomeFolderSortOrder(order: .episodeDateNewestToOldest)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.episodeDateNewestToOldest])
         }
         options.addAction(action: releaseDateAction)
 
@@ -65,7 +63,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
             Settings.setHomeFolderSortOrder(order: .dateAddedNewestToOldest)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.dateAddedNewestToOldest])
         }
         options.addAction(action: subscribedOrder)
 
@@ -74,7 +71,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
             Settings.setHomeFolderSortOrder(order: .custom)
             strongSelf.refreshGridItems()
-            Analytics.track(.podcastsListSortOrderChanged, properties: ["sort_by": LibrarySort.custom])
         }
         options.addAction(action: dragAndDropAction)
 
@@ -117,12 +113,6 @@ extension PodcastListViewController: UIScrollViewDelegate, PCSearchBarDelegate {
 
     func searchTermChanged(_ searchTerm: String) {
         searchResultsControler.performLocalSearch(searchTerm: searchTerm)
-
-        debounce.call {
-            if !searchTerm.trim().isEmpty {
-                Analytics.track(.searchPerformed, properties: ["source": "podcasts_list"])
-            }
-        }
     }
 
     func performSearch(searchTerm: String, triggeredByTimer: Bool, completion: @escaping (() -> Void)) {

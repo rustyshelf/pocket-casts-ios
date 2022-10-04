@@ -27,8 +27,6 @@ extension EpisodeDetailViewController {
     }
 
     @IBAction func episodeStatusTapped(_ sender: Any) {
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
-
         if episode.played() {
             EpisodeManager.markAsUnplayed(episode: episode, fireNotification: true)
         } else {
@@ -178,8 +176,6 @@ extension EpisodeDetailViewController {
     // MARK: - Helpers
 
     private func deleteDownloadedFile() {
-        EpisodeManager.analyticsHelper.currentSource = playbackSource
-
         PlaybackManager.shared.removeIfPlayingOrQueued(episode: episode, fireNotification: true, userInitiated: false)
         EpisodeManager.deleteDownloadedFiles(episode: episode, userInitated: true)
 

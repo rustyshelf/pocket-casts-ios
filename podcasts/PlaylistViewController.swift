@@ -91,7 +91,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 self.tableView.endUpdates()
 
                 if self.isMultiSelectEnabled {
-                    Analytics.track(.filterMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     self.shouldShowChipsAfterMulitSelect = !self.isChipHidden
@@ -103,7 +102,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                         self.longPressMultiSelectIndexPath = nil
                     }
                 } else {
-                    Analytics.track(.filterMultiSelectExited)
                     if self.shouldShowChipsAfterMulitSelect {
                         self.showFilterChips()
                     }
@@ -136,7 +134,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     // MARK: - View Methods
 
     override func viewDidLoad() {
-        supportsGoogleCast = true
         super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
         super.customRightBtn?.accessibilityLabel = L10n.accessibilitySortAndOptions
 
@@ -148,8 +145,8 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         tableView.rowHeight = UITableView.automaticDimension
 
         if let navController = navigationController {
-            tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar, source: playbackSource)
-            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: "no_filters")
+            tableRefreshControl = PCRefreshControl(scrollView: tableView, navBar: navController.navigationBar)
+            noEpisodesRefreshControl = PCRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar)
         }
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(navTitleTapped(shortPress:)))
@@ -166,8 +163,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         filterCollectionView.filter = filter
 
         isChipHidden = !isNewFilter
-
-        Analytics.track(.filterShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -196,8 +191,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         noEpisodesRefreshControl?.parentViewControllerDidAppear()
 
         updateNavTintColor()
-
-        AnalyticsHelper.filterOpened()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -221,7 +214,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     func setupNavBar() {
         navigationItem.titleView = isMultiSelectEnabled ? nil : titleView
         title = isMultiSelectEnabled ? filter.playlistName : nil
-        supportsGoogleCast = isMultiSelectEnabled ? false : true
         super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
         super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
 
@@ -300,30 +292,24 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     @objc func moreTapped() {
-        Analytics.track(.filterOptionsButtonTapped)
-
         let optionsPicker = OptionsPicker(title: nil)
 
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
 
         let currentSort = PlaylistSort(rawValue: filter.sortType)?.description ?? ""
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "sort_by"])
             self.showSortByPicker()
         }
         let editAction = OptionAction(label: L10n.filterOptions, icon: "profile-settings") {
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "filter_options"])
             self.filterOptionsTapped()
         }
 
         let playAllAction = OptionAction(label: L10n.playAll, icon: "filter_play") { [weak self] in
             guard let self = self else { return }
 
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "play_all"])
             let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), self.episodes.count)
             OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: {
                 PlaybackManager.shared.play(filter: self.filter)
@@ -332,7 +318,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
         let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
             guard let self = self else { return }
-            Analytics.track(.filterOptionsModalOptionTapped, properties: ["option": "download_all"])
 
             let downloadableCount = self.downloadableCount(listEpisodes: self.episodes)
             let downloadLimitExceeded = downloadableCount > Constants.Limits.maxBulkDownloads
@@ -385,7 +370,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     private func addSortAction(to optionPicker: OptionsPicker, sortOrder: PlaylistSort) {
         let action = OptionAction(label: sortOrder.description, selected: filter.sortType == sortOrder.rawValue) {
-            Analytics.track(.filterSortByChanged, properties: ["sort_order": sortOrder])
             self.filter.sortType = sortOrder.rawValue
             self.saveFilter()
         }
@@ -578,13 +562,5 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             }
         }
         return count
-    }
-}
-
-// MARK: - Analytics
-
-extension PlaylistViewController: PlaybackSource {
-    var playbackSource: String {
-        "filters"
     }
 }

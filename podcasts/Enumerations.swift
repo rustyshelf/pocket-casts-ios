@@ -1,21 +1,10 @@
 import Foundation
 import PocketCastsDataModel
-enum LibraryType: Int, AnalyticsDescribable {
+enum LibraryType: Int {
     case fourByFour = 1, threeByThree = 2, list = 3
-
-    var analyticsDescription: String {
-        switch self {
-        case .fourByFour:
-            return "four_by_four"
-        case .threeByThree:
-            return "three_by_three"
-        case .list:
-            return "list"
-        }
-    }
 }
 
-enum BadgeType: Int, AnalyticsDescribable {
+enum BadgeType: Int {
     case off = 0, latestEpisode, allUnplayed
 
     var description: String {
@@ -26,17 +15,6 @@ enum BadgeType: Int, AnalyticsDescribable {
             return L10n.podcastsBadgeLatestEpisode
         case .allUnplayed:
             return L10n.podcastsBadgeAllUnplayed
-        }
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .off:
-            return "off"
-        case .latestEpisode:
-            return "only_latest_episode"
-        case .allUnplayed:
-            return "unfinished_episodes"
         }
     }
 }
@@ -70,7 +48,7 @@ enum PodcastEpisodeSortOrder: Int32, CaseIterable {
     }
 }
 
-enum LibrarySort: Int, CaseIterable, AnalyticsDescribable {
+enum LibrarySort: Int, CaseIterable {
     case dateAddedNewestToOldest = 1, titleAtoZ = 2, episodeDateNewestToOldest = 5, custom = 6
 
     var description: String {
@@ -85,62 +63,18 @@ enum LibrarySort: Int, CaseIterable, AnalyticsDescribable {
             return L10n.podcastsLibrarySortCustom
         }
     }
-
-    var analyticsDescription: String {
-        switch self {
-        case .dateAddedNewestToOldest:
-            return "date_added"
-        case .titleAtoZ:
-            return "name"
-        case .episodeDateNewestToOldest:
-            return "episode_release_date"
-        case .custom:
-            return "drag_and_drop"
-        }
-    }
 }
 
-enum AppBadge: Int, AnalyticsDescribable {
+enum AppBadge: Int {
     case off = 0, totalUnplayed = 1, newSinceLastOpened = 2, filterCount = 10
-
-    var analyticsDescription: String {
-        switch self {
-        case .off:
-            return "off"
-        case .totalUnplayed:
-            return "total_unplayed"
-        case .newSinceLastOpened:
-            return "new_since_app_opened"
-        case .filterCount:
-            return "filter_count"
-        }
-    }
 }
 
-enum PrimaryRowAction: Int32, AnalyticsDescribable {
+enum PrimaryRowAction: Int32 {
     case stream = 0, download = 1
-
-    var analyticsDescription: String {
-        switch self {
-        case .stream:
-            return "play"
-        case .download:
-            return "download"
-        }
-    }
 }
 
-enum PrimaryUpNextSwipeAction: Int32, AnalyticsDescribable {
+enum PrimaryUpNextSwipeAction: Int32 {
     case playNext = 0, playLast = 1
-
-    var analyticsDescription: String {
-        switch self {
-        case .playNext:
-            return "play_next"
-        case .playLast:
-            return "play_last"
-        }
-    }
 }
 
 enum PlaylistIcon: Int32 {
@@ -154,8 +88,8 @@ enum PlaylistIcon: Int32 {
          redTop, blueTop, greenTop, purpleTop, yellowTop
 }
 
-enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
-    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive
+enum PlayerAction: Int, CaseIterable {
+    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, markPlayed, archive
 
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {
@@ -179,9 +113,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             } else {
                 return L10n.goToPodcast
             }
-        case .chromecast:
-            // Note: Chromecast is a Propernoun and thus should not be translated.
-            return "Chromecast"
         case .markPlayed:
             return L10n.markPlayed
         case .archive:
@@ -218,8 +149,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "podcast-share"
         case .goToPodcast:
             return "gotoarrow"
-        case .chromecast:
-            return "nav_cast_off"
         case .markPlayed:
             return "episode-markasplayed"
         case .archive:
@@ -241,8 +170,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "shelf_share"
         case .goToPodcast:
             return "shelf_gotoarrow"
-        case .chromecast:
-            return "shelf_nav_cast_off"
         case .markPlayed:
             return "shelf_played"
         case .archive:
@@ -258,32 +185,9 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return true
         }
     }
-
-    var analyticsDescription: String {
-        switch self {
-        case .effects:
-            return "playback_effects"
-        case .sleepTimer:
-            return "sleep_timer"
-        case .routePicker:
-            return "route_picker"
-        case .starEpisode:
-            return "star_episode"
-        case .shareEpisode:
-            return "share_episode"
-        case .goToPodcast:
-            return "go_to_podcast"
-        case .chromecast:
-            return "chromecast"
-        case .markPlayed:
-            return "mark_as_played"
-        case .archive:
-            return "archive"
-        }
-    }
 }
 
-enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
+enum MultiSelectAction: Int32, CaseIterable {
     case playLast = 1, playNext, download, archive, markAsPlayed, star, moveToTop, moveToBottom, removeFromUpNext, unstar, unarchive, removeDownload, markAsUnplayed, delete
 
     func title() -> String {
@@ -349,39 +253,6 @@ enum MultiSelectAction: Int32, CaseIterable, AnalyticsDescribable {
             return "episode-remove-download"
         case .delete:
             return "episode-delete"
-        }
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .playLast:
-            return "play_last"
-        case .playNext:
-            return "play_next"
-        case .download:
-            return "download"
-        case .archive:
-            return "archive"
-        case .markAsPlayed:
-            return "mark_as_played"
-        case .star:
-            return "star"
-        case .moveToTop:
-            return "up_next_move_up"
-        case .moveToBottom:
-            return "up_next_move_bottom"
-        case .removeFromUpNext:
-            return "up_next_remove"
-        case .unstar:
-            return "unstar"
-        case .unarchive:
-            return "unarchive"
-        case .markAsUnplayed:
-            return "mark_unplayed"
-        case .removeDownload:
-            return "remove_download"
-        case .delete:
-            return "delete"
         }
     }
 }

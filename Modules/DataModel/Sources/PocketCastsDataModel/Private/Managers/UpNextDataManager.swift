@@ -15,7 +15,7 @@ class UpNextDataManager {
 
     private var cachedItems = [PlaylistEpisode]()
     private lazy var cachedItemsQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.UpNextItemsQueue")
+        let queue = DispatchQueue(label: "net.rustyshelf.podcasts.UpNextItemsQueue")
 
         return queue
     }()

@@ -1,4 +1,3 @@
-import MaterialComponents.MaterialBottomSheet
 import UIKit
 
 class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
@@ -133,14 +132,9 @@ class MultiSelectFooterView: UIView, MultiSelectActionOrderDelegate {
 
         let actions = getActionsFunc()
 
-        let bottomSheet = MDCBottomSheetController(contentViewController: MultiSelectActionController(actions: actions, delegate: self, actionDelegate: delegate, numSelectedEpisodes: delegate.multiSelectedBaseEpisodes().count, setActionsFunc: setActionsFunc, themeOverride: themeOverride))
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
-        bottomSheet.isScrimAccessibilityElement = true
-        bottomSheet.scrimAccessibilityLabel = L10n.accessibilityDismiss
-        delegate.multiSelectPresentingViewController().present(bottomSheet, animated: true, completion: nil)
+        let multiSelectController = MultiSelectActionController(actions: actions, delegate: self, actionDelegate: delegate, numSelectedEpisodes: delegate.multiSelectedBaseEpisodes().count, setActionsFunc: setActionsFunc, themeOverride: themeOverride)
+        multiSelectController.configureBottomSheetModal()
+        delegate.multiSelectPresentingViewController().present(multiSelectController, animated: true, completion: nil)
     }
 
     @IBAction func rightActionTapped(_ sender: Any) {

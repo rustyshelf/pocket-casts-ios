@@ -112,15 +112,9 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         originalButtonConstant = nextButtonBottomConstraint.constant
 
         updateButtonState()
-        Analytics.track(.createAccountShown)
     }
 
     deinit {
-        emailField?.removeTarget(self, action: #selector(emailFieldDidChange), for: UIControl.Event.editingChanged)
-        emailField?.delegate = nil
-        passwordField?.removeTarget(self, action: #selector(passwordFieldDidChange), for: .editingChanged)
-        passwordField?.delegate = nil
-
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -139,7 +133,6 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
 
     @objc func backTapped() {
         navigationController?.popViewController(animated: true)
-        Analytics.track(.createAccountDismissed)
     }
 
     @IBAction func nextTapped(_ sender: Any) {
@@ -157,8 +150,6 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
     }
 
     private func startRegister(_ username: String, password: String) {
-        Analytics.track(.createAccountNextButtonTapped)
-
         passwordBorderView.layer.borderColor = ThemeColor.primaryUi05().cgColor
         contentView.alpha = 0.3
         activityIndicator.startAnimating()
@@ -171,8 +162,6 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
 
                 if !success {
-                    Analytics.track(.userAccountCreationFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
-
                     FileLog.shared.addMessage("Failed to register new account")
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         FileLog.shared.addMessage(message)
@@ -241,8 +230,6 @@ class NewEmailViewController: UIViewController, UITextFieldDelegate {
         ServerSettings.setSyncingEmail(email: username)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-
-        Analytics.track(.userAccountCreated)
     }
 
     // MARK: - UITextField Methods

@@ -1,5 +1,5 @@
 import Foundation
 
 extension Bundle {
-    static let watchAssets: Bundle = .init(identifier: "au.com.shiftyjelly.podcasts.watchkitapp")!
+    static let watchAssets: Bundle = .init(identifier: "net.rustyshelf.podcasts.watchkitapp")!
 }

@@ -102,9 +102,6 @@ class DiscoverPodcastTableCell: ThemeableCell {
         } else if let uuid = discoverPodcast.uuid {
             ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: nil)
         }
-
-        let uuid = discoverPodcast.uuid ?? discoverPodcast.iTunesId ?? "unknown"
-        Analytics.track(.podcastSubscribed, properties: ["source": subscribeSource ?? "unknown", "uuid": uuid])
     }
 
     override func handleThemeDidChange() {

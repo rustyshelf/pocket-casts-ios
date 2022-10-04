@@ -4,21 +4,14 @@ source 'https://cdn.cocoapods.org/'
 
 use_modular_headers!
 
-app_ios_deployment_target = Gem::Version.new('14.1')
+app_ios_deployment_target = Gem::Version.new('15.0')
 
 def common_pods
   pod 'JLRoutes'
-  pod 'google-cast-sdk-no-bluetooth', git: 'https://github.com/shiftyjelly/google-cast.git'
-  pod 'MaterialComponents/BottomSheet'
   pod 'Kingfisher'
 end
 
 target 'podcasts' do
-  platform :ios, app_ios_deployment_target.version
-  common_pods
-end
-
-target 'PocketCastsTests' do
   platform :ios, app_ios_deployment_target.version
   common_pods
 end

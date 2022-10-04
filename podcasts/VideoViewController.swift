@@ -90,7 +90,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
     @IBOutlet var pipButton: UIButton!
 
     @IBOutlet var airplayButton: UIButton!
-    @IBOutlet var castButton: PCGoogleCastButton!
 
     private var pipController: AVPictureInPictureController?
     @IBOutlet var controlsOverlay: UIView! {
@@ -195,7 +194,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         let options = OptionsPicker(title: nil, themeOverride: .dark, portraitOnly: false)
 
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = "video_player_skip_forward_long_press"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)
@@ -264,7 +262,6 @@ class VideoViewController: SimpleNotificationsViewController, AVPictureInPicture
         addCustomObserver(Constants.Notifications.playbackPaused, selector: #selector(update))
         addCustomObserver(Constants.Notifications.playbackEnded, selector: #selector(playbackFinished))
         addCustomObserver(Constants.Notifications.playbackTrackChanged, selector: #selector(trackChanged))
-        addCustomObserver(Constants.Notifications.googleCastStatusChanged, selector: #selector(update))
     }
 
     private func removeUiNotificationObservers() {

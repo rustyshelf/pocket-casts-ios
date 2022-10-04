@@ -59,7 +59,6 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
         super.viewDidLoad()
 
         title = L10n.settingsImportExport
-        Analytics.track(.settingsImportShown)
     }
 
     @IBOutlet var mainScrollView: UIScrollView!
@@ -69,12 +68,9 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
         loadingAlert?.showAlert(self, hasProgress: false, completion: {
             self.startExport()
         })
-
-        Analytics.track(.settingsImportExportTapped)
     }
 
     private func startExport() {
-        Analytics.track(.settingsImportExportStarted)
         let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
 
         let uuids = podcasts.map(\.uuid)
@@ -87,7 +83,6 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
 
                 guard let exportResponse = exportResponse, exportResponse.success(), let mapping = exportResponse.result else {
                     self.presentError()
-                    Analytics.track(.settingsImportExportFailed)
                     return
                 }
 
@@ -111,7 +106,6 @@ class ImportExportViewController: PCViewController, UIDocumentInteractionControl
         }
 
         shareOpmlDocument(exportXML)
-        Analytics.track(.settingsImportExportFinished)
     }
 
     private func shareOpmlDocument(_ document: AEXMLDocument) {
