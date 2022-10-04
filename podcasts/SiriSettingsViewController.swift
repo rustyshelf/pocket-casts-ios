@@ -34,8 +34,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         activityIndicator.startAnimating()
         suggestedShortcuts = SiriShortcutsManager.shared.defaultSuggestions()
         enabledShortcuts = [INVoiceShortcut]()
-
-        Analytics.track(.settingsSiriShown)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -267,8 +265,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
 
         reloadData()
-
-        Analytics.track(.settingsSiriShortcutAdded)
     }
 
     func addVoiceShortcutViewControllerDidCancel(_ controller: INUIAddVoiceShortcutViewController) {
@@ -294,8 +290,6 @@ class SiriSettingsViewController: PCViewController, UITableViewDelegate, UITable
         navigationController?.popToViewController(self, animated: false)
         controller.dismiss(animated: true, completion: nil)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
-
-        Analytics.track(.settingsSiriShortcutRemoved)
     }
 
     func editVoiceShortcutViewControllerDidCancel(_ controller: INUIEditVoiceShortcutViewController) {

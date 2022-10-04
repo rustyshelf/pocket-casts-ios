@@ -113,8 +113,6 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
             podcast.uuid
         }
 
-        Analytics.track(.sharePodcastsListPublishStarted, properties: ["count": selectedPodcasts.count])
-
         let listInfo = SharingServerHandler.PodcastShareInfo(title: title, description: listDescription.text, podcasts: shareUuids)
         SharingServerHandler.shared.sharePodcastList(listInfo: listInfo) { shareUrl in
             DispatchQueue.main.async {
@@ -243,8 +241,6 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
         transitionToShareFailed()
 
         SJUIUtils.showAlert(title: L10n.sharePodcastsSharingFailedTitle, message: L10n.sharePodcastsSharingFailedMsg, from: self)
-
-        Analytics.track(.sharePodcastsListPublishFailed, properties: ["count": selectedPodcasts.count])
     }
 
     private func sharingDidSucceed(_ shareUrl: String) {
@@ -273,7 +269,6 @@ class SharePublishViewController: PCViewController, UICollectionViewDelegate, UI
 
     private func transitionToShareCompleted() {
         guard let name = listName.text else { return }
-        Analytics.track(.sharePodcastsListPublishSucceeded, properties: ["count": selectedPodcasts.count])
 
         dismiss(animated: true) {
             self.removeAllAnimatedCells()

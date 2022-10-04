@@ -25,8 +25,6 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
 
         title = L10n.settingsGeneral
-
-        Analytics.track(.settingsGeneralShown)
     }
 
     // MARK: - UITableView Methods
@@ -54,16 +52,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
 
-            cell.onValueChanged = { [weak self] value in
+            cell.onValueChanged = { value in
                 let newValue = Int(value)
                 ServerSettings.setSkipForwardTime(newValue)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
-
-                self?.debounce.call {
-                    Settings.trackValueChanged(.settingsGeneralSkipForwardChanged, value: value)
-                }
             }
 
             return cell
@@ -79,16 +73,12 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
             cell.timeStepper.minimumValue = 0
             cell.timeStepper.maximumValue = 40.minutes
 
-            cell.onValueChanged = { [weak self] value in
+            cell.onValueChanged = { value in
                 let newValue = Int(value)
                 ServerSettings.setSkipBackTime(newValue)
                 cell.cellSecondaryLabel.text = L10n.timeShorthand(newValue)
 
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.skipTimesChanged)
-
-                self?.debounce.call {
-                    Settings.trackValueChanged(.settingsGeneralSkipBackChanged, value: value)
-                }
             }
 
             return cell
@@ -405,12 +395,10 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
     @objc private func screenLockToggled(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
         PlaybackManager.shared.updateIdleTimer()
-        Settings.trackValueToggled(.settingsGeneralKeepScreenAwakeToggled, enabled: sender.isOn)
     }
 
     @objc private func openLinksInBrowserToggled(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openLinksInExternalBrowser)
-        Settings.trackValueToggled(.settingsGeneralOpenLinksInBrowserToggled, enabled: sender.isOn)
     }
 
     @objc private func legacyBluetoothToggled(_ sender: UISwitch) {
@@ -431,25 +419,21 @@ class GeneralSettingsViewController: UIViewController, UITableViewDelegate, UITa
 
     @objc private func openPlayerToggled(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.openPlayerAutomatically)
-        Settings.trackValueToggled(.settingsGeneralOpenPlayerAutomaticallyToggled, enabled: sender.isOn)
     }
 
     @objc private func intelligentPlaybackResumptionToggled(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-        Settings.trackValueToggled(.settingsGeneralIntelligentPlaybackToggled, enabled: sender.isOn)
     }
 
     @objc private func playUpNextOnTapToggled(_ sender: UISwitch) {
         Settings.setPlayUpNextOnTap(sender.isOn)
         settingsTable.reloadData()
-        Settings.trackValueToggled(.settingsGeneralPlayUpNextOnTapToggled, enabled: sender.isOn)
     }
 
     @objc private func publishChapterTitlesToggled(_ sender: UISwitch) {
         Settings.setPublishChapterTitlesEnabled(sender.isOn)
 
         PlaybackManager.shared.playerDidChangeNowPlayingInfo()
-        Settings.trackValueToggled(.settingsGeneralPublishChapterTitlesToggled, enabled: sender.isOn)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

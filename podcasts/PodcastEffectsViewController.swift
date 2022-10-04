@@ -72,9 +72,3 @@ class PodcastEffectsViewController: PCViewController {
         UIStatusBarStyle.lightContent
     }
 }
-
-extension PodcastEffectsViewController: PlaybackSource {
-    var playbackSource: String {
-        "podcast_settings"
-    }
-}

@@ -58,16 +58,11 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
 
             notificationCenter.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { granted, _ in
                 if granted {
-                    Analytics.track(.notificationsOptInAllowed)
                     DispatchQueue.main.async {
                         UIApplication.shared.registerForRemoteNotifications()
                     }
-                } else {
-                    Analytics.track(.notificationsOptInDenied)
                 }
             })
-
-            Analytics.track(.notificationsOptInShown)
         }
     }
 
@@ -79,7 +74,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
         }
 
         if downloadEpisodeActionId == response.actionIdentifier {
-            AnalyticsHelper.downloadFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode {
                     DownloadManager.shared.addToQueue(episodeUuid: episode.uuid)
@@ -89,7 +83,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
             }
         } else if addToQueueFirstActionId == response.actionIdentifier || addToQueueLastActionId == response.actionIdentifier {
             let playFirst = addToQueueFirstActionId == response.actionIdentifier
-            AnalyticsHelper.addToUpNextFromNotification(playFirst: playFirst)
 
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode {
@@ -99,7 +92,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                 completionHandler()
             }
         } else if playNowActionid == response.actionIdentifier {
-            AnalyticsHelper.playNowFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode {
                     PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
@@ -108,7 +100,6 @@ class NotificationsHelper: NSObject, UNUserNotificationCenterDelegate {
                 completionHandler()
             }
         } else if archiveActionId == response.actionIdentifier {
-            AnalyticsHelper.archiveFromNotification()
             findEpisode(episodeUuid: episodeUuid) { episode in
                 if let episode = episode as? Episode {
                     EpisodeManager.archiveEpisode(episode: episode, fireNotification: false)

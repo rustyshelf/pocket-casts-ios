@@ -202,8 +202,6 @@ class ShowNotesPlayerItemViewController: PlayerItemViewController, SFSafariViewC
                 safariViewController?.delegate = self
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.openingNonOverlayableWindow)
                 SceneHelper.rootViewController()?.present(safariViewController!, animated: true, completion: nil)
-
-                Analytics.track(.playerShowNotesLinkTapped, properties: ["episode_uuid": lastEpisodeUuidRendered])
             } else if URLHelper.isMailtoScheme(url.scheme), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }

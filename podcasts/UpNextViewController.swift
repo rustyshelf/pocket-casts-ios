@@ -31,11 +31,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
                 if !self.isMultiSelectEnabled {
                     self.multiSelectActionBar.isHidden = true
                     self.selectedPlayListEpisodes.removeAll()
-                    if didChange {
-                        self.track(.upNextMultiSelectExited)
-                    }
-                } else {
-                    self.track(.upNextMultiSelectEntered)
                 }
 
                 self.upNextTable.reloadData()
@@ -94,10 +89,7 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         return longPressRecognizer
     }()
 
-    let source: UpNextViewSource
-
-    init(source: UpNextViewSource) {
-        self.source = source
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -108,7 +100,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        track(.upNextShown, properties: ["source": source])
 
         title = L10n.upNext
 
@@ -143,20 +134,12 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
         // fix issues with the now playing cell not animating by reloading it on appear
         upNextTable.reloadData()
-
-        AnalyticsHelper.upNextOpened()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         selectedPlayListEpisodes.removeAll()
         isMultiSelectEnabled = false
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        track(.upNextDismissed)
     }
 
     @objc func clearQueueTapped() {
@@ -183,14 +166,13 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
     private func performClearAll() {
         PlaybackManager.shared.queue.clearUpNextList()
         upNextTable.reloadData()
-        track(.upNextQueueCleared)
     }
 
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
 
     func showEpisodeDetailViewController(for episode: BaseEpisode?) {
         if let episode = episode as? Episode, let parentPodcast = episode.parentPodcast() {
-            let episodeController = EpisodeDetailViewController(episode: episode, podcast: parentPodcast, source: .upNext)
+            let episodeController = EpisodeDetailViewController(episode: episode, podcast: parentPodcast)
             episodeController.modalPresentationStyle = .formSheet
             episodeController.themeOverride = themeOverride
             present(episodeController, animated: true, completion: nil)
@@ -235,7 +217,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
         upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
 
-        track(.upNextSelectAllButtonTapped, properties: ["select_all": true])
         updateNavBarButtons()
     }
 
@@ -245,7 +226,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @objc func deselectAllTapped() {
         upNextTable.deselectAll()
-        track(.upNextSelectAllButtonTapped, properties: ["select_all": false])
     }
 
     func updateNavBarButtons() {
@@ -269,32 +249,5 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         .portrait
-    }
-}
-
-// MARK: - Analytics
-
-extension UpNextViewController {
-    func track(_ event: AnalyticsEvent, properties: [String: Any]? = nil) {
-        let defaultProperties: [String: Any] = ["source": source]
-        let props = defaultProperties.merging(properties ?? [:]) { current, _ in current }
-
-        Analytics.track(event, properties: props)
-    }
-}
-
-enum UpNextViewSource: String, AnalyticsDescribable {
-    case miniPlayer = "mini_player"
-    case nowPlaying = "now_playing"
-    case player
-    case lockScreenWidget = "lock_screen_widget"
-    case unknown
-
-    var analyticsDescription: String { rawValue }
-}
-
-extension UpNextViewController: PlaybackSource {
-    var playbackSource: String {
-        "up_next"
     }
 }

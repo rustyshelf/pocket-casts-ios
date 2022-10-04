@@ -33,8 +33,6 @@ class UploadedRefreshControl: PCRefreshControl {
         startRefreshAnimation()
 
         UserEpisodeManager.updateUserEpisodes()
-
-        Analytics.track(.pulledToRefresh, properties: ["source": source])
     }
 
     // MARK: - Refreshing Events

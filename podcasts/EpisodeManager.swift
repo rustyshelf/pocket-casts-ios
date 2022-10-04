@@ -4,8 +4,6 @@ import PocketCastsServer
 import PocketCastsUtils
 
 class EpisodeManager: NSObject {
-    static var analyticsHelper = AnalyticsEpisodeHelper.shared
-
     class func markAsPlayed(episode: BaseEpisode, fireNotification: Bool, userInitiated: Bool = true) {
         // request to remove it from the download queue, just in case it's in there
         DownloadManager.shared.removeFromQueue(episodeUuid: episode.uuid, fireNotification: fireNotification, userInitiated: true)
@@ -31,10 +29,6 @@ class EpisodeManager: NSObject {
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
-        }
-
-        if userInitiated {
-            analyticsHelper.markAsPlayed(episode: episode)
         }
     }
 
@@ -95,8 +89,6 @@ class EpisodeManager: NSObject {
             markAsPlayed(episode: currentEpisode, fireNotification: true, userInitiated: false)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
-
-        analyticsHelper.bulkMarkAsPlayed(count: episodesMinusCurrent.count)
     }
 
     class func deleteDownloadedFiles(episode: BaseEpisode, userInitated: Bool = false) {
@@ -107,10 +99,6 @@ class EpisodeManager: NSObject {
             episode.autoDownloadStatus = AutoDownloadStatus.userDeletedFile.rawValue
             episode.cachedFrameCount = 0
             DataManager.sharedManager.save(episode: episode)
-        }
-
-        if userInitated {
-            analyticsHelper.downloadDeleted(episode: episode)
         }
     }
 
@@ -140,17 +128,11 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodePlayStatusChanged, object: episode.uuid)
         }
-
-        if userInitiated {
-            analyticsHelper.markAsUnplayed(episode: episode)
-        }
     }
 
     class func bulkMarkAsUnPlayed(_ baseEpisodes: [BaseEpisode]) {
         DataManager.sharedManager.bulkMarkAsUnPlayed(baseEpisodes: baseEpisodes, updateSyncFlag: SyncManager.isUserLoggedIn())
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
-
-        analyticsHelper.bulkMarkAsUnplayed(count: baseEpisodes.count)
     }
 
     class func archiveEpisode(episode: Episode, fireNotification: Bool, removeFromPlayer: Bool = true, userInitiated: Bool = true) {
@@ -171,10 +153,6 @@ class EpisodeManager: NSObject {
 
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
-        }
-
-        if userInitiated {
-            analyticsHelper.archiveEpisode(episode)
         }
     }
 
@@ -202,8 +180,6 @@ class EpisodeManager: NSObject {
             PlaybackManager.shared.bulkRemoveQueued(uuids: uuids)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
-
-        analyticsHelper.bulkArchiveEpisodes(count: episodes.count)
     }
 
     class func unarchiveEpisode(episode: Episode, fireNotification: Bool, userInitiated: Bool = true) {
@@ -219,18 +195,12 @@ class EpisodeManager: NSObject {
         if fireNotification {
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeArchiveStatusChanged, object: episode.uuid)
         }
-
-        if userInitiated {
-            analyticsHelper.unarchiveEpisode(episode)
-        }
     }
 
     class func bulkUnarchive(episodes: [Episode]) {
         DataManager.sharedManager.bulkUnarchive(episodes: episodes, updateSyncFlag: SyncManager.isUserLoggedIn())
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
-
-        analyticsHelper.bulkUnarchiveEpisodes(count: episodes.count)
     }
 
     class func deleteAllEpisodesInPodcast(id: Int64) {
@@ -265,12 +235,6 @@ class EpisodeManager: NSObject {
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.episodeStarredChanged, object: episode.uuid)
-
-        if starred {
-            analyticsHelper.star(episode: episode)
-        } else {
-            analyticsHelper.unstar(episode: episode)
-        }
     }
 
     class func bulkSetStarred(_ starred: Bool, episodes: [Episode], updateSyncStatus: Bool) {
@@ -282,12 +246,6 @@ class EpisodeManager: NSObject {
             RefreshManager.shared.refreshPodcasts(forceEvenIfRefreshedRecently: true)
         }
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
-
-        if starred {
-            analyticsHelper.bulkStar(count: episodes.count)
-        } else {
-            analyticsHelper.bulkUnstar(count: episodes.count)
-        }
     }
 
     class func deleteAllDownloadedFiles(unplayed: Bool, inProgress: Bool, played: Bool, includeStarred: Bool) {
@@ -478,7 +436,5 @@ class EpisodeManager: NSObject {
         DataManager.sharedManager.deleteUserEpisodes(userEpisodeUuids: userEpisodeUuidsToDelete)
         DataManager.sharedManager.bulkUserFileDelete(baseEpisodes: episodesToMarkAsNotDownloaded)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.manyEpisodesChanged)
-
-        analyticsHelper.bulkDeleteDownloadedEpisodes(count: episodesToRemoveFromQueue.count)
     }
 }

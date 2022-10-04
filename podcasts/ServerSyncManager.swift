@@ -24,9 +24,7 @@ class ServerSyncManager: ServerSyncDelegate {
         PodcastManager.shared.applyAutoArchivingToAllPodcasts()
     }
 
-    func subscribedToPodcast() {
-        AnalyticsHelper.subscribedToPodcast()
-    }
+    func subscribedToPodcast() {}
 
     // MARK: - Filters
 

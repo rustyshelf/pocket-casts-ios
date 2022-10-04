@@ -53,24 +53,17 @@ extension AppDelegate {
             guard let strongSelf = self, let shortcut = parameters["shortcut"] as? String else { return false }
 
             if shortcut == "pause" {
-                AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
                 PlaybackManager.shared.pause()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
-                AnalyticsHelper.forceTouchPause()
             } else if shortcut == "play" {
-                AnalyticsPlaybackHelper.shared.currentSource = "app_icon_menu"
                 PlaybackManager.shared.play()
                 strongSelf.openPlayerWhenReadyFromExternalEvent()
-                AnalyticsHelper.forceTouchPlay()
             } else if shortcut == "markAsPlayed" {
                 if let episode = PlaybackManager.shared.currentEpisode() {
-                    AnalyticsEpisodeHelper.shared.currentSource = "app_icon_menu"
                     EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-                    AnalyticsHelper.forceTouchMarkPlayed()
                 }
             } else if shortcut == "discover" {
                 NavigationManager.sharedManager.navigateTo(NavigationManager.discoverPageKey, data: nil)
-                AnalyticsHelper.forceTouchDiscover()
             }
 
             return true
@@ -81,7 +74,6 @@ extension AppDelegate {
             guard let filterId = parameters["filterId"] as? String, let filter = DataManager.sharedManager.findFilter(uuid: filterId) else { return false }
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.filterPageKey, data: [NavigationManager.filterUuidKey: filter.uuid])
-            AnalyticsHelper.forceTouchTopFilter()
 
             return true
         }
@@ -91,7 +83,6 @@ extension AppDelegate {
             guard let podcastUuid = parameters["podcastUuid"] as? String, let podcast = DataManager.sharedManager.findPodcast(uuid: podcastUuid) else { return false }
 
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
-            AnalyticsHelper.forceTouchPodcast()
 
             return true
         }
@@ -304,13 +295,7 @@ extension AppDelegate {
         }
 
         JLRoutes.global().addRoute("/upnext/*") { [weak self] paramDict -> Bool in
-            var source: UpNextViewSource = .unknown
-
-            if let sourceString = paramDict["source"] as? String {
-                source = UpNextViewSource(rawValue: sourceString) ?? .unknown
-            }
-
-            self?.miniPlayer()?.showUpNext(from: source)
+            self?.miniPlayer()?.showUpNext()
 
             return true
         }

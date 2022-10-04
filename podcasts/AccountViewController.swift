@@ -309,8 +309,6 @@ class AccountViewController: UIViewController, ChangeEmailDelegate {
     }
 
     @objc func newsletterOptInChanged(_ sender: UISwitch) {
-        Analytics.track(.newsletterOptInChanged, properties: ["enabled": sender.isOn, "source": "profile"])
-
         ServerSettings.setMarketingOptIn(sender.isOn)
         ServerSettings.syncSettings()
     }

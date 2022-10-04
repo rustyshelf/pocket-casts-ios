@@ -41,8 +41,6 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         podcastsTable.tableFooterView = footer
         footer.addSubview(footerView)
         footerView.anchorToAllSidesOf(view: footer)
-
-        Analytics.track(.incomingShareListShown)
     }
 
     // MARK: - UITableView methods
@@ -53,7 +51,6 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IncomingShareListViewController.cellId, for: indexPath) as! DiscoverPodcastTableCell
-        cell.subscribeSource = playbackSource
 
         let podcast = podcasts[indexPath.row]
         cell.populateFrom(podcast, number: -1)
@@ -102,8 +99,6 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
     }
 
     private func performSubscribeAll() {
-        Analytics.track(.incomingShareListSubscribedAll, properties: ["count": podcasts.count])
-
         let loadingAlert = ShiftyLoadingAlert(title: L10n.shareListSubscribing)
         loadingAlert.showAlert(navigationController!, hasProgress: false) {
             self.subscribeNext(loadingAlert: loadingAlert)
@@ -128,7 +123,6 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         }
 
         ServerPodcastManager.shared.addFromUuid(podcastUuid: uuid, subscribe: true, completion: { _ in
-            Analytics.track(.podcastSubscribed, properties: ["source": self.playbackSource, "uuid": uuid])
             self.subscribeNext(loadingAlert: loadingAlert)
         })
     }
@@ -180,11 +174,5 @@ class IncomingShareListViewController: PCViewController, UITableViewDelegate, UI
         podcasts = loadedPodcasts
         podcastCount.text = L10n.podcastCount(podcasts.count)
         podcastsTable.reloadData()
-    }
-}
-
-extension IncomingShareListViewController: PlaybackSource {
-    var playbackSource: String {
-        "incoming_share_list"
     }
 }

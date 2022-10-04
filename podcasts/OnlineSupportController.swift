@@ -36,9 +36,6 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
         load()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneTapped))
-
-        AnalyticsHelper.userGuideOpened()
-        Analytics.track(.settingsHelpShown)
     }
 
     private func setupWebView() {
@@ -70,7 +67,6 @@ class OnlineSupportController: PCViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let urlStr = navigationAction.request.url?.absoluteString, urlStr.contains("mailto") {
             let feedback = urlStr.contains("Feedback")
-            AnalyticsHelper.userGuideEmail(feedback: feedback)
             emailHelper.presentSupportDialog(self, feedback: feedback)
             decisionHandler(.cancel)
             return

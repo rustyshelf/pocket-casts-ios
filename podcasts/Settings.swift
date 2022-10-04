@@ -1,7 +1,4 @@
 import PocketCastsDataModel
-#if !os(watchOS)
-    import Firebase
-#endif
 import PocketCastsServer
 import UIKit
 
@@ -68,7 +65,6 @@ class Settings: NSObject {
 
     class func setDownloadUpNextEpisodes(_ download: Bool) {
         UserDefaults.standard.set(download, forKey: Settings.autoDownloadUpNext)
-        trackValueToggled(.settingsAutoDownloadUpNextToggled, enabled: download)
     }
 
     // MARK: - Mobile Data
@@ -80,7 +76,6 @@ class Settings: NSObject {
 
     class func setMobileDataAllowed(_ allow: Bool) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularDownloadKey)
-        trackValueToggled(.settingsStorageWarnBeforeUsingDataToggled, enabled: allow)
     }
 
     // MARK: - Auto Download Mobile Data
@@ -92,7 +87,6 @@ class Settings: NSObject {
 
     class func setAutoDownloadMobileDataAllowed(_ allow: Bool) {
         UserDefaults.standard.set(allow, forKey: Settings.allowCellularAutoDownloadKey)
-        trackValueToggled(.settingsAutoDownloadOnlyOnWifiToggled, enabled: !allow)
     }
 
     // MARK: - Auto Download
@@ -104,7 +98,6 @@ class Settings: NSObject {
 
     class func setAutoDownloadEnabled(_ allow: Bool) {
         UserDefaults.standard.set(allow, forKey: Settings.autoDownloadEnabledKey)
-        trackValueToggled(.settingsAutoDownloadNewEpisodesToggled, enabled: allow)
     }
 
     class func shouldDeleteWhenPlayed() -> Bool {
@@ -128,8 +121,6 @@ class Settings: NSObject {
 
     class func setShowArchivedDefault(_ showArchived: Bool) {
         UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
-
-        trackValueChanged(.settingsGeneralArchivedEpisodesChanged, value: showArchived ? "show" : "hide")
     }
 
     // MARK: - Primary Row Action
@@ -149,8 +140,6 @@ class Settings: NSObject {
     class func setPrimaryRowAction(_ action: PrimaryRowAction) {
         UserDefaults.standard.set(action.rawValue, forKey: primaryRowActionKey)
         cachedPrimaryRowAction = action
-
-        trackValueChanged(.settingsGeneralRowActionChanged, value: action)
     }
 
     // MARK: - Podcast Sort Order
@@ -185,8 +174,6 @@ class Settings: NSObject {
     class func setDefaultPodcastGrouping(_ grouping: PodcastGrouping) {
         UserDefaults.standard.set(grouping.rawValue, forKey: podcastGroupingDefaultKey)
         cachedPodcastGrouping = grouping
-
-        trackValueChanged(.settingsGeneralEpisodeGroupingChanged, value: grouping)
     }
 
     // MARK: - Primary Up Next Swipe Action
@@ -206,8 +193,6 @@ class Settings: NSObject {
     class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
         UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
         cachedPrimaryUpNextSwipeAction = action
-
-        trackValueChanged(.settingsGeneralUpNextSwipeChanged, value: action)
     }
 
     // MARK: - Play Up Next On Tap
@@ -261,10 +246,6 @@ class Settings: NSObject {
 
     class func setAutoArchivePlayedAfter(_ after: TimeInterval) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchivePlayedAfterKey)
-
-        if let archiveTime = AutoArchiveAfterTime(rawValue: after) {
-            trackValueChanged(.settingsAutoArchivePlayedChanged, value: archiveTime)
-        }
     }
 
     private static let autoArchiveInactiveAfterKey = "AutoArchiveInactiveAfer"
@@ -274,10 +255,6 @@ class Settings: NSObject {
 
     class func setAutoArchiveInactiveAfter(_ after: TimeInterval) {
         UserDefaults.standard.set(after, forKey: Settings.autoArchiveInactiveAfterKey)
-
-        if let archiveTime = AutoArchiveAfterTime(rawValue: after) {
-            trackValueChanged(.settingsAutoArchiveInactiveChanged, value: archiveTime)
-        }
     }
 
     private static let archiveStarredEpisodesKey = "ArchiveStarredEpisodes"
@@ -287,7 +264,6 @@ class Settings: NSObject {
 
     class func setArchiveStarredEpisodes(_ archive: Bool) {
         UserDefaults.standard.set(archive, forKey: Settings.archiveStarredEpisodesKey)
-        trackValueToggled(.settingsAutoArchiveIncludeStarredToggled, enabled: archive)
     }
 
     // MARK: - App Info
@@ -340,7 +316,6 @@ class Settings: NSObject {
 
     class func setRemoteSkipShouldSkipChapters(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: remoteChapterSkipKey)
-        Settings.trackValueToggled(.settingsGeneralRemoteSkipsChaptersToggled, enabled: value)
     }
 
     // MARK: - CarPlay/Lock Screen actions
@@ -354,8 +329,6 @@ class Settings: NSObject {
         UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
-
-        Settings.trackValueToggled(.settingsGeneralExtraPlaybackActionsToggled, enabled: enabled)
     }
 
     // MARK: - Legacy Bluetooth Support
@@ -367,7 +340,6 @@ class Settings: NSObject {
 
     class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
         UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
-        Settings.trackValueToggled(.settingsGeneralLegacyBluetoothToggled, enabled: enabled)
     }
 
     // MARK: - Publish Chapter Titles
@@ -403,7 +375,6 @@ class Settings: NSObject {
 
     class func setUserEpisodeAutoUpload(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeAutoUploadKey)
-        trackValueToggled(.settingsFilesAutoUploadToCloudToggled, enabled: value)
     }
 
     private static let userEpisodeAutoAddToUpNextKey = "UserEpisodeAutoAddToUpNext"
@@ -413,7 +384,6 @@ class Settings: NSObject {
 
     class func setUserEpisodeAutoAddToUpNext(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeAutoAddToUpNextKey)
-        trackValueToggled(.settingsFilesAutoAddUpNextToggled, enabled: value)
     }
 
     private static let userEpisodeRemoveFileAfterPlayingKey = "UserEpisodeRemoveFileAfterPlaying"
@@ -423,7 +393,6 @@ class Settings: NSObject {
 
     class func setUserEpisodeRemoveFileAfterPlaying(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFileAfterPlayingKey)
-        trackValueToggled(.settingsFilesDeleteLocalFileAfterPlayingToggled, enabled: value)
     }
 
     private static let userEpisodeRemoveFromCloudAfterPlayingKey = "UserEpisodeRemoveFromCloudAfterPlaying"
@@ -433,7 +402,6 @@ class Settings: NSObject {
 
     class func setUserEpisodeRemoveFromCloudAfterPlayingKey(_ value: Bool) {
         UserDefaults.standard.set(value, forKey: userEpisodeRemoveFromCloudAfterPlayingKey)
-        trackValueToggled(.settingsFilesDeleteCloudFileAfterPlayingToggled, enabled: value)
     }
 
     // MARK: - Full Player Chapters Expanded
@@ -576,7 +544,6 @@ class Settings: NSObject {
 
     class func setMultiSelectGestureEnabled(_ enabled: Bool) {
         UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
-        Settings.trackValueToggled(.settingsGeneralMultiSelectGestureToggled, enabled: enabled)
     }
 
     // MARK: Multi Select Actions
@@ -647,8 +614,6 @@ class Settings: NSObject {
 
     class func setWatchAutoDownloadUpNextEnabled(isEnabled: Bool) {
         UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDownloadUpNextEnabled)
-
-        trackValueToggled(.settingsAppleWatchAutoDownloadUpNextToggled, enabled: isEnabled)
     }
 
     class func watchAutoDownloadUpNextEnabled() -> Bool {
@@ -661,7 +626,6 @@ class Settings: NSObject {
 
     class func setWatchAutoDownloadUpNextCount(numEpisodes: Int) {
         UserDefaults.standard.set(numEpisodes, forKey: Constants.UserDefaults.watchAutoDownloadUpNextCount)
-        trackValueChanged(.settingsAppleWatchAutoDownloadEpisodesChanged, value: numEpisodes)
     }
 
     class func watchAutoDownloadUpNextCount() -> Int {
@@ -674,7 +638,6 @@ class Settings: NSObject {
 
     class func setWatchAutoDeleteUpNext(isEnabled: Bool) {
         UserDefaults.standard.set(isEnabled, forKey: Constants.UserDefaults.watchAutoDeleteUpNext)
-        trackValueToggled(.settingsAppleWatchAutoDownloadDeleteDownloadsToggled, enabled: isEnabled)
     }
 
     class func watchAutoDeleteUpNext() -> Bool {
@@ -704,38 +667,28 @@ class Settings: NSObject {
     }
 
     class func analyticsOptOut() -> Bool {
-        UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
+        return true
+        
+//        UserDefaults.standard.bool(forKey: Constants.UserDefaults.analyticsOptOut)
     }
 
     // MARK: - Variables that are loaded/changed through Firebase
 
     #if !os(watchOS)
         class func minTimeBetweenProgressSaves() -> TimeInterval {
-            remoteMsToTime(key: Constants.RemoteParams.periodicSaveTimeMs)
+            remoteMsToTime(value: Constants.RemoteParams.periodicSaveTimeMsDefault)
         }
 
         class func podcastSearchDebounceTime() -> TimeInterval {
-            remoteMsToTime(key: Constants.RemoteParams.podcastSearchDebounceMs)
+            remoteMsToTime(value: Constants.RemoteParams.podcastSearchDebounceMsDefault)
         }
 
         class func episodeSearchDebounceTime() -> TimeInterval {
-            remoteMsToTime(key: Constants.RemoteParams.episodeSearchDebounceMs)
+            remoteMsToTime(value: Constants.RemoteParams.episodeSearchDebounceMsDefault)
         }
 
-        private class func remoteMsToTime(key: String) -> TimeInterval {
-            let remoteMs = RemoteConfig.remoteConfig().configValue(forKey: key)
-
-            return TimeInterval(remoteMs.numberValue.doubleValue / 1000)
+        private class func remoteMsToTime(value: Double) -> TimeInterval {
+            return TimeInterval(value / 1000)
         }
     #endif
-}
-
-extension Settings {
-    static func trackValueChanged(_ event: AnalyticsEvent, value: Any) {
-        Analytics.track(event, properties: ["value": value])
-    }
-
-    static func trackValueToggled(_ event: AnalyticsEvent, enabled: Bool) {
-        Analytics.track(event, properties: ["enabled": enabled])
-    }
 }

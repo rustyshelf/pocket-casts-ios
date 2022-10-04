@@ -214,8 +214,6 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
                 self.activityIndicatorView.stopAnimating()
             }
             if success {
-                Analytics.track(.userPasswordUpdated)
-
                 Settings.setLoginDetailsUpdated()
                 ServerSettings.saveSyncingPassword(newPassword)
                 DispatchQueue.main.async {

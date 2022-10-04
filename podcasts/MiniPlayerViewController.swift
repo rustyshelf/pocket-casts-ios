@@ -30,8 +30,6 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
 
     var upNextViewController: UpNextViewController?
 
-    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,23 +47,20 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
 
     @IBAction func upNextTapped(_ sender: Any) {
-        showUpNext(from: .miniPlayer)
+        showUpNext()
     }
 
     @IBAction func skipBackTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }
 
     @IBAction func skipForwardTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }
@@ -297,18 +292,12 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         }
     }
 
-    func showUpNext(from source: UpNextViewSource) {
-        upNextViewController = UpNextViewController(source: source)
+    func showUpNext() {
+        upNextViewController = UpNextViewController()
         guard let upNextController = upNextViewController else { return }
 
         let navWrapper = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
         navWrapper.modalPresentationStyle = .formSheet
         rootViewController()?.present(navWrapper, animated: true, completion: nil)
-    }
-}
-
-extension MiniPlayerViewController: PlaybackSource {
-    var playbackSource: String {
-        "miniplayer"
     }
 }

@@ -50,7 +50,6 @@ class StarredViewController: PCViewController {
                 self.starredTable.endUpdates()
 
                 if self.isMultiSelectEnabled {
-                    Analytics.track(.starredMultiSelectEntered)
                     self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
@@ -58,7 +57,6 @@ class StarredViewController: PCViewController {
                         self.longPressMultiSelectIndexPath = nil
                     }
                 } else {
-                    Analytics.track(.starredMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
             }
@@ -90,7 +88,6 @@ class StarredViewController: PCViewController {
         setupNavBar()
         refreshEpisodesFromServer(animated: false)
         addEventObservers()
-        Analytics.track(.starredShown)
     }
 
     func refreshEpisodesFromServer(animated: Bool) {
@@ -178,13 +175,5 @@ class StarredViewController: PCViewController {
 
         navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
         navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-    }
-}
-
-// MARK: - Analytics
-
-extension StarredViewController: PlaybackSource {
-    var playbackSource: String {
-        "starred"
     }
 }

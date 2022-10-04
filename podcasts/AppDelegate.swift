@@ -1,6 +1,4 @@
 import BackgroundTasks
-import Firebase
-import FirebasePerformance
 import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
@@ -13,7 +11,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private let shortcutManager = ShortcutManager()
     private let badgeHelper = BadgeHelper()
-    private let traceHandler = TraceHelper()
 
     @objc var backgroundSessionCompletionHandler: (() -> Void)?
 
@@ -22,20 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var modalController: UINavigationController?
 
     lazy var lenticularFilter: LenticularFilter = .init()
-    lazy var appLifecycleAnalytics = AppLifecycleAnalytics()
 
     private var backgroundSignOutListener: BackgroundSignOutListener?
 
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        configureFirebase()
-        TraceManager.shared.setup(handler: traceHandler)
         FileLog.shared.setup()
 
         setupSecrets()
-        setupAnalytics()
-        appLifecycleAnalytics.checkApplicationInstalledOrUpgraded()
 
         let defaults = UserDefaults.standard
 
@@ -93,8 +85,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
         badgeHelper.updateBadge()
-
-        appLifecycleAnalytics.didEnterBackground()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -103,7 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleBecomeActive() {
         setupSignOutListener()
-        appLifecycleAnalytics.didBecomeActive()
 
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()
@@ -251,25 +240,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             task.setTaskCompleted(success: refreshFetchResult != .failed)
         })
         badgeHelper.updateBadge()
-    }
-
-    private func configureFirebase() {
-        FirebaseApp.configure()
-
-        // we user remote config for varies parameters in the app we want to be able to set remotely. Here we set the defaults, then fetch new ones
-        let remoteConfig = RemoteConfig.remoteConfig()
-        remoteConfig.setDefaults([
-            Constants.RemoteParams.periodicSaveTimeMs: NSNumber(value: Constants.RemoteParams.periodicSaveTimeMsDefault),
-            Constants.RemoteParams.episodeSearchDebounceMs: NSNumber(value: Constants.RemoteParams.episodeSearchDebounceMsDefault),
-            Constants.RemoteParams.podcastSearchDebounceMs: NSNumber(value: Constants.RemoteParams.podcastSearchDebounceMsDefault),
-            Constants.RemoteParams.customStorageLimitGB: NSNumber(value: Constants.RemoteParams.customStorageLimitGBDefault)
-        ])
-
-        remoteConfig.fetch(withExpirationDuration: 2.hour) { status, _ in
-            if status == .success {
-                remoteConfig.activate(completion: nil)
-            }
-        }
     }
 
     private func postLaunchSetup() {

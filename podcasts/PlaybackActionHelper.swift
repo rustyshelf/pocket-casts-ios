@@ -27,8 +27,6 @@ class PlaybackActionHelper {
     }
 
     class func download(episodeUuid: String) {
-        AnalyticsEpisodeHelper.shared.downloaded(episodeUUID: episodeUuid)
-
         NetworkUtils.shared.downloadEpisodeRequested(autoDownloadStatus: .notSpecified, { later in
             if later {
                 DownloadManager.shared.queueForLaterDownload(episodeUuid: episodeUuid, fireNotification: true, autoDownloadStatus: .notSpecified)
@@ -40,8 +38,6 @@ class PlaybackActionHelper {
 
     class func stopDownload(episodeUuid: String) {
         DownloadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true, userInitiated: true)
-
-        AnalyticsEpisodeHelper.shared.downloadCancelled(episodeUUID: episodeUuid)
     }
 
     class func overrideWaitingForWifi(episodeUuid: String, autoDownloadStatus: AutoDownloadStatus) {
@@ -62,13 +58,10 @@ class PlaybackActionHelper {
                 UploadManager.shared.addToQueue(episodeUuid: episodeUuid)
             }
         }, disallowed: nil)
-
-        AnalyticsEpisodeHelper.shared.episodeUploaded(episodeUUID: episodeUuid)
     }
 
     class func stopUpload(episodeUuid: String) {
         UploadManager.shared.removeFromQueue(episodeUuid: episodeUuid, fireNotification: true)
-        AnalyticsEpisodeHelper.shared.episodeUploadCancelled(episodeUUID: episodeUuid)
     }
 
     private class func performPlay(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {
@@ -77,10 +70,6 @@ class PlaybackActionHelper {
         } else {
             if episode.archived, let episode = episode as? Episode {
                 DataManager.sharedManager.saveEpisode(archived: false, episode: episode, updateSyncFlag: SyncManager.isUserLoggedIn())
-            }
-
-            if episode is Episode { // only record play stats for Episodes, not UserEpisodes
-                AnalyticsHelper.playedEpisode()
             }
 
             // if we're streaming an episode, try to make sure the URL is up to date. Authors can change URLs at any time, so this is handy to fix cases where they post the wrong one and update it later

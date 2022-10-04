@@ -145,7 +145,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
-    private lazy var upNextController = UpNextViewController(source: .nowPlaying)
+    private lazy var upNextController = UpNextViewController()
 
     lazy var upNextViewController: UIViewController = {
         let controller = SJUIUtils.navController(for: upNextController, navStyle: .secondaryUi01, titleStyle: .playerContrast01, iconStyle: .playerContrast01, themeOverride: .dark)
@@ -156,23 +156,15 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     var lastShelfLoadState = ShelfLoadState()
 
-    private let analyticsPlaybackHelper = AnalyticsPlaybackHelper.shared
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
-
-        routePicker.delegate = self
     }
 
     private var lastBoundsAdjustedFor = CGRect.zero
-
-    var playbackSource: String {
-        "player"
-    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -206,31 +198,26 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
     // MARK: - Interface Actions
 
     @IBAction func skipBackTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipBackHaptic()
         PlaybackManager.shared.skipBack()
     }
 
     @IBAction func playPauseTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerPlayPauseHaptic()
         PlaybackManager.shared.playPause()
     }
 
     @IBAction func skipFwdTapped(_ sender: Any) {
-        analyticsPlaybackHelper.currentSource = playbackSource
         HapticsHelper.triggerSkipForwardHaptic()
         PlaybackManager.shared.skipForward()
     }
 
     @IBAction func chapterSkipBackTapped(_ sender: Any) {
         PlaybackManager.shared.skipToPreviousChapter()
-        Analytics.track(.playerPreviousChapterTapped)
     }
 
     @IBAction func chapterSkipForwardTapped(_ sender: Any) {
         PlaybackManager.shared.skipToNextChapter()
-        Analytics.track(.playerNextChapterTapped)
     }
 
     @objc private func chapterLinkTapped() {
@@ -283,7 +270,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let options = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedOption = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = "player_skip_forward_long_press"
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         options.addAction(action: markPlayedOption)

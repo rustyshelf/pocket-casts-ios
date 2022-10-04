@@ -104,31 +104,26 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     var episode: Episode
     var podcast: Podcast
 
-    let viewSource: EpisodeDetailViewSource
-
     // MARK: - Init
 
-    init(episodeUuid: String, source: EpisodeDetailViewSource) {
+    init(episodeUuid: String) {
         // it's ok to crash here, an episode card with no episode or podcast is invalid
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)!
         podcast = DataManager.sharedManager.findPodcast(uuid: episode.podcastUuid, includeUnsubscribed: true)!
-        viewSource = source
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
 
-    init(episodeUuid: String, podcast: Podcast, source: EpisodeDetailViewSource) {
+    init(episodeUuid: String, podcast: Podcast) {
         episode = DataManager.sharedManager.findEpisode(uuid: episodeUuid)! // it's ok to crash here, an episode card with no episode is invalid
         self.podcast = podcast
-        viewSource = source
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
 
-    init(episode: Episode, podcast: Podcast, source: EpisodeDetailViewSource) {
+    init(episode: Episode, podcast: Podcast) {
         self.episode = episode
         self.podcast = podcast
-        viewSource = source
 
         super.init(nibName: "EpisodeDetailViewController", bundle: nil)
     }
@@ -169,7 +164,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         mainScrollView.contentOffset.y = -100
 
         hideErrorMessage(hide: true)
-        Analytics.track(.episodeDetailShown, properties: ["source": viewSource])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -205,8 +199,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         addCustomObserver(ServerNotifications.episodeTypeOrLengthChanged, selector: #selector(specificEpisodeEventDidFire(_:)))
 
         addCustomObserver(Constants.Notifications.manyEpisodesChanged, selector: #selector(generalEpisodeEventDidFire))
-
-        AnalyticsHelper.episodeOpened(podcastUuid: episode.podcastUuid, episodeUuid: episode.uuid)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -402,8 +394,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     @objc private func podcastNameTapped() {
         guard let podcast = episode.parentPodcast() else { return }
 
-        Analytics.track(.episodeDetailPodcastNameTapped, properties: ["source": viewSource])
-
         dismiss(animated: true) {
             NavigationManager.sharedManager.navigateTo(NavigationManager.podcastPageKey, data: [NavigationManager.podcastKey: podcast])
         }
@@ -424,9 +414,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
     private func shareLinkToEpisode(sharePosition: Bool, sourceRect: CGRect) {
         let shareTime = sharePosition ? episode.playedUpTo : 0
 
-        let type = shareTime == 0 ? "episode" : "current_position"
-        Analytics.track(.podcastShared, properties: ["type": type, "source": playbackSource])
-
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: shareTime, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
 
@@ -435,8 +422,6 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         docController = UIDocumentInteractionController(url: fileUrl)
         docController?.name = episode.displayableTitle()
         docController?.delegate = self
-
-        Analytics.track(.podcastShared, properties: ["type": "episode_file", "source": playbackSource])
 
         let canOpen = docController?.presentOpenInMenu(from: sourceRect, in: view, animated: true) ?? false
         if !canOpen {
@@ -460,9 +445,7 @@ class EpisodeDetailViewController: FakeNavViewController, UIDocumentInteractionC
         failedToLoadLabel.isHidden = hide
     }
 
-    private func didDismiss() {
-        Analytics.track(.episodeDetailDismissed, properties: ["source": viewSource])
-    }
+    private func didDismiss() { }
 }
 
 // MARK: - UIAdaptivePresentationControllerDelegate
@@ -471,25 +454,4 @@ extension EpisodeDetailViewController: UIAdaptivePresentationControllerDelegate 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         didDismiss()
     }
-}
-
-// MARK: - Analytics
-
-extension EpisodeDetailViewController: PlaybackSource {
-    var playbackSource: String {
-        "episode_detail"
-    }
-}
-
-enum EpisodeDetailViewSource: String, AnalyticsDescribable {
-    case discover
-    case downloads
-    case listeningHistory = "listening_history"
-    case homeScreenWidget = "home_screen_widget"
-    case filters
-    case podcastScreen = "podcast_screen"
-    case starred
-    case upNext = "up_next"
-
-    var analyticsDescription: String { rawValue }
 }

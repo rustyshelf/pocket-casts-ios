@@ -25,14 +25,6 @@ class CountryChooserViewController: UIViewController, UITableViewDataSource, UIT
         countriesTable.reloadData()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if didChangeRegion {
-            Analytics.track(.discoverRegionChanged, properties: ["region": selectedRegion])
-        }
-    }
-
     // MARK: - UITableView Methods
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

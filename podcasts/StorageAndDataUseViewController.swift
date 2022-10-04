@@ -18,7 +18,6 @@ class StorageAndDataUseViewController: PCViewController, UITableViewDelegate, UI
         super.viewDidLoad()
 
         title = L10n.settingsStorage
-        Analytics.track(.settingsStorageShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
