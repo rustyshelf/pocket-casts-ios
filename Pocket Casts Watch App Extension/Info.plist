@@ -35,13 +35,6 @@
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<false/>
 			</dict>
-			<key>podcasts.shiftyjelly.com.au</key>
-			<dict>
-				<key>NSExceptionAllowInsecureHTTPLoads</key>
-				<false/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<false/>
-			</dict>
 			<key>refresh.pocketcasts.com</key>
 			<dict>
 				<key>NSExceptionAllowInsecureHTTPLoads</key>
@@ -56,7 +49,7 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>au.com.shiftyjelly.podcasts.watchkitapp</string>
+			<string>net.rustyshelf.podcasts.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>

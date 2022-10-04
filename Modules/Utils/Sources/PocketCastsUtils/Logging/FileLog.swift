@@ -31,7 +31,7 @@ public class FileLog {
 
     public lazy var debugUploadLog: String = self.logDirectory + "/uploadDebug.log"
 
-    private let logQueue = DispatchQueue(label: "au.com.pocketcasts.LogQueue")
+    private let logQueue = DispatchQueue(label: "anet.rustyshelf.podcasts.LogQueue")
 
     public func setup() {
         let fileManager = FileManager.default

@@ -8,7 +8,7 @@ import PocketCastsUtils
 class DownloadManager: NSObject, FilePathProtocol {
     static let shared = DownloadManager()
 
-    static let cellBackgroundSessionId = "au.com.shiftyjelly.PCManualSession"
+    static let cellBackgroundSessionId = "net.rustyshelf.podcasts.PCManualSession"
 
     var progressManager = DownloadProgressManager()
 
@@ -19,7 +19,7 @@ class DownloadManager: NSObject, FilePathProtocol {
     #endif
 
     lazy var wifiOnlyBackgroundSession: URLSession = {
-        var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCBackgroundSession")
+        var config = URLSessionConfiguration.background(withIdentifier: "net.rustyshelf.podcasts.PCBackgroundSession")
         config.allowsCellularAccess = false
         addStandardConfig(to: &config)
 

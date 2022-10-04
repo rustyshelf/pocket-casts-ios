@@ -3,7 +3,6 @@ import Foundation
 import PocketCastsDataModel
 import PocketCastsServer
 import PocketCastsUtils
-import StoreKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
@@ -60,8 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         shortcutManager.listenForShortcutChanges()
 
         setupBackgroundRefresh()
-
-        SKPaymentQueue.default().add(IapHelper.shared)
 
         // Request the IAP products on launch
         if SubscriptionHelper.hasActiveSubscription() == false {
@@ -139,7 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         badgeHelper.teardown()
         shortcutManager.stopListeningForShortcutChanges()
 
-        SKPaymentQueue.default().remove(IapHelper.shared)
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
 

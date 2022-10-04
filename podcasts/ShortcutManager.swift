@@ -37,7 +37,7 @@ class ShortcutManager: CustomObserver {
         if let topFilter = DataManager.sharedManager.allFilters(includeDeleted: false).first, let iconName = topFilter.iconImageName() {
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(
-                    type: "au.com.shiftyjelly.podcasts",
+                    type: "net.rustyshelf.podcasts",
                     localizedTitle: topFilter.playlistName,
                     localizedSubtitle: "\(DataManager.sharedManager.episodeCount(forFilter: topFilter, episodeUuidToAdd: topFilter.episodeUuidToAddToQueries())) items",
                     icon: UIApplicationShortcutIcon(templateImageName: iconName),
@@ -51,7 +51,7 @@ class ShortcutManager: CustomObserver {
             if PlaybackManager.shared.playing() {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
-                        type: "au.com.shiftyjelly.podcasts",
+                        type: "net.rustyshelf.podcasts",
                         localizedTitle: L10n.pause,
                         localizedSubtitle: currentEpisode.displayableTitle(),
                         icon: UIApplicationShortcutIcon(type: .pause),
@@ -61,7 +61,7 @@ class ShortcutManager: CustomObserver {
             } else {
                 shortcutItems.append(
                     UIMutableApplicationShortcutItem(
-                        type: "au.com.shiftyjelly.podcasts",
+                        type: "net.rustyshelf.podcasts",
                         localizedTitle: L10n.play,
                         localizedSubtitle: currentEpisode.displayableTitle(),
                         icon: UIApplicationShortcutIcon(type: .play),
@@ -73,7 +73,7 @@ class ShortcutManager: CustomObserver {
             // discover
             shortcutItems.append(
                 UIMutableApplicationShortcutItem(
-                    type: "au.com.shiftyjelly.podcasts",
+                    type: "net.rustyshelf.podcasts",
                     localizedTitle: "Find New Podcasts",
                     localizedSubtitle: nil,
                     icon: UIApplicationShortcutIcon(type: .search),

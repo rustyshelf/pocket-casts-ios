@@ -4,7 +4,7 @@ import UIKit
 public class UploadProgressManager: NSObject {
     private var progressItems = [String: UploadProgress]()
     private lazy var progressItemsQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.UploadProgressItemsQueue")
+        let queue = DispatchQueue(label: "net.rustyshelf.podcasts.UploadProgressItemsQueue")
 
         return queue
     }()
