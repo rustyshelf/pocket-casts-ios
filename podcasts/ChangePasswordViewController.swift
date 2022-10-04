@@ -131,12 +131,6 @@ class ChangePasswordViewController: PCViewController, UITextFieldDelegate {
         updateButtonState()
     }
 
-    deinit {
-        currentField.removeTarget(self, action: #selector(ChangePasswordViewController.textFieldDidChange), for: .editingChanged)
-        newField.removeTarget(self, action: #selector(ChangePasswordViewController.textFieldDidChange), for: .editingChanged)
-        confirmField.removeTarget(self, action: #selector(ChangePasswordViewController.textFieldDidChange), for: .editingChanged)
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

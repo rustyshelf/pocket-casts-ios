@@ -115,13 +115,6 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
         updateButtonState()
     }
 
-    deinit {
-        emailField?.removeTarget(self, action: #selector(emailFieldDidChange), for: UIControl.Event.editingChanged)
-        emailField?.delegate = nil
-        passwordField?.removeTarget(self, action: #selector(passwordFieldDidChange), for: .editingChanged)
-        passwordField?.delegate = nil
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

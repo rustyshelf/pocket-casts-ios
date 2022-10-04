@@ -31,7 +31,6 @@ struct EditFolderPodcastsView: View {
             pickerModel.setup()
         }
         .onDisappear {
-            let numberOfPodcastsChanged = pickerModel.selectedPodcastUuids.count - model.selectedPodcastUuids.count
             model.selectedPodcastUuids = pickerModel.selectedPodcastUuids
         }
     }

@@ -355,7 +355,7 @@ class SiriShortcutsManager: CustomObserver {
         if let episode = DataManager.sharedManager.findEpisode(uuid: episodeInfo.uuid) {
             PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
         } else {
-            ServerPodcastManager.shared.addFromUuid(podcastUuid: episodeInfo.podcastUuid, subscribe: false, completion: { [weak self] success in
+            ServerPodcastManager.shared.addFromUuid(podcastUuid: episodeInfo.podcastUuid, subscribe: false, completion: { success in
                 if let episode = DataManager.sharedManager.findEpisode(uuid: episodeInfo.uuid), success {
                     PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
                 }
