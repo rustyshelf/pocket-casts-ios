@@ -1,4 +1,3 @@
-import MaterialComponents.MaterialBottomSheet
 import UIKit
 
 class ShelfActionsViewController: UIViewController {
@@ -90,9 +89,6 @@ class ShelfActionsViewController: UIViewController {
         editButtonVerticalConstraint.isActive = false
         doneButtonVerticalConstraint.isActive = true
         setPreferredSize(animated: true)
-        if let sheetController = parent as? MDCBottomSheetController {
-            sheetController.dismissOnDraggingDownSheet = false
-        }
     }
 
     private func setPreferredSize(animated: Bool) {

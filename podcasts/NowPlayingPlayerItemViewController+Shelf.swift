@@ -1,6 +1,5 @@
 import AVKit
 import Foundation
-import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 
 protocol NowPlayingActionsDelegate: AnyObject {
@@ -193,10 +192,9 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     @objc private func overflowTapped() {
         let shelfController = ShelfActionsViewController()
         shelfController.playerActionsDelegate = self
-        let bottomSheet = MDCBottomSheetController(contentViewController: shelfController)
-        roundCorners(bottomSheet: bottomSheet)
+        shelfController.configureBottomSheetModal()
 
-        present(bottomSheet, animated: true, completion: nil)
+        present(shelfController, animated: true, completion: nil)
     }
 
     @objc private func sleepBtnTapped(_ sender: UIButton) {
@@ -279,16 +277,14 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     private func showSleepPanel() {
         let sleepController = SleepTimerViewController()
-        let bottomSheet = MDCBottomSheetController(contentViewController: sleepController)
-        roundCorners(bottomSheet: bottomSheet)
-        present(bottomSheet, animated: true, completion: nil)
+        sleepController.configureBottomSheetModal()
+        present(sleepController, animated: true, completion: nil)
     }
 
     private func showEffectsPanel() {
         let effectsController = EffectsViewController()
-        let bottomSheet = MDCBottomSheetController(contentViewController: effectsController)
-        roundCorners(bottomSheet: bottomSheet)
-        present(bottomSheet, animated: true, completion: nil)
+        effectsController.configureBottomSheetModal()
+        present(effectsController, animated: true, completion: nil)
     }
 
     private func performStarAction(starBtn: UIButton? = nil) {
@@ -352,12 +348,5 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             view.widthAnchor.constraint(equalToConstant: 32),
             view.heightAnchor.constraint(equalToConstant: 32)
         ])
-    }
-
-    private func roundCorners(bottomSheet: MDCBottomSheetController) {
-        let shapeGenerator = MDCCurvedRectShapeGenerator(cornerSize: CGSize(width: 8, height: 8))
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
-        bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
     }
 }
