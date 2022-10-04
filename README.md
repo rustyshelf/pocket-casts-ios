@@ -9,6 +9,10 @@
     <img src="https://img.shields.io/badge/Xcode-v14.0%2B-informational" />
 </p>
 
+<p align="center">
+    Pocket Casts is the world's most powerful podcast platform, an app by listeners, for listeners.
+</p>
+
 ## Information about this fork
 
 <p>
@@ -28,10 +32,6 @@ Things removed so far:
 - Material Bottom Sheets
 - Multi select
 - Trim Silence
-
-<p align="center">
-    Pocket Casts is the world's most powerful podcast platform, an app by listeners, for listeners.
-</p>
 
 ## Setup
 
