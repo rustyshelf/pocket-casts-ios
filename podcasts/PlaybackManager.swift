@@ -983,12 +983,9 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     private func playerSwitchRequired() -> Bool {
-        let possiblePlayers = supportedPlayers()
-        if let player = player, let firstSupportedPlayer = possiblePlayers.first {
-            return type(of: player) != firstSupportedPlayer
-        }
+        guard player != nil else { return true }
 
-        return true
+        return false
     }
 
     private func setupPlayer() {
@@ -1000,35 +997,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             currEffects.trimSilence = .off
         }
 
-        let playersSupported = supportedPlayers()
-        #if os(watchOS)
-            FileLog.shared.addMessage("Using DefaultPlayer")
-            player = DefaultPlayer()
-        #else
-            if playersSupported.first == EffectsPlayer.self {
-                FileLog.shared.addMessage("Using EffectsPlayer")
-                player = EffectsPlayer()
-            } else {
-                FileLog.shared.addMessage("Using DefaultPlayer")
-                player = DefaultPlayer()
-            }
-        #endif
-    }
-
-    private func supportedPlayers() -> [PlaybackProtocol.Type] {
-        var possiblePlayers = [PlaybackProtocol.Type]()
-
-        guard let currEpisode = currentEpisode() else { return possiblePlayers }
-
-        #if !os(watchOS)
-            if !playingOverAirplay(), !currEpisode.videoPodcast(), currEpisode.downloaded(pathFinder: DownloadManager.shared) || currEpisode.bufferedForStreaming() {
-                possiblePlayers.append(EffectsPlayer.self)
-            }
-        #endif
-
-        possiblePlayers.append(DefaultPlayer.self)
-
-        return possiblePlayers
+        FileLog.shared.addMessage("Using DefaultPlayer")
+        player = DefaultPlayer()
     }
 
     private func cleanupCurrentPlayer(permanent: Bool) {
