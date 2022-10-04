@@ -1,7 +1,7 @@
 import PocketCastsDataModel
 import UIKit
 
-enum TrimSilenceAmount: Int, AnalyticsDescribable {
+enum TrimSilenceAmount: Int {
     case off = 0, low = 3, medium = 5, high = 10
 
     var description: String {
@@ -19,19 +19,6 @@ enum TrimSilenceAmount: Int, AnalyticsDescribable {
 
     func isEnabled() -> Bool {
         self != .off
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .off:
-            return "off"
-        case .low:
-            return "mild"
-        case .medium:
-            return "medium"
-        case .high:
-            return "mad_max"
-        }
     }
 }
 

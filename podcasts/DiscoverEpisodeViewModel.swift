@@ -84,11 +84,6 @@ class DiscoverEpisodeViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    public func registerListImpression() {
-        guard let listId = discoverItem?.uuid else { return }
-        AnalyticsHelper.listImpression(listId: listId)
-    }
-
     public func didSelectPlayEpisode() {
         guard let episodeUuid = discoverEpisode?.uuid,
               let podcastUuid = discoverEpisode?.podcastUuid else { return }
@@ -102,9 +97,6 @@ class DiscoverEpisodeViewModel: ObservableObject {
                 if self.playbackManager.isActivelyPlaying(episodeUuid: episodeUuid) {
                     PlaybackActionHelper.pause()
                 } else if let baseEpisode = DataManager.sharedManager.findEpisode(uuid: episodeUuid) {
-                    if let listId = listId {
-                        AnalyticsHelper.podcastEpisodePlayedFromList(listId: listId, podcastUuid: podcastUuid)
-                    }
                     PlaybackActionHelper.play(episode: baseEpisode, podcastUuid: podcastUuid)
                 }
             }
@@ -115,10 +107,6 @@ class DiscoverEpisodeViewModel: ObservableObject {
         guard let episode = discoverEpisode,
               let podcastUuid = episode.podcastUuid,
               let episodeUuid = episode.uuid else { return }
-
-        if let listId = discoverItem?.uuid ?? listId {
-            AnalyticsHelper.podcastEpisodeTapped(fromList: listId, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-        }
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
             .receive(on: RunLoop.main)

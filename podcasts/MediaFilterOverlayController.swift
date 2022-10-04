@@ -20,10 +20,6 @@ class MediaFilterOverlayController: FilterSettingsOverlayController, UITableView
 
     var selectedIndex = 0
 
-    override var playbackSource: String {
-        "media_type"
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

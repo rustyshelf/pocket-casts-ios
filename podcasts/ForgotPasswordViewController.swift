@@ -54,7 +54,6 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
         title = L10n.profileResetPassword
         resetPasswordBtn.isEnabled = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back"), style: .done, target: self, action: #selector(closeTapped))
-        Analytics.track(.forgotPasswordShown)
     }
 
     deinit {
@@ -74,8 +73,6 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        Analytics.track(.forgotPasswordDismissed)
     }
 
     @objc func emailFieldDidChange() {
@@ -114,8 +111,6 @@ class ForgotPasswordViewController: PCViewController, UITextFieldDelegate {
 
                     return
                 }
-
-                Analytics.track(.userPasswordReset)
 
                 _ = self.navigationController?.popViewController(animated: true)
                 SJUIUtils.showAlert(title: L10n.profileSendingResetEmailConfTitle, message: L10n.profileSendingResetEmailConfMsg, from: self)

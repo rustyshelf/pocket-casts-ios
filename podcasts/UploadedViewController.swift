@@ -61,7 +61,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                 self.uploadsTable.endUpdates()
 
                 if self.isMultiSelectEnabled {
-                    Analytics.track(.uploadedFilesMultiSelectEntered)
                     self.multiSelectActionBar.setSelectedCount(count: self.selectedEpisodes.count)
                     self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
                     if let selectedIndexPath = self.longPressMultiSelectIndexPath {
@@ -69,7 +68,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
                         self.longPressMultiSelectIndexPath = nil
                     }
                 } else {
-                    Analytics.track(.uploadedFilesMultiSelectExited)
                     self.selectedEpisodes.removeAll()
                 }
             }
@@ -105,8 +103,8 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         title = L10n.files
 
         if let navController = navigationController, SubscriptionHelper.hasActiveSubscription() {
-            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar, source: "files")
-            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar, source: "no_files")
+            tableRefreshControl = UploadedRefreshControl(scrollView: uploadsTable, navBar: navController.navigationBar)
+            noEpisodeRefreshControl = UploadedRefreshControl(scrollView: noEpisodesScrollView, navBar: navController.navigationBar)
         }
 
         noEpisodesScrollView.alwaysBounceVertical = true
@@ -118,8 +116,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         updateHeaderView()
 
         reloadLocalFiles()
-
-        Analytics.track(.uploadedFilesShown)
     }
 
     var fileURL: URL?
@@ -190,12 +186,9 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
-        Analytics.track(.uploadedFilesOptionsButtonTapped)
-
         let optionsPicker = OptionsPicker(title: nil)
 
         let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "select_episodes"])
             self?.isMultiSelectEnabled = true
         }
         optionsPicker.addAction(action: MultiSelectAction)
@@ -207,7 +200,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
         optionsPicker.addAction(action: sortAction)
 
         let settingsAction = OptionAction(label: L10n.settingsFiles, icon: "podcast-settings") { [weak self] in
-            Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "files_settings"])
             self?.navigationController?.pushViewController(UploadedSettingsViewController(), animated: true)
         }
         optionsPicker.addAction(action: settingsAction)
@@ -246,16 +238,12 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     @IBAction func howToTapped(_ sender: Any) {
-        Analytics.track(.uploadedFilesHelpButtonTapped)
-
         let howToController = HowToUploadViewController()
         let navController = SJUIUtils.navController(for: howToController)
         present(navController, animated: true, completion: nil)
     }
 
     func showSortByPicker() {
-        Analytics.track(.uploadedFilesOptionsModalOptionTapped, properties: ["option": "sort_by"])
-
         let optionsPicker = OptionsPicker(title: L10n.sortBy.localizedUppercase)
         optionsPicker.addAction(action: createSortAction(sort: .newestToOldest))
         optionsPicker.addAction(action: createSortAction(sort: .oldestToNewest))
@@ -267,7 +255,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private func createSortAction(sort: UploadedSort) -> OptionAction {
         let action = OptionAction(label: sort.description, selected: sort.rawValue == Settings.userEpisodeSortBy()) {
             Settings.setUserEpisodeSortBy(sort.rawValue)
-            Analytics.track(.uploadedFilesSortByChanged, properties: ["sort_order": sort])
 
             self.reloadLocalFiles()
         }
@@ -294,8 +281,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     func showDeleteConfirmation(userEpisode: UserEpisode) {
         UserEpisodeManager.presentDeleteOptions(episode: userEpisode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: nil) { deletedLocal, deletedRemote in
-            Analytics.track(.userFileDeleted, properties: ["local": deletedLocal, "remote": deletedRemote])
-
             if deletedRemote {
                 self.removeFromUploadTable(userEpisode: userEpisode)
             }
@@ -360,13 +345,5 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
 
     @objc private func updateContentOffsets() {
         uploadsTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
-    }
-}
-
-// MARK: - Analytics
-
-extension UploadedViewController: PlaybackSource {
-    var playbackSource: String {
-        "files"
     }
 }

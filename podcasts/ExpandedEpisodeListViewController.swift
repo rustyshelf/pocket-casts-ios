@@ -76,12 +76,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let episode = episodes[indexPath.row]
 
-        guard let podcastUuid = episode.podcastUuid,
-              let episodeUuid = episode.uuid else { return }
-
-        if let listId = podcastCollection.listId {
-            AnalyticsHelper.podcastEpisodeTapped(fromList: listId, podcastUuid: podcastUuid, episodeUuid: episodeUuid)
-        }
+        guard let podcastUuid = episode.podcastUuid else { return }
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
             .receive(on: RunLoop.main)
@@ -94,7 +89,7 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
 
     func show(discoverEpisode: DiscoverEpisode, podcast: Podcast) {
         guard let uuid = discoverEpisode.uuid else { return }
-        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast, source: .discover)
+        let episodeController = EpisodeDetailViewController(episodeUuid: uuid, podcast: podcast)
         episodeController.modalPresentationStyle = .formSheet
 
         present(episodeController, animated: true)
@@ -112,11 +107,5 @@ class ExpandedEpisodeListViewController: PCViewController, UITableViewDelegate, 
 
             present(safariViewController, animated: true, completion: nil)
         }
-    }
-}
-
-extension ExpandedEpisodeListViewController: PlaybackSource {
-    var playbackSource: String {
-        "discover_episode_list"
     }
 }

@@ -135,10 +135,6 @@ class FilterDurationViewController: PCViewController {
         DataManager.sharedManager.save(filter: filter)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
         dismiss(animated: true, completion: nil)
-
-        if !filter.isNew {
-            Analytics.track(.filterUpdated, properties: ["group": "episode_duration", "source": "filters"])
-        }
     }
 
     @IBAction func longerThanChanged(_ sender: CustomTimeStepper) {

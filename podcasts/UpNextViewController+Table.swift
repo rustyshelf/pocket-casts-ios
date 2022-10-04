@@ -126,8 +126,6 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             let section = tableData()[indexPath.section]
 
             if section == .nowPlayingSection {
-                track(.upNextNowPlayingTapped)
-
                 dismiss(animated: true, completion: {
                     if let miniPlayer = UIApplication.shared.appDelegate()?.miniPlayer(), miniPlayer.playerOpenState == .closed {
                         UIApplication.shared.appDelegate()?.miniPlayer()?.openFullScreenPlayer()
@@ -140,11 +138,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             guard let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
             let playOnTap = Settings.playUpNextOnTap()
-
-            track(.upNextQueueEpisodeTapped, properties: ["will_play": playOnTap])
-
             if playOnTap {
-                AnalyticsPlaybackHelper.shared.currentSource = "up_next"
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             } else {
                 showEpisodeDetailViewController(for: episode)
@@ -179,13 +173,6 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         let playQueue = PlaybackManager.shared.queue
 
         playQueue.moveEpisode(from: sourceIndexPath.row, to: destinationIndexPath.row)
-
-        // This logic is reversed because the lower the row number the higher it is in the queue
-        let didMoveUp = destinationIndexPath.row < sourceIndexPath.row
-        let slots = abs(destinationIndexPath.row - sourceIndexPath.row)
-        let isTop = destinationIndexPath.row == 0
-
-        track(.upNextQueueReordered, properties: ["direction": didMoveUp ? "up" : "down", "slots": slots, "is_next": isTop])
     }
 
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
@@ -296,12 +283,9 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
             if isMultiSelectEnabled {
                 showLongPressSelectOptions(indexPath: indexPath)
             } else if !Settings.playUpNextOnTap() {
-                AnalyticsPlaybackHelper.shared.currentSource = "up_next"
                 PlaybackActionHelper.play(episode: episode)
-                track(.upNextQueueEpisodeLongPressed, properties: ["will_play": true])
             } else {
                 showEpisodeDetailViewController(for: episode)
-                track(.upNextQueueEpisodeLongPressed, properties: ["will_play": false])
             }
         }
     }

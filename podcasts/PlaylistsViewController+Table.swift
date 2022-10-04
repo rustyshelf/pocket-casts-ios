@@ -75,8 +75,6 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .top)
             tableView.endUpdates()
-
-            Analytics.track(.filterDeleted)
         }
     }
 
@@ -95,7 +93,5 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged)
-
-        Analytics.track(.filterListReordered)
     }
 }

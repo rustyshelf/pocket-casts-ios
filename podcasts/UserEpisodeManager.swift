@@ -85,10 +85,6 @@ struct UserEpisodeManager {
             NotificationCenter.default.post(name: ServerNotifications.userEpisodeUploadStatusChanged, object: episode.uuid)
             UserEpisodeManager.updateUserEpisodes()
         })
-
-        #if !os(watchOS)
-            AnalyticsEpisodeHelper.shared.episodeDeletedFromCloud(episode: episode)
-        #endif
     }
 
     static func deleteFromDevice(userEpisode: UserEpisode, removeFromPlaybackQueue: Bool = true) {

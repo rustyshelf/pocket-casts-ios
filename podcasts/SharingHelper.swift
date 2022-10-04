@@ -6,8 +6,6 @@ class SharingHelper: NSObject {
     static let shared = SharingHelper()
     var activityController: UIActivityViewController?
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, sourceRect: CGRect, sourceView: UIView) {
-        AnalyticsHelper.sharedPodcast()
-
         let sharingUrl = "\(ServerConstants.Urls.share())podcast/\(podcast.uuid)"
         activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
@@ -44,8 +42,6 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkTo(podcast: Podcast, fromController: UIViewController, barButtonItem: UIBarButtonItem?) {
-        AnalyticsHelper.sharedPodcast()
-
         let sharingUrl = "\(ServerConstants.Urls.share())podcast/\(podcast.uuid)"
         activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
@@ -61,8 +57,6 @@ class SharingHelper: NSObject {
     }
 
     func shareLinkToPodcastList(name: String, url: String, fromController: UIViewController, barButtonItem: UIBarButtonItem?, completionHandler: (() -> Void)?) {
-        AnalyticsHelper.sharedPodcastList()
-
         activityController = UIActivityViewController(activityItems: [URL(string: url)!], applicationActivities: nil)
         activityController?.completionWithItemsHandler = { _, _, _, _ in
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.closedNonOverlayableWindow)
@@ -110,10 +104,7 @@ class SharingHelper: NSObject {
     func createActivityController(episode: Episode, shareTime: TimeInterval) -> UIActivityViewController {
         var sharingUrl = "\(ServerConstants.Urls.share())episode/\(episode.uuid)"
         if shareTime > 0 {
-            AnalyticsHelper.sharedEpisodeWithTimestamp()
             sharingUrl += "?t=\(round(episode.playedUpTo))"
-        } else {
-            AnalyticsHelper.sharedEpisode()
         }
 
         let activityController = UIActivityViewController(activityItems: [URL(string: sharingUrl)!], applicationActivities: nil)

@@ -91,10 +91,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
             podcastInfo.uuid = promotion.podcast_uuid
             let listId = promotion.promotion_uuid
             delegate.show(podcastInfo: podcastInfo, placeholderImage: cell.podcastImage.image, isFeatured: false, listUuid: listId)
-
-            if let listId = listId, let uuid = podcastInfo.uuid {
-                AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: uuid)
-            }
         }
     }
 
@@ -124,10 +120,6 @@ class CategoryPodcastsViewController: PCViewController, UITableViewDelegate, UIT
                 strongSelf.podcasts = podcasts
                 strongSelf.promotion = categoryDetails?.promotion
                 strongSelf.podcastsTable.reloadData()
-
-                if let promotionUuid = categoryDetails?.promotion?.promotion_uuid {
-                    AnalyticsHelper.listImpression(listId: promotionUuid)
-                }
             }
         })
     }

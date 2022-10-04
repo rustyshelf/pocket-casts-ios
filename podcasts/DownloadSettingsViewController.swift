@@ -23,8 +23,6 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
 
         title = L10n.settingsAutoDownload
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
-
-        Analytics.track(.settingsAutoDownloadShown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -159,9 +157,6 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
                 DataManager.sharedManager.save(filter: filter)
                 NotificationCenter.postOnMainThread(notification: Constants.Notifications.filterChanged, object: filter)
             }
-            filterSelectionViewController.didChangeFilters = {
-                Analytics.track(.settingsAutoDownloadFiltersChanged)
-            }
 
             navigationController?.pushViewController(filterSelectionViewController, animated: true)
         }
@@ -195,9 +190,7 @@ class DownloadSettingsViewController: PCViewController, UITableViewDataSource, U
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.podcastUpdated, object: podcast)
     }
 
-    func didChangePodcasts() {
-        Analytics.track(.settingsAutoDownloadPodcastsChanged)
-    }
+    func didChangePodcasts() { }
 
     // MARK: - Switch Settings
 

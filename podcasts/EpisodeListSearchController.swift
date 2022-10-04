@@ -217,7 +217,6 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
         }
 
         optionPicker.show(statusBarStyle: preferredStatusBarStyle)
-        Analytics.track(.podcastScreenOptionsTapped)
     }
 
     private func performUnarchiveAll() {

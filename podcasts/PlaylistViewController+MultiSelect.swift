@@ -40,10 +40,6 @@ extension PlaylistViewController: MultiSelectActionDelegate {
         preferredStatusBarStyle
     }
 
-    var multiSelectViewSource: String {
-        playbackSource
-    }
-
     // MARK: - Selected Episode
 
     func selectedEpisodesContains(uuid: String) -> Bool {
@@ -68,8 +64,6 @@ extension PlaylistViewController: MultiSelectActionDelegate {
 
     @IBAction func selectAllTapped() {
         let shouldSelectAll = MultiSelectHelper.shouldSelectAll(onCount: selectedEpisodes.count, totalCount: episodes.count)
-
-        Analytics.track(.filterSelectAllButtonTapped, properties: ["select_all": shouldSelectAll])
 
         if shouldSelectAll {
             tableView.selectAll()

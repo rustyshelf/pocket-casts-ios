@@ -26,8 +26,6 @@ class WatchSettingsViewController: PCViewController, UITableViewDelegate, UITabl
         super.viewDidLoad()
         title = L10n.appleWatch
         addCustomObserver(ServerNotifications.subscriptionStatusChanged, selector: #selector(subscriptionStatusChanged))
-
-        Analytics.track(.settingsAppleWatchShown)
     }
 
     @objc func subscriptionStatusChanged() {

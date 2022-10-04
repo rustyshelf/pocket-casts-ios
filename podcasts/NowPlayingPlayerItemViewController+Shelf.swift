@@ -145,17 +145,10 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     func routePickerTapped() {
-        // This is a bit hacky, but since when the button is located in the shelf, this action is not called
-        // we have no way of knowing whether the picker was opened. So we're relying on the willShow delegate method
-        // since we don't want to double the events up, we'll unregister the delegate while we show the
-        // picker from the overflow menu, then set the delegate again after.
-        routePicker.delegate = nil
-
         // not super happy with this solution but there doesn't appear to be a public API to pop this dialog up...
         if let routePickerButton = routePicker.subviews.first(where: { $0 is UIButton }) as? UIButton {
             routePickerButton.sendActions(for: .touchUpInside)
         }
-        routePicker.delegate = self
     }
 
     func shareTapped() {
@@ -207,37 +200,30 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     }
 
     @objc private func sleepBtnTapped(_ sender: UIButton) {
-        shelfButtonTapped(.sleepTimer)
         showSleepPanel()
     }
 
     @objc private func effectsBtnTapped(_ sender: UIButton) {
-        shelfButtonTapped(.effects)
         showEffectsPanel()
     }
 
     @objc private func starTapped(_ sender: UIButton) {
-        shelfButtonTapped(.starEpisode)
         performStarAction(starBtn: sender)
     }
 
     @objc private func goToTapped(_ sender: UIButton) {
-        shelfButtonTapped(.goToPodcast)
         goToTapped()
     }
 
     @objc private func markPlayedTapped(_ sender: UIButton) {
-        shelfButtonTapped(.markPlayed)
         markPlayed()
     }
 
     @objc private func archiveTapped(_ sender: UIButton) {
-        shelfButtonTapped(.archive)
         archiveTapped()
     }
 
     @objc private func shareTapped(_ sender: UIButton) {
-        shelfButtonTapped(.shareEpisode)
         shareEpisode(sender: sender)
     }
 
@@ -265,7 +251,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
 
         let markPlayedAction = OptionAction(label: L10n.markPlayedShort, icon: nil) {
-            AnalyticsEpisodeHelper.shared.currentSource = self.playbackSource
             EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
         }
         markPlayedAction.destructive = true
@@ -275,15 +260,12 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     private func delete() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? UserEpisode else { return }
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
 
         UserEpisodeManager.presentDeleteOptions(episode: episode, preferredStatusBarStyle: preferredStatusBarStyle, themeOverride: .dark)
     }
 
     private func archive() {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
-
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
 
         let optionsPicker = OptionsPicker(title: nil, themeOverride: .dark)
 
@@ -311,8 +293,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
 
     private func performStarAction(starBtn: UIButton? = nil) {
         guard let episode = PlaybackManager.shared.currentEpisode() as? Episode else { return }
-
-        AnalyticsEpisodeHelper.shared.currentSource = playbackSource
 
         EpisodeManager.setStarred(!episode.keepEpisode, episode: episode, updateSyncStatus: true)
 
@@ -352,9 +332,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func shareEpisode(source: UIView, episode: Episode, fromTime: TimeInterval) {
         guard let buttonSuperview = source.superview else { return }
 
-        let type = fromTime == 0 ? "episode" : "current_position"
-
-        Analytics.track(.podcastShared, properties: ["type": type, "source": "player"])
         let sourceRect = buttonSuperview.convert(source.frame, to: view)
         SharingHelper.shared.shareLinkTo(episode: episode, shareTime: fromTime, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
@@ -362,7 +339,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
     private func sharePodcast(source: UIView, podcast: Podcast?) {
         guard let buttonSuperview = source.superview, let podcast = podcast else { return }
 
-        Analytics.track(.podcastShared, properties: ["type": "podcast", "source": "player"])
         let sourceRect = buttonSuperview.convert(source.frame, to: view)
         SharingHelper.shared.shareLinkTo(podcast: podcast, fromController: self, sourceRect: sourceRect, sourceView: view)
     }
@@ -383,17 +359,5 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         bottomSheet.setShapeGenerator(shapeGenerator, for: .preferred)
         bottomSheet.setShapeGenerator(shapeGenerator, for: .extended)
         bottomSheet.setShapeGenerator(shapeGenerator, for: .closed)
-    }
-}
-
-extension NowPlayingPlayerItemViewController {
-    func shelfButtonTapped(_ button: PlayerAction) {
-        Analytics.track(.playerShelfActionTapped, properties: ["action": button.analyticsDescription, "from": "shelf"])
-    }
-}
-
-extension NowPlayingPlayerItemViewController: AVRoutePickerViewDelegate {
-    func routePickerViewWillBeginPresentingRoutes(_ routePickerView: AVRoutePickerView) {
-        shelfButtonTapped(.routePicker)
     }
 }

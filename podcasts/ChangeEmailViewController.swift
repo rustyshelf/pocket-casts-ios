@@ -183,8 +183,6 @@ class ChangeEmailViewController: PCViewController, UITextFieldDelegate {
                 self.activityIndicatorView.stopAnimating()
             }
             if success {
-                Analytics.track(.userEmailUpdated)
-
                 ServerSettings.setSyncingEmail(email: newEmail)
                 self.delegate?.emailChanged()
                 Settings.setLoginDetailsUpdated()

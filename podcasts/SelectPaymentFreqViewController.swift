@@ -127,8 +127,6 @@ class SelectPaymentFreqViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(iapProductsFailed), name: ServerNotifications.iapProductsFailed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(themeDidChange), name: Constants.Notifications.themeChanged, object: nil)
         errorView.isHidden = true
-
-        Analytics.track(.selectPaymentFrequencyShown)
     }
 
     deinit {
@@ -146,9 +144,6 @@ class SelectPaymentFreqViewController: UIViewController {
     @IBAction func nextTapped(_ sender: Any) {
         newSubscription.iap_identifier = isYearly ? Constants.IapProducts.yearly.rawValue : Constants.IapProducts.monthly.rawValue
 
-        Analytics.track(.selectPaymentFrequencyNextButtonTapped, properties: ["product": newSubscription.iap_identifier])
-        AnalyticsHelper.plusAddToCart(identifier: newSubscription.iap_identifier)
-
         if newSubscription.isNewAccount {
             let newEmailVC = NewEmailViewController(newSubscription: newSubscription)
             navigationController?.pushViewController(newEmailVC, animated: true)
@@ -160,7 +155,6 @@ class SelectPaymentFreqViewController: UIViewController {
 
     @IBAction func backTapped(_ sender: Any) {
         navigationController?.popViewController(animated: true)
-        Analytics.track(.selectPaymentFrequencyDismissed)
     }
 
     @IBAction func tryAgainTapped(_ sender: Any) {

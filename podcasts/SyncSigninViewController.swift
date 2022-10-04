@@ -109,8 +109,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         originalButtonConstant = mainButtonBottomConstraint.constant
-
-        Analytics.track(.signInShown)
     }
 
     deinit {
@@ -152,8 +150,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     }
 
     @objc func closeTapped() {
-        Analytics.track(.signInDismissed)
-
         if dismissOnCancel {
             dismiss(animated: true, completion: nil)
         } else {
@@ -273,8 +269,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ApiServerHandler.shared.validateLogin(username: username, password: password) { success, userId, error in
             DispatchQueue.main.async {
                 if !success {
-                    Analytics.track(.userSignInFailed, properties: ["error_code": (error ?? .UNKNOWN).rawValue])
-
                     if error != .UNKNOWN, let message = error?.localizedDescription, !message.isEmpty {
                         self.showErrorMessage(message)
                     } else {
@@ -334,8 +328,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
         ServerSettings.setSyncingEmail(email: username)
 
         NotificationCenter.default.post(name: .userLoginDidChange, object: nil)
-
-        Analytics.track(.userSignedIn)
     }
 
     private func showErrorMessage(_ message: String) {

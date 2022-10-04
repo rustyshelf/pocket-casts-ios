@@ -56,14 +56,6 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         populate()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        guard let listId = item?.uuid else { return }
-
-        AnalyticsHelper.listImpression(listId: listId)
-    }
-
     // MARK: DiscoverSummaryProtocol
 
     func populateFrom(item: DiscoverItem) {
@@ -127,10 +119,6 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
 
         subscribeButton.currentlyOn = true
 
-        if let listId = item?.uuid, let podcastUuid = podcast.uuid {
-            AnalyticsHelper.podcastSubscribedFromList(listId: listId, podcastUuid: podcastUuid)
-        }
-
         delegate?.subscribe(podcast: podcast)
     }
 
@@ -138,10 +126,6 @@ class SinglePodcastViewController: UIViewController, DiscoverSummaryProtocol {
         guard let podcast = podcast else { return }
 
         delegate?.show(discoverPodcast: podcast, placeholderImage: nil, isFeatured: true, listUuid: item?.uuid)
-
-        if let listId = item?.uuid, let podcastUuid = podcast.uuid {
-            AnalyticsHelper.podcastTappedFromList(listId: listId, podcastUuid: podcastUuid)
-        }
     }
 
     // MARK: / Notifications

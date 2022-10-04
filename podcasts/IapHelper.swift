@@ -224,17 +224,11 @@ private extension IapHelper {
 // MARK: - SKPaymentTransactionObserver
 
 extension IapHelper: SKPaymentTransactionObserver {
-    func purchaseWasSuccessful(_ productId: String) {
-        trackPaymentEvent(.purchaseSuccessful, productId: productId)
-    }
+    func purchaseWasSuccessful(_ productId: String) {}
 
-    func purchaseWasCancelled(_ productId: String, error: NSError) {
-        trackPaymentEvent(.purchaseCancelled, productId: productId, error: error)
-    }
+    func purchaseWasCancelled(_ productId: String, error: NSError) {}
 
-    func purchaseFailed(_ productId: String, error: NSError) {
-        trackPaymentEvent(.purchaseFailed, productId: productId, error: error)
-    }
+    func purchaseFailed(_ productId: String, error: NSError) {}
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         FileLog.shared.addMessage("IAPHelper number of transactions in SKPayemntTransaction queue    \(transactions.count)")
@@ -254,7 +248,6 @@ extension IapHelper: SKPaymentTransactionObserver {
                     hasNewPurchasedReceipt = true
                     queue.finishTransaction(transaction)
                     FileLog.shared.addMessage("IAPHelper Purchase successful for \(product) ")
-                    AnalyticsHelper.plusPlanPurchased()
 
                     purchaseWasSuccessful(product)
                 case .failed:
@@ -320,23 +313,5 @@ private extension SKProductSubscriptionPeriod {
         }
 
         return TimePeriodFormatter.format(numberOfUnits: numberOfUnits, unit: calendarUnit)
-    }
-}
-
-private extension IapHelper {
-    func trackPaymentEvent(_ event: AnalyticsEvent, productId: String, error: NSError? = nil) {
-        let product = getProductWithIdentifier(identifier: productId)
-        let isFreeTrial = product?.introductoryPrice?.paymentMode == .freeTrial
-        let isEligible = isEligibleForFreeTrial()
-
-        var properties: [AnyHashable: Any] = ["product": productId,
-                                              "is_free_trial_available": isFreeTrial,
-                                              "is_free_trial_eligible": isEligible]
-
-        if let error = error {
-            properties["error_code"] = error.code
-        }
-
-        Analytics.track(event, properties: properties)
     }
 }

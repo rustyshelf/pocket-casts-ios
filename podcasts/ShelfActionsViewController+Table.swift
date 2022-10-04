@@ -69,8 +69,6 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         let action = actionAt(indexPath: indexPath, isEditing: tableView.isEditing)
 
-        Analytics.track(.playerShelfActionTapped, properties: ["action": action.analyticsDescription, "from": "overflow_menu"])
-
         dismiss(animated: true) {
             switch action {
             case .starEpisode:
@@ -114,8 +112,6 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         let fromName = sourceIndexPath.section == 0 ? "shelf" : "overflow_menu"
         let toName = destinationIndexPath.section == 0 ? "shelf" : "overflow_menu"
-
-        Analytics.track(.playerShelfOverflowMenuRearrangeActionMoved, properties: ["action": action.analyticsDescription, "moved_from": fromName, "moved_to": toName, "position": destinationIndexPath.row])
 
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == ShelfActionsViewController.shortcutSection, sourceIndexPath.section != ShelfActionsViewController.shortcutSection {

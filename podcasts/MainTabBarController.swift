@@ -28,9 +28,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         viewControllers = [podcastsController, filtersViewController, discoverViewController, profileViewController].map { SJUIUtils.navController(for: $0) }
         selectedIndex = UserDefaults.standard.integer(forKey: Constants.UserDefaults.lastTabOpened)
 
-        // Track the initial tab opened event
-        trackTabOpened(tabs[selectedIndex], isInitial: true)
-
         NavigationManager.sharedManager.mainViewControllerDidLoad(controller: self)
         setupMiniPlayer()
         updateTabBarColor()
@@ -87,12 +84,6 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         if tabIndex == selectedIndex, let navController = selectedViewController as? UINavigationController, navController.visibleViewController == navController.viewControllers.first {
             // the user has tapped on a tab they are already at the root of, so trigger an action so we can handle this
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.tappedOnSelectedTab, object: tabIndex)
-        }
-
-        if tabIndex != selectedIndex {
-            let tab = tabs[tabIndex]
-            trackTabOpened(tab)
-            AnalyticsHelper.tabSelected(tab: tab)
         }
 
         UserDefaults.standard.set(tabIndex, forKey: Constants.UserDefaults.lastTabOpened)
@@ -162,7 +153,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
             // I know it looks dodgy, but the episode card won't load properly if you just dismissed another view controller. Need to figure out the actual bug...but for now:
             // (before you ask, using the completion block doesn't work above, regardless of whether animated is true or false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5.seconds) {
-                let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid, source: .homeScreenWidget)
+                let episodeController = EpisodeDetailViewController(episodeUuid: episodeUuid)
                 episodeController.modalPresentationStyle = .formSheet
 
                 navController.present(episodeController, animated: true)
@@ -444,29 +435,5 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         let timeToSubscriptionExpiry = SubscriptionHelper.timeToSubscriptionExpiry() ?? 0
         if giftDays > 0, !promoFinishedAcknowledged, timeToSubscriptionExpiry < 0 { NavigationManager.sharedManager.navigateTo(NavigationManager.showPromotionFinishedPageKey, data: nil)
         }
-    }
-}
-
-// MARK: - Analytics
-
-private extension MainTabBarController {
-    /// Tracks when a tab is switched to.
-    /// - Parameters:
-    ///   - tab: Which tab we're switching to
-    ///   - isInitial: Whether this is the tab that is being loaded on first launch
-    func trackTabOpened(_ tab: Tab, isInitial: Bool = false) {
-        let event: AnalyticsEvent
-        switch tab {
-        case .podcasts:
-            event = .podcastsTabOpened
-        case .filter:
-            event = .filtersTabOpened
-        case .discover:
-            event = .discoverTabOpened
-        case .profile:
-            event = .profileTabOpened
-        }
-
-        Analytics.track(event, properties: ["initial": isInitial])
     }
 }

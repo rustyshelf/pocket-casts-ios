@@ -130,8 +130,6 @@ class PlusDetailsViewController: PCViewController {
         title = L10n.pocketCastsPlus
         loadPrices()
         handleThemeChanged()
-
-        Analytics.track(.settingsPlusShown)
     }
 
     override func viewDidLayoutSubviews() {
@@ -152,13 +150,10 @@ class PlusDetailsViewController: PCViewController {
             profileIntroViewController.upgradeRootViewController = self
             present(SJUIUtils.popupNavController(for: profileIntroViewController), animated: true)
         }
-
-        Analytics.track(.settingsPlusUpgradeButtonTapped)
     }
 
     @IBAction func learnMoreTapped(_ sender: Any) {
         NavigationManager.sharedManager.navigateTo(NavigationManager.showPlusMarketingPageKey, data: nil)
-        Analytics.track(.settingsPlusLearnMoreTapped)
     }
 
     @objc private func iapProductsUpdated() {

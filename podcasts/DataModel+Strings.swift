@@ -1,7 +1,7 @@
 import Foundation
 import PocketCastsDataModel
 
-extension UploadedSort: AnalyticsDescribable {
+extension UploadedSort {
     var description: String {
         switch self {
         case .newestToOldest:
@@ -10,17 +10,6 @@ extension UploadedSort: AnalyticsDescribable {
             return L10n.podcastsEpisodeSortOldestToNewest
         case .titleAtoZ:
             return L10n.uploadSortAlpha
-        }
-    }
-
-    var analyticsDescription: String {
-        switch self {
-        case .newestToOldest:
-            return "newest_to_oldest"
-        case .oldestToNewest:
-            return "oldest_to_newest"
-        case .titleAtoZ:
-            return "title_a_to_z"
         }
     }
 }

@@ -51,7 +51,7 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
         return item
     }()
 
-    private lazy var upNextViewController = UpNextViewController(source: .player)
+    private lazy var upNextViewController = UpNextViewController()
 
     @IBOutlet var closeBtn: ThemeableUIButton! {
         didSet {
@@ -78,12 +78,10 @@ class PlayerContainerViewController: SimpleNotificationsViewController, PlayerTa
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Analytics.track(.playerShown)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        Analytics.track(.playerDismissed)
     }
 
     override func viewDidLayoutSubviews() {
