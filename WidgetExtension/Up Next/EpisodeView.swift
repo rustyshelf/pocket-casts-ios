@@ -45,10 +45,6 @@ struct EpisodeView: View {
 
     @ViewBuilder
     static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
-        if #available(iOS 15, *) {
-            CompactWhenNecessaryEpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
-        } else {
-            EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
-        }
+        CompactWhenNecessaryEpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
     }
 }

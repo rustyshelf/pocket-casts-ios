@@ -44,8 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ServerConfig.shared.playbackDelegate = PlaybackManager.shared
         checkDefaults()
 
-        NotificationsHelper.shared.handleAppLaunch()
-
         DispatchQueue.global().async { [weak self] in
             self?.postLaunchSetup()
             self?.checkIfRestoreCleanupRequired()
@@ -54,16 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         badgeHelper.setup()
-        WatchManager.shared.setup()
-        SiriShortcutsManager.shared.setup()
         shortcutManager.listenForShortcutChanges()
 
         setupBackgroundRefresh()
-
-        // Request the IAP products on launch
-        if SubscriptionHelper.hasActiveSubscription() == false {
-            IapHelper.shared.requestProductInfo()
-        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)

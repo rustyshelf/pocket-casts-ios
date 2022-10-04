@@ -8,7 +8,7 @@ class PodcastSettingsViewController: PCViewController {
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case autoDownload, notifications, upNext, globalUpNext, upNextPosition, playbackEffects, skipFirst, skipLast, autoArchive, inFilters, siriShortcut, unsubscribe, feedError }
+    enum TableRow { case autoDownload, upNext, globalUpNext, upNextPosition, playbackEffects, skipFirst, skipLast, autoArchive, inFilters, unsubscribe, feedError }
 
     var existingShortcut: Any?
 
@@ -31,7 +31,6 @@ class PodcastSettingsViewController: PCViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateExistingSortcutData()
         title = L10n.settingsTitle
 
         NotificationCenter.default.addObserver(self, selector: #selector(podcastUpdated(_:)), name: Constants.Notifications.podcastUpdated, object: nil)
@@ -75,15 +74,6 @@ class PodcastSettingsViewController: PCViewController {
     private func updateColors() {
         changeNavTint(titleColor: nil, iconsColor: podcast.navIconTintColor(), backgroundColor: podcast.navigationBarTintColor())
         settingsTable.reloadData()
-    }
-
-    func updateExistingSortcutData() {
-        SiriShortcutsManager.shared.voiceShortcutForPodcast(podcast: podcast, completion: { voiceShortcut in
-            self.existingShortcut = voiceShortcut
-            DispatchQueue.main.async {
-                self.settingsTable.reloadData()
-            }
-        })
     }
 
     func unsubscribe() {

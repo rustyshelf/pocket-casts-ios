@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,35 +20,6 @@
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tHF-7Q-e0O" userLabel="Main Stack View">
                         <rect key="frame" x="8" y="8" width="149.5" height="64"/>
                         <subviews>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FSw-Tp-zBU">
-                                <rect key="frame" x="-44" y="10" width="44" height="44"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QzO-FO-Lyh">
-                                        <rect key="frame" x="6" y="10" width="24" height="24"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="VlO-Gc-bQo"/>
-                                            <constraint firstAttribute="width" constant="24" id="fVS-Sz-DML"/>
-                                        </constraints>
-                                    </view>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discover_tick" translatesAutoresizingMaskIntoConstraints="NO" id="Vkv-Sa-jtK">
-                                        <rect key="frame" x="6" y="10" width="24" height="24"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="Ft3-b5-Weq"/>
-                                            <constraint firstAttribute="height" constant="24" id="tc8-7a-WuN"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="Vkv-Sa-jtK" firstAttribute="centerY" secondItem="FSw-Tp-zBU" secondAttribute="centerY" id="2jp-un-Ews"/>
-                                    <constraint firstItem="QzO-FO-Lyh" firstAttribute="centerY" secondItem="FSw-Tp-zBU" secondAttribute="centerY" id="Jj4-0u-42U"/>
-                                    <constraint firstAttribute="centerX" secondItem="Vkv-Sa-jtK" secondAttribute="centerX" constant="4" id="fE2-sz-bhZ"/>
-                                    <constraint firstAttribute="height" constant="44" id="kHX-mI-TuQ"/>
-                                    <constraint firstAttribute="centerX" secondItem="QzO-FO-Lyh" secondAttribute="centerX" constant="4" id="x4Q-R4-r7Z"/>
-                                    <constraint firstAttribute="width" constant="44" id="xW4-12-KIs"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Dk-ll-xfy" customClass="PodcastImageView" customModule="podcasts" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="4" width="56" height="56"/>
                                 <constraints>
@@ -201,11 +172,6 @@
                 <outlet property="episodeTitle" destination="eos-tq-mJC" id="0fF-tt-TOt"/>
                 <outlet property="informationLabel" destination="CYh-rx-5sN" id="LrF-XU-IJw"/>
                 <outlet property="leadingSpacerWidth" destination="4Va-SE-YO4" id="Mc0-bs-r8Q"/>
-                <outlet property="selectCircleHorizontalOffset" destination="x4Q-R4-r7Z" id="4Cn-x9-hUE"/>
-                <outlet property="selectCircleView" destination="QzO-FO-Lyh" id="Idq-Q4-brf"/>
-                <outlet property="selectTickHorizontalOffset" destination="fE2-sz-bhZ" id="9RM-rV-h6G"/>
-                <outlet property="selectTickImageView" destination="Vkv-Sa-jtK" id="bOp-3f-k7H"/>
-                <outlet property="selectView" destination="FSw-Tp-zBU" id="qHe-4f-6Su"/>
                 <outlet property="starIndicator" destination="SrU-JK-7GU" id="Vrd-Uj-Z5y"/>
                 <outlet property="statusIndicator" destination="G7K-3G-zGx" id="GTY-Vg-ZvD"/>
                 <outlet property="upNextIndicator" destination="bvr-nR-R0Y" id="XoS-tL-H6a"/>
@@ -218,7 +184,6 @@
     </objects>
     <resources>
         <image name="cloud-gold" width="16" height="16"/>
-        <image name="discover_tick" width="24" height="24"/>
         <image name="list_downloaded" width="16" height="16"/>
         <image name="list_starred" width="16" height="16"/>
         <image name="list_upnext" width="16" height="16"/>

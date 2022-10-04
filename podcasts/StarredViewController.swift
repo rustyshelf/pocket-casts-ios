@@ -11,7 +11,6 @@ class StarredViewController: PCViewController {
             starredTable.estimatedRowHeight = 80
             starredTable.rowHeight = UITableView.automaticDimension
             starredTable.allowsMultipleSelectionDuringEditing = true
-            registerLongPress()
         }
     }
 
@@ -39,46 +38,6 @@ class StarredViewController: PCViewController {
     var episodes = [ListEpisode]()
     private let refreshQueue = OperationQueue()
     var cellHeights: [IndexPath: CGFloat] = [:]
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupNavBar()
-                self.starredTable.beginUpdates()
-                self.starredTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.starredTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
-                self.starredTable.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.starredTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    self.selectedEpisodes.removeAll()
-                }
-            }
-        }
-    }
-
-    var multiSelectGestureInProgress = false
-    var longPressMultiSelectIndexPath: IndexPath?
-    @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
-        didSet {
-            multiSelectFooter.delegate = self
-        }
-    }
-
-    @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-
-    var selectedEpisodes = [ListEpisode]() {
-        didSet {
-            multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
-            updateSelectAllBtn()
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,10 +129,7 @@ class StarredViewController: PCViewController {
     }
 
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.select
-
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 }

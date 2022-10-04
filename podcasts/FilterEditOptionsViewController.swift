@@ -18,7 +18,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     private let disclosureCellId = "DisclosureCell"
     private let buttonCellId = "ButtonCell"
     private let settingsCellId = "SettingsCell"
-    private enum TableRow: Int { case filterName, color, icon, autodownload, autoDownloadLimit, siriShortcut }
+    private enum TableRow: Int { case filterName, color, icon, autodownload, autoDownloadLimit }
     private static let tableDataAutoDownloadDisabled: [[TableRow]] = [[.filterName], [.color, .icon], [.autodownload]]
     private static let tableDataAutoDownloadEnabled: [[TableRow]] = [[.filterName], [.color, .icon], [.autodownload, .autoDownloadLimit]]
     private var filterNameTextField: UITextField!
@@ -48,8 +48,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
         tableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: buttonCellId)
         tableView.register(UINib(nibName: "TopLevelSettingsCell", bundle: nil), forCellReuseIdentifier: settingsCellId)
         NotificationCenter.default.addObserver(self, selector: #selector(colorChanged), name: Constants.Notifications.playlistTempChange, object: nil)
-
-        updateExistingSortcutData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -130,12 +128,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             cell.cellSecondaryLabel.text = L10n.episodeCountPluralFormat(filterToEdit.maxAutoDownloadEpisodes().localized())
 
             return cell
-        case .siriShortcut:
-            let cell = tableView.dequeueReusableCell(withIdentifier: settingsCellId) as! TopLevelSettingsCell
-            cell.settingsLabel.text = L10n.settingsSiriShortcuts
-            cell.settingsImage.image = UIImage(named: "settings_shortcuts")
-            cell.settingsImage.tintColor = filterToEdit.playlistColor()
-            return cell
         }
     }
 
@@ -156,11 +148,6 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             addAutoLimitOption(optionPicker: options, limit: 100, currentLimit: currentLimit)
 
             options.show(statusBarStyle: preferredStatusBarStyle)
-        case .siriShortcut:
-            isViewingShortcuts = true
-            let singleFilterVC = FilterShortcutsViewController(filter: filterToEdit)
-            navigationController?.pushViewController(singleFilterVC, animated: true)
-            tableView.deselectRow(at: indexPath, animated: false)
         default:
             tableView.deselectRow(at: indexPath, animated: false)
             return
@@ -222,11 +209,7 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
     // MARK: - Table Data
 
     private func tableData() -> [[FilterEditOptionsViewController.TableRow]] {
-        var data = filterToEdit.autoDownloadEpisodes ? FilterEditOptionsViewController.tableDataAutoDownloadEnabled : FilterEditOptionsViewController.tableDataAutoDownloadDisabled
-
-        data.append([.siriShortcut])
-
-        return data
+        filterToEdit.autoDownloadEpisodes ? FilterEditOptionsViewController.tableDataAutoDownloadEnabled : FilterEditOptionsViewController.tableDataAutoDownloadDisabled
     }
 
     // MARK: - Private Helper Methods
@@ -238,14 +221,5 @@ class FilterEditOptionsViewController: PCViewController, UITableViewDelegate, UI
             self?.tableView.reloadData()
         }
         optionPicker.addAction(action: action)
-    }
-
-    private func updateExistingSortcutData() {
-        SiriShortcutsManager.shared.voiceShortcutForFilter(filter: filterToEdit, completion: { voiceShortcut in
-            self.existingShortcut = voiceShortcut
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        })
     }
 }

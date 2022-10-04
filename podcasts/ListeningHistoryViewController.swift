@@ -11,53 +11,9 @@ class ListeningHistoryViewController: PCViewController {
     @IBOutlet var listeningHistoryTable: UITableView! {
         didSet {
             registerCells()
-            listeningHistoryTable.updateContentInset(multiSelectEnabled: false)
+            listeningHistoryTable.updateContentInset()
             listeningHistoryTable.estimatedRowHeight = 80
             listeningHistoryTable.rowHeight = UITableView.automaticDimension
-            listeningHistoryTable.allowsMultipleSelection = true
-            listeningHistoryTable.allowsMultipleSelectionDuringEditing = true
-            registerLongPress()
-        }
-    }
-
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupNavBar()
-                self.listeningHistoryTable.beginUpdates()
-                self.listeningHistoryTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.listeningHistoryTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
-                self.listeningHistoryTable.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.listeningHistoryTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    self.selectedEpisodes.removeAll()
-                }
-            }
-        }
-    }
-
-    var multiSelectGestureInProgress = false
-    var longPressMultiSelectIndexPath: IndexPath?
-    @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
-        didSet {
-            multiSelectFooter.delegate = self
-        }
-    }
-
-    @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-
-    var selectedEpisodes = [ListEpisode]() {
-        didSet {
-            multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
-            updateSelectAllBtn()
         }
     }
 
@@ -145,20 +101,15 @@ class ListeningHistoryViewController: PCViewController {
     }
 
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilityMoreActions
+        super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        super.customRightBtn?.accessibilityLabel = L10n.accessibilityMoreActions
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
-
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            self?.isMultiSelectEnabled = true
-        }
-        optionsPicker.addAction(action: MultiSelectAction)
 
         let clearAction = OptionAction(label: L10n.historyClearAllDetails, icon: "option-cleanup") { [weak self] in
             self?.clearTapped()

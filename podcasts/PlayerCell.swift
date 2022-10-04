@@ -1,8 +1,7 @@
 import PocketCastsDataModel
-import SwipeCellKit
 import UIKit
 
-class PlayerCell: SwipeTableViewCell {
+class PlayerCell: UITableViewCell {
     var themeOverride: Theme.ThemeType? {
         didSet {
             updateColor()
@@ -223,7 +222,7 @@ class PlayerCell: SwipeTableViewCell {
         if animate {
             if show {
                 selectView.layer.borderWidth = 2
-                hideSwipe(animated: true)
+//                hideSwipe(animated: true)
             }
             contentView.layoutIfNeeded()
             UIView.animate(withDuration: Constants.Animation.defaultAnimationTime, animations: {

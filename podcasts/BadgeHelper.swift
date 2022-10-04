@@ -31,7 +31,7 @@ class BadgeHelper {
         let badgeValue = UserDefaults.standard.integer(forKey: Constants.UserDefaults.appBadge)
         guard let badgeSetting = AppBadge(rawValue: badgeValue) else { return }
 
-        let pushOn = NotificationsHelper.shared.pushEnabled()
+        let pushOn = false
 
         if badgeSetting == .off && !pushOn { return } // user has both the badge and push turned off, don't attempt to badge their app. Results in iOS 8 push message request popup
 

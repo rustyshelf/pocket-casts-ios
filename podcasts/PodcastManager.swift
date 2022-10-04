@@ -27,35 +27,6 @@ class PodcastManager: NSObject {
         return queue
     }()
 
-    // MARK: - Notifications
-
-    #if !os(watchOS)
-        func setNotificationsEnabled(podcast: Podcast, enabled: Bool) {
-            if enabled {
-                if !NotificationsHelper.shared.pushEnabled() {
-                    // this is the first podcast to enable push, to work around the fact that we defaulted that to on at the data layer, turn it off for every podcast
-                    // this means it just ends up being on for this one podcast, not all of them
-                    let podcasts = DataManager.sharedManager.allPodcasts(includeUnsubscribed: false)
-                    var foundPushOff = false
-                    for podcast in podcasts {
-                        if !podcast.pushEnabled {
-                            foundPushOff = true
-                            break
-                        }
-                    }
-
-                    if !foundPushOff {
-                        DataManager.sharedManager.setPushForAllPodcasts(pushEnabled: false)
-                    }
-
-                    NotificationsHelper.shared.enablePush()
-                }
-            }
-
-            DataManager.sharedManager.savePushSetting(podcast: podcast, pushEnabled: enabled)
-        }
-    #endif
-
     func allPodcastsSorted(in sortOrder: LibrarySort, reloadFromDatabase: Bool = false) -> [Podcast] {
         if sortOrder == .titleAtoZ {
             return DataManager.sharedManager.allPodcastsOrderedByTitle(reloadFromDatabase: reloadFromDatabase)

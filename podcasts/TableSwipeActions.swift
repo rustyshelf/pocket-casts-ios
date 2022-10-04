@@ -1,5 +1,4 @@
 import Foundation
-import SwipeCellKit
 
 class TableSwipeActions {
     private var actions = [TableSwipeAction]()
@@ -27,24 +26,6 @@ class TableSwipeActions {
         }
 
         return UISwipeActionsConfiguration(actions: swipeActions)
-    }
-
-    func swipeKitActions() -> [SwipeAction] {
-        var swipeActions = [SwipeAction]()
-        for tableAction in actions {
-            let style: SwipeActionStyle = tableAction.removesFromList ? .destructive : .default
-            let swipeAction = SwipeAction(style: style, title: nil) { _, indexPath in
-                _ = tableAction.handler(indexPath)
-            }
-            swipeAction.backgroundColor = tableAction.backgroundColor
-            if let image = tableAction.icon {
-                swipeAction.image = image
-            }
-            swipeAction.accessibilityLabel = tableAction.title
-            swipeActions.append(swipeAction)
-        }
-
-        return swipeActions
     }
 }
 

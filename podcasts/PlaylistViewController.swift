@@ -23,7 +23,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     @IBOutlet var tableView: UITableView! {
         didSet {
             registerCells()
-            registerLongPress()
             tableView.allowsMultipleSelectionDuringEditing = true
         }
     }
@@ -77,57 +76,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     private var titleView: TitleViewWithCollapseButton!
     private var isChipHidden = true
-    private var shouldShowChipsAfterMulitSelect = false
-
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-
-                self.setupNavBar()
-                self.tableView.beginUpdates()
-                self.tableView.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.tableView.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
-                self.tableView.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    self.shouldShowChipsAfterMulitSelect = !self.isChipHidden
-                    if !self.isChipHidden {
-                        self.hideFilterChips()
-                    }
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.tableView.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    if self.shouldShowChipsAfterMulitSelect {
-                        self.showFilterChips()
-                    }
-                    self.multiSelectFooter.isHidden = true
-                    self.selectedEpisodes.removeAll()
-                }
-            }
-        }
-    }
-
-    var multiSelectGestureInProgress = false
-    var longPressMultiSelectIndexPath: IndexPath?
-    var multiSelectActionInProgress = false
-    @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
-        didSet {
-            multiSelectFooter.delegate = self
-        }
-    }
-
-    @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-    var selectedEpisodes = [ListEpisode]() {
-        didSet {
-            multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
-            updateSelectAllBtn()
-        }
-    }
 
     var cellHeights: [IndexPath: CGFloat] = [:]
 
@@ -212,13 +160,13 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     func setupNavBar() {
-        navigationItem.titleView = isMultiSelectEnabled ? nil : titleView
-        title = isMultiSelectEnabled ? filter.playlistName : nil
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        navigationItem.titleView = titleView
+        title = nil
+        super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
+        super.customRightBtn?.accessibilityLabel = L10n.accessibilitySortAndOptions
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     // MARK: - Notification Updates
@@ -255,7 +203,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     // MARK: - UIScrollView
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isMultiSelectEnabled else { return }
         let selectedRefreshControl: PCRefreshControl?
         if scrollView == noEpisodesScrollView {
             selectedRefreshControl = noEpisodesRefreshControl
@@ -267,7 +214,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard !isMultiSelectEnabled else { return }
         let selectedRefreshControl: PCRefreshControl?
         if scrollView == noEpisodesScrollView {
             selectedRefreshControl = noEpisodesRefreshControl
@@ -280,24 +226,15 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
 
     @objc func miniPlayerStatusDidChange() {
         updateTableViewContentOffset()
-        if isMultiSelectEnabled {
-            multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-        }
     }
 
     private func updateTableViewContentOffset() {
-        let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
         let miniPlayerOffset: CGFloat = PlaybackManager.shared.currentEpisode() == nil ? 0 : Constants.Values.miniPlayerOffset
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: miniPlayerOffset, right: 0)
     }
 
     @objc func moreTapped() {
         let optionsPicker = OptionsPicker(title: nil)
-
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            self?.isMultiSelectEnabled = true
-        }
-        optionsPicker.addAction(action: MultiSelectAction)
 
         let currentSort = PlaylistSort(rawValue: filter.sortType)?.description ?? ""
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort, icon: "podcastlist_sort") {
@@ -413,8 +350,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     }
 
     @objc func navTitleTapped(shortPress: UITapGestureRecognizer) {
-        guard !isMultiSelectEnabled else { return }
-
         toggleFilterChipHideShow()
     }
 
@@ -474,7 +409,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
                 strongSelf.episodes = newData
                 strongSelf.tableView.reloadData()
             }
-            strongSelf.refreshMultiSelectEpisodes()
         }
 
         operationQueue.addOperation(refreshOperation)

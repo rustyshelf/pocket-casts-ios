@@ -1,40 +1,21 @@
 import Foundation
-import SwipeCellKit
 
-extension PodcastViewController: SwipeTableViewCellDelegate, SwipeHandler {
-    // MARK: - SwipeTableViewCellDelegate
-
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard !isMultiSelectEnabled, indexPath.section == PodcastViewController.allEpisodesSection, let episode = episodeAtIndexPath(indexPath) else { return nil }
-
-        switch orientation {
-        case .left:
-            let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        case .right:
-            let actions = SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        }
+extension PodcastViewController: SwipeHandler {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard indexPath.section == PodcastViewController.allEpisodesSection, let episode = episodeAtIndexPath(indexPath) else { return nil }
+        
+        let actions = SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
+        return actions.swipeActions()
     }
-
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-
-        switch orientation {
-        case .left:
-            options.expansionStyle = .selection
-        case .right:
-            options.expansionStyle = .destructive(automaticallyDelete: false)
-        }
-
-        return options
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard indexPath.section == PodcastViewController.allEpisodesSection, let episode = episodeAtIndexPath(indexPath) else { return nil }
+        
+        let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
+        return actions.swipeActions()
     }
 
     // MARK: - SwipeActionsHandler
-
-    var swipeSource: String {
-        "podcast_details"
-    }
 
     func archivingRemovesFromList() -> Bool {
         !(podcast?.showArchived ?? false)

@@ -1,35 +1,21 @@
 import Foundation
-import SwipeCellKit
 
-extension ListeningHistoryViewController: SwipeTableViewCellDelegate, SwipeHandler {
-    // MARK: - SwipeTableViewCellDelegate
-
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard !isMultiSelectEnabled, let episode = episodes[safe: indexPath.section]?.elements[safe: indexPath.row]?.episode else { return nil }
-
-        switch orientation {
-        case .left:
-            let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        case .right:
-            let actions = SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
-            return actions.swipeKitActions()
-        }
+extension ListeningHistoryViewController: SwipeHandler {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let episode = episodes[safe: indexPath.section]?.elements[safe: indexPath.row]?.episode else { return nil }
+        
+        let actions = SwipeActionsHelper.createLeftActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
+        return actions.swipeActions()
     }
 
-    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        var options = SwipeOptions()
-        options.expansionStyle = .selection
-
-        return options
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let episode = episodes[safe: indexPath.section]?.elements[safe: indexPath.row]?.episode else { return nil }
+        
+        let actions = SwipeActionsHelper.createRightActionsForEpisode(episode, tableView: tableView, indexPath: indexPath, swipeHandler: self)
+        return actions.swipeActions()
     }
 
     // MARK: - SwipeActionsHandler
-
-    var swipeSource: String {
-        "listening_history"
-    }
-
     func archivingRemovesFromList() -> Bool {
         false
     }

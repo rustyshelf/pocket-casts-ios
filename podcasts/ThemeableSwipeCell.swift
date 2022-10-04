@@ -1,7 +1,6 @@
-import SwipeCellKit
 import UIKit
 
-class ThemeableSwipeCell: SwipeTableViewCell {
+class ThemeableSwipeCell: UITableViewCell {
     var style: ThemeStyle = .primaryUi02 {
         didSet {
             updateColor()
