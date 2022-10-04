@@ -1078,7 +1078,6 @@
 		BDD71CF91BA93A6D006D2CE3 /* PodcastGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD71CF71BA93A6D006D2CE3 /* PodcastGroupCell.xib */; };
 		BDD84CE327CC8EDE001C078B /* ChoosePodcastFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD84CE227CC8EDE001C078B /* ChoosePodcastFolderView.swift */; };
 		BDD84CE527CC9353001C078B /* ChoosePodcastFolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD84CE427CC9353001C078B /* ChoosePodcastFolderModel.swift */; };
-		BDD8AABF267C858D0013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AABE267C858D0013494D /* Fuse */; };
 		BDDA14D5219AF8D50066441E /* DiscoverViewController+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */; };
 		BDDA14D8219AFA1E0066441E /* SearchInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDA14D6219AFA1E0066441E /* SearchInfoCell.swift */; };
 		BDDA14D9219AFA1E0066441E /* SearchInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDDA14D7219AFA1E0066441E /* SearchInfoCell.xib */; };
@@ -2600,7 +2599,6 @@
 			files = (
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
-				BDD8AABF267C858D0013494D /* Fuse in Frameworks */,
 				BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
@@ -5293,7 +5291,6 @@
 				BD14A2F4252EBBD50028EE75 /* Agrume */,
 				BDBEE72C267C845E00BA43FB /* Lottie */,
 				BD44F74F267C850000810148 /* DifferenceKit */,
-				BDD8AABE267C858D0013494D /* Fuse */,
 				BDD239BC267C869B0047750C /* SwipeCellKit */,
 				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
 				8BE36DFF2873552500E35313 /* PocketCastsServer */,
@@ -5444,7 +5441,6 @@
 				BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */,
 				BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
-				BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				BDD239BB267C869B0047750C /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
 			);
 			productRefGroup = BDBD53ED17019B2A0048C8C5 /* Products */;
@@ -7835,14 +7831,6 @@
 				minimumVersion = 2.7.6;
 			};
 		};
-		BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/krisk/fuse-swift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -7897,11 +7885,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BDD239BB267C869B0047750C /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
 			productName = SwipeCellKit;
-		};
-		BDD8AABE267C858D0013494D /* Fuse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDD8AABD267C858D0013494D /* XCRemoteSwiftPackageReference "fuse-swift" */;
-			productName = Fuse;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
