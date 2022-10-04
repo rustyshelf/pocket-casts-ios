@@ -1,4 +1,3 @@
-import MaterialComponents.MaterialBottomSheet
 import PocketCastsDataModel
 import PocketCastsUtils
 import UIKit
@@ -23,8 +22,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
     var isMultiSelectEnabled = false {
         didSet {
-            let didChange = oldValue != isMultiSelectEnabled
-
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.updateNavBarButtons()

@@ -172,9 +172,9 @@ class EffectsViewController: SimpleNotificationsViewController {
         // if the trim silence view is hidden, allow enough space for it to appear
         if !PlaybackManager.shared.effects().trimSilence.isEnabled() {
             let additionalHeightRequired: CGFloat = view.bounds.width < 340 ? 100 : 50
-            preferredContentSize = CGSize(width: computedSize.width, height: computedSize.height + additionalHeightRequired)
+            preferredContentSize = CGSize(width: min(Constants.Values.maxWidthForPopups, view.frame.size.width), height: computedSize.height + additionalHeightRequired)
         } else {
-            preferredContentSize = computedSize
+            preferredContentSize = CGSize(width: min(Constants.Values.maxWidthForPopups, view.frame.size.width), height: computedSize.height)
         }
     }
 
