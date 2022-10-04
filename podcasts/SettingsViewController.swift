@@ -114,8 +114,9 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         case .autoDownload:
             navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)
         case .help:
-            let navController = SJUIUtils.navController(for: OnlineSupportController())
-            present(navController, animated: true, completion: nil)
+            if let url = URL(string: ServerConstants.Urls.support) {
+                UIApplication.shared.open(url)
+            }
         case .opml:
             navigationController?.pushViewController(ImportExportViewController(), animated: true)
         case .about:

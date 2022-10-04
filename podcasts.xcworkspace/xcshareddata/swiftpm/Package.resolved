@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "AutomatticTracksiOS",
-        "repositoryURL": "https://github.com/Automattic/Automattic-Tracks-iOS",
-        "state": {
-          "branch": null,
-          "revision": "8e672c40b33aaa214f05ffe80bfe9d4b1b4fab17",
-          "version": "0.13.0"
-        }
-      },
-      {
         "package": "DifferenceKit",
         "repositoryURL": "https://github.com/ra1028/DifferenceKit",
         "state": {
@@ -56,30 +47,12 @@
         }
       },
       {
-        "package": "Sentry",
-        "repositoryURL": "https://github.com/getsentry/sentry-cocoa",
-        "state": {
-          "branch": null,
-          "revision": "199000acd6a0a3f9c8e0bff03ef233f930993c71",
-          "version": "7.25.1"
-        }
-      },
-      {
         "package": "SwiftProtobuf",
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {
           "branch": null,
           "revision": "e1499bc69b9040b29184f7f2996f7bab467c1639",
           "version": "1.19.0"
-        }
-      },
-      {
-        "package": "Sodium",
-        "repositoryURL": "https://github.com/jedisct1/swift-sodium",
-        "state": {
-          "branch": null,
-          "revision": "4f9164a0a2c9a6a7ff53a2833d54a5c79c957342",
-          "version": "0.9.1"
         }
       },
       {
@@ -116,15 +89,6 @@
           "branch": null,
           "revision": "87afcecfb58dd017d6e835ec8e88e9eaa18095ba",
           "version": "0.1.1"
-        }
-      },
-      {
-        "package": "UIDeviceIdentifier",
-        "repositoryURL": "https://github.com/squarefrog/UIDeviceIdentifier",
-        "state": {
-          "branch": null,
-          "revision": "5815e06b9ab916af6e2729b637efcdced887d8b9",
-          "version": "2.1.0"
         }
       }
     ]
