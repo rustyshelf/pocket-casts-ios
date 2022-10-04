@@ -91,7 +91,7 @@ class ServerSyncManager: ServerSyncDelegate {
     // MARK: - Settings
 
     func isPushEnabled() -> Bool {
-        NotificationsHelper.shared.pushEnabled()
+        return false
     }
 
     func defaultPodcastGrouping() -> Int32 {

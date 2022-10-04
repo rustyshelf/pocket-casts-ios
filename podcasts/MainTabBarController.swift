@@ -366,11 +366,7 @@ class MainTabBarController: UITabBarController, NavigationProtocol {
         appearance.backgroundColor = AppTheme.tabBarBackgroundColor()
 
         tabBar.standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            tabBar.scrollEdgeAppearance = appearance
-        } else {
-            tabBar.barTintColor = AppTheme.tabBarBackgroundColor()
-        }
+        tabBar.scrollEdgeAppearance = appearance
         tabBar.unselectedItemTintColor = AppTheme.unselectedTabBarItemColor()
         tabBar.tintColor = AppTheme.tabBarItemTintColor()
     }

@@ -5,8 +5,7 @@ import UIKit
 class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     @IBOutlet var uploadsTable: ThemeableTable! {
         didSet {
-            uploadsTable.updateContentInset(multiSelectEnabled: false)
-            registerLongPress()
+            uploadsTable.updateContentInset()
             uploadsTable.allowsMultipleSelectionDuringEditing = true
         }
     }
@@ -49,49 +48,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     private var tableRefreshControl: UploadedRefreshControl?
     private var noEpisodeRefreshControl: UploadedRefreshControl?
     var userEpisodeDetailVC: UserEpisodeDetailViewController?
-
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupNavBar()
-                self.uploadsTable.beginUpdates()
-                self.uploadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.uploadsTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
-                self.uploadsTable.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    self.multiSelectActionBar.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectActionBarBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.uploadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    self.selectedEpisodes.removeAll()
-                }
-            }
-        }
-    }
-
-    var multiSelectGestureInProgress = false
-    var longPressMultiSelectIndexPath: IndexPath?
-    @IBOutlet var multiSelectActionBar: MultiSelectFooterView! {
-        didSet {
-            multiSelectActionBar.delegate = self
-            multiSelectActionBar.getActionsFunc = Settings.fileMultiSelectActions
-            multiSelectActionBar.setActionsFunc = Settings.updateFilesMultiSelectActions
-        }
-    }
-
-    @IBOutlet var multiSelectActionBarBottomConstraint: NSLayoutConstraint!
-
-    var selectedEpisodes = [UserEpisode]() {
-        didSet {
-            multiSelectActionBar.setSelectedCount(count: selectedEpisodes.count)
-            updateSelectAllBtn()
-        }
-    }
 
     // MARK: - View Methods
 
@@ -178,20 +134,15 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        super.customRightBtn?.accessibilityLabel = L10n.accessibilitySortAndOptions
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
-
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            self?.isMultiSelectEnabled = true
-        }
-        optionsPicker.addAction(action: MultiSelectAction)
 
         let currentSort = UploadedSort(rawValue: Settings.userEpisodeSortBy())
         let sortAction = OptionAction(label: L10n.sortBy, secondaryLabel: currentSort?.description ?? "", icon: "podcastlist_sort") {
@@ -344,6 +295,6 @@ class UploadedViewController: PCViewController, UserEpisodeDetailProtocol {
     }
 
     @objc private func updateContentOffsets() {
-        uploadsTable.updateContentInset(multiSelectEnabled: isMultiSelectEnabled)
+        uploadsTable.updateContentInset()
     }
 }

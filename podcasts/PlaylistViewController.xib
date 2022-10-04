@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlaylistViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="filterCollectionView" destination="dYS-Oc-2LG" id="4UL-WY-dMm"/>
-                <outlet property="multiSelectFooter" destination="NL4-Lj-Iuq" id="22A-Sa-NrM"/>
-                <outlet property="multiSelectFooterBottomConstraint" destination="cle-0f-RsX" id="1PZ-ab-fbx"/>
                 <outlet property="noEpisodesDescription" destination="VEn-Bq-qEY" id="kfX-87-YLE"/>
                 <outlet property="noEpisodesIcon" destination="UHN-nt-4dj" id="7Vz-IB-vfT"/>
                 <outlet property="noEpisodesScrollView" destination="DbX-25-MDy" id="a1D-lX-41N"/>
@@ -105,13 +102,6 @@
                         <outlet property="delegate" destination="-1" id="16"/>
                     </connections>
                 </tableView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NL4-Lj-Iuq" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="8" y="603" width="359" height="64"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="64" id="Sa1-Iy-Sxy"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QPN-Ce-xjH">
                     <rect key="frame" x="0.0" y="44" width="375" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -132,24 +122,16 @@
                 <constraint firstItem="QPN-Ce-xjH" firstAttribute="leading" secondItem="dYS-Oc-2LG" secondAttribute="leading" id="XgW-qG-Dxh"/>
                 <constraint firstAttribute="bottom" secondItem="DbX-25-MDy" secondAttribute="bottom" id="a1q-2s-Mof"/>
                 <constraint firstAttribute="bottom" secondItem="9" secondAttribute="bottom" id="cUu-dE-2s8"/>
-                <constraint firstItem="Pf3-hA-xcz" firstAttribute="bottom" secondItem="NL4-Lj-Iuq" secondAttribute="bottom" id="cle-0f-RsX"/>
                 <constraint firstItem="QPN-Ce-xjH" firstAttribute="top" secondItem="dYS-Oc-2LG" secondAttribute="bottom" id="cni-g1-lHD"/>
                 <constraint firstItem="QPN-Ce-xjH" firstAttribute="top" secondItem="1" secondAttribute="topMargin" id="gbZ-UU-H1d"/>
                 <constraint firstAttribute="trailing" secondItem="DbX-25-MDy" secondAttribute="trailing" id="jqW-b8-4zr"/>
-                <constraint firstAttribute="trailing" secondItem="NL4-Lj-Iuq" secondAttribute="trailing" constant="8" id="klQ-wa-wmZ"/>
                 <constraint firstItem="QPN-Ce-xjH" firstAttribute="trailing" secondItem="dYS-Oc-2LG" secondAttribute="trailing" id="noH-3c-Zjf"/>
                 <constraint firstItem="9" firstAttribute="top" secondItem="QPN-Ce-xjH" secondAttribute="bottom" id="qMc-TI-9ex"/>
                 <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" id="rRC-gZ-M66"/>
                 <constraint firstItem="DbX-25-MDy" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="s7l-HX-rNR"/>
-                <constraint firstItem="NL4-Lj-Iuq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="8" id="uM7-IK-2Dg"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <point key="canvasLocation" x="-284" y="9"/>
         </view>
     </objects>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

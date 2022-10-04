@@ -20,38 +20,10 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         return .dark
     }
 
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.updateNavBarButtons()
-                if !self.isMultiSelectEnabled {
-                    self.multiSelectActionBar.isHidden = true
-                    self.selectedPlayListEpisodes.removeAll()
-                }
-
-                self.upNextTable.reloadData()
-            }
-        }
-    }
-
     var changedViaSwipeToRemove = false
 
     let remainingLabel = ThemeableLabel()
     let clearQueueButton = UIButton(frame: CGRect(x: 0, y: 0, width: 93, height: 16))
-    var selectedPlayListEpisodes = [PlaylistEpisode]() {
-        didSet {
-            multiSelectActionBar.setSelectedCount(count: selectedPlayListEpisodes.count)
-            if selectedPlayListEpisodes.count == 0 {
-                upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            } else {
-                upNextTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-            }
-            updateNavBarButtons()
-        }
-    }
-
-    var multiSelectGestureInProgress = false
 
     @IBOutlet var upNextTable: ThemeableTable! {
         didSet {
@@ -60,31 +32,8 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
             upNextTable.register(UINib(nibName: "NothingUpNextCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.noUpNextCell)
             upNextTable.register(UINib(nibName: "UpNextNowPlayingCell", bundle: nil), forCellReuseIdentifier: UpNextViewController.nowPlayingCell)
             upNextTable.backgroundView = nil
-
-            upNextTable.isEditing = true
-            upNextTable.addGestureRecognizer(customLongPressGesture)
-            upNextTable.allowsMultipleSelectionDuringEditing = true
-            upNextTable.allowsMultipleSelection = true
         }
     }
-
-    @IBOutlet var multiSelectActionBar: MultiSelectFooterView! {
-        didSet {
-            multiSelectActionBar.delegate = self
-            multiSelectActionBar.getActionsFunc = Settings.upNextMultiSelectActions
-            multiSelectActionBar.setActionsFunc = Settings.updateUpNextMultiSelectActions
-            multiSelectActionBar.themeOverride = themeOverride
-        }
-    }
-
-    @IBOutlet var multiSelectActionBarBottomConstraint: NSLayoutConstraint!
-
-    lazy var customLongPressGesture: UILongPressGestureRecognizer = {
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tableLongPressed(_:)))
-        longPressRecognizer.delegate = self
-
-        return longPressRecognizer
-    }()
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -133,12 +82,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         upNextTable.reloadData()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        selectedPlayListEpisodes.removeAll()
-        isMultiSelectEnabled = false
-    }
-
     @objc func clearQueueTapped() {
         let queueCount = PlaybackManager.shared.queue.upNextCount()
 
@@ -155,9 +98,6 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
 
             clearOptions.show(statusBarStyle: preferredStatusBarStyle)
         }
-
-        selectedPlayListEpisodes.removeAll()
-        isMultiSelectEnabled = false
     }
 
     private func performClearAll() {
@@ -191,55 +131,20 @@ class UpNextViewController: UIViewController, UIGestureRecognizerDelegate {
         remainingLabel.text = L10n.queueTotalTimeRemaining(TimeFormatter.shared.multipleUnitFormattedShortTime(time: totalDuration))
     }
 
-    // MARK: - UIGestureRecongizerDelegate
-
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer != customLongPressGesture { return true }
-
-        let touchPoint = gestureRecognizer.location(in: upNextTable)
-        return touchPoint.x < (view.bounds.width - UpNextViewController.rearrangeWidth)
-    }
-
     // MARK: - Nav bar actions
 
     @objc func doneTapped() {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc func selectTapped() {
-        isMultiSelectEnabled = true
-    }
-
-    @objc func selectAllTapped() {
-        guard DataManager.sharedManager.allUpNextEpisodes().count > 1 else { return }
-        upNextTable.selectAllBelow(indexPath: IndexPath(row: 0, section: sections.upNextSection.rawValue))
-
-        updateNavBarButtons()
-    }
-
-    @objc func cancelTapped() {
-        isMultiSelectEnabled = false
-    }
-
-    @objc func deselectAllTapped() {
-        upNextTable.deselectAll()
-    }
-
     func updateNavBarButtons() {
-        if isMultiSelectEnabled {
-            if MultiSelectHelper.shouldSelectAll(onCount: selectedPlayListEpisodes.count, totalCount: PlaybackManager.shared.queue.upNextCount()) {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.selectAll, style: .plain, target: self, action: #selector(selectAllTapped))
-            } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.deselectAll, style: .plain, target: self, action: #selector(deselectAllTapped))
-            }
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped))
-        } else if !isMultiSelectEnabled, PlaybackManager.shared.queue.upNextCount() > 0 {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: L10n.select, style: .plain, target: self, action: #selector(selectTapped))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
-        } else {
-            navigationItem.rightBarButtonItem = nil
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
-        }
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: L10n.done, style: .plain, target: self, action: #selector(doneTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: upNextTable.isEditing ? L10n.done : "Reorder", style: .plain, target: self, action: #selector(toggleEdit))
+    }
+    
+    @objc private func toggleEdit() {
+        upNextTable.isEditing = !upNextTable.isEditing
+        updateNavBarButtons()
     }
 
     // MARK: - Orientation

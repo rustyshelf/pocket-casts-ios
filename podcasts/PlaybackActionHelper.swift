@@ -83,11 +83,5 @@ class PlaybackActionHelper {
                 PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
             }
         }
-
-        if let filterUuid = filterUuid {
-            SiriShortcutsManager.shared.donateFilterPlayed(filterUuid: filterUuid)
-        } else if let podcastUuid = podcastUuid {
-            SiriShortcutsManager.shared.donatePodcastPlayed(podcastUuid: podcastUuid)
-        }
     }
 }

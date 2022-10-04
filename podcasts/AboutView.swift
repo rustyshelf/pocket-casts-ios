@@ -46,14 +46,6 @@ struct AboutView: View {
                             }
                         }
                         Section {
-                            AboutRow(mainText: L10n.aboutRateUs) {
-                                openUrl(ServerConstants.Urls.appStoreReview)
-                            }
-                            AboutRow(mainText: L10n.aboutShareFriends) {
-                                openShareApp()
-                            }
-                        }
-                        Section {
                             AboutRow(mainText: L10n.aboutWebsite, secondaryText: L10n.websiteShort) {
                                 openUrl(ServerConstants.Urls.pocketcastsDotCom)
                             }
@@ -112,12 +104,6 @@ struct AboutView: View {
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 
-    private func openShareApp() {
-        guard let controller = UIApplication.shared.windows.first?.rootViewController?.presentedViewController else { return }
-
-        SharingHelper.shared.shareLinkToApp(fromController: controller)
-    }
-
     private func calculateLogoSize(geometry: GeometryProxy) -> CGFloat {
         let sizeToFit = geometry.size.width / CGFloat(AboutLogo.allCases.count) * 1.4
 
@@ -148,15 +134,9 @@ struct LogoView: View {
         ZStack {
             Circle()
                 .foregroundColor(logo.color)
-            if #available(iOS 15.0, *) {
-                Image(logo.logoName)
-                    .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
-                    .tint(logo.logoTint(onDark: theme.activeTheme.isDark)) // tint is only available from iOS 15 onwards
-            } else {
-                Image(logo.logoName)
-                    .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
-                    .accentColor(logo.logoTint(onDark: theme.activeTheme.isDark))
-            }
+            Image(logo.logoName)
+                .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
+                .tint(logo.logoTint(onDark: theme.activeTheme.isDark)) // tint is only available from iOS 15 onwards
         }
         .offset(x: -logoOffset * CGFloat(index), y: index % 2 == 0 ? -logoOffset : logoOffset)
         .frame(width: logoSize, height: logoSize)

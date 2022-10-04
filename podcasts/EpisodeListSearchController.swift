@@ -132,12 +132,6 @@ class EpisodeListSearchController: SimpleNotificationsViewController, UISearchBa
 
         let optionPicker = OptionsPicker(title: nil)
 
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.podcastDelegate?.enableMultiSelect()
-        }
-        optionPicker.addAction(action: MultiSelectAction)
-
         let currentSort = PodcastEpisodeSortOrder(rawValue: podcast.episodeSortOrder)?.description ?? ""
         let sortAction = OptionAction(label: L10n.sortEpisodes, secondaryLabel: currentSort, icon: "podcastlist_sort") { [weak self] in
             guard let strongSelf = self else { return }

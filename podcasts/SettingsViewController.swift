@@ -1,18 +1,15 @@
 import PocketCastsServer
 import SwiftUI
 import UIKit
-import WatchConnectivity
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, notifications, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, siriShortcuts, watch, customFiles, help, opml, about, pocketCastsPlus, privacy
+        case general, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, customFiles, help, opml, about, pocketCastsPlus
 
         var display: (text: String, image: UIImage?) {
             switch self {
             case .general:
                 return (L10n.settingsGeneral, UIImage(named: "profile-settings"))
-            case .notifications:
-                return (L10n.settingsNotifications, UIImage(named: "settings_notifications"))
             case .appearance:
                 return (L10n.settingsAppearance, UIImage(named: "settings_appearance"))
             case .storageAndDataUse:
@@ -29,16 +26,10 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.settingsOpml, UIImage(named: "settings_importexport"))
             case .about:
                 return (L10n.settingsAbout, UIImage(named: "settings_about"))
-            case .siriShortcuts:
-                return (L10n.settingsSiriShortcuts, UIImage(named: "settings_shortcuts"))
             case .customFiles:
                 return (L10n.files, UIImage(named: "profile_files"))
-            case .watch:
-                return (L10n.appleWatch, UIImage(named: "settings_watch"))
             case .pocketCastsPlus:
                 return (L10n.pocketCastsPlus, UIImage(named: "plusGold24"))
-            case .privacy:
-                return (L10n.settingsPrivacy, UIImage(systemName: "lock.fill"))
             }
         }
     }
@@ -85,7 +76,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         cell.settingsImage.image = tableRow.display.image
 
         switch tableRow {
-        case .appearance, .customFiles, .watch:
+        case .appearance, .customFiles:
             cell.plusIndicator.isHidden = SubscriptionHelper.hasActiveSubscription()
         default:
             break
@@ -101,8 +92,6 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
         switch tableRow {
         case .general:
             navigationController?.pushViewController(GeneralSettingsViewController(), animated: true)
-        case .notifications:
-            navigationController?.pushViewController(NotificationsViewController(), animated: true)
         case .appearance:
             navigationController?.pushViewController(AppearanceViewController(), animated: true)
         case .storageAndDataUse:
@@ -126,16 +115,10 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             let hostingController = PCHostingController(rootView: aboutView)
 
             navigationController?.present(hostingController, animated: true, completion: nil)
-        case .siriShortcuts:
-            navigationController?.pushViewController(SiriSettingsViewController(), animated: true)
         case .customFiles:
             navigationController?.pushViewController(UploadedSettingsViewController(), animated: true)
-        case .watch:
-            navigationController?.pushViewController(WatchSettingsViewController(), animated: true)
         case .pocketCastsPlus:
             navigationController?.pushViewController(PlusDetailsViewController(), animated: true)
-        case .privacy:
-            navigationController?.pushViewController(PrivacySettingsViewController(), animated: true)
         }
     }
 
@@ -144,11 +127,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     }
 
     private func reloadTable() {
-        if WCSession.isSupported() {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .watch, .customFiles], [.help, .opml], [.privacy, .about]]
-        } else {
-            tableData = [[.general, .notifications, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .siriShortcuts, .customFiles], [.help, .opml], [.privacy, .about]]
-        }
+        tableData = [[.general, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .customFiles], [.help, .opml], [.about]]
 
         if !SubscriptionHelper.hasActiveSubscription() {
             tableData.insert([.pocketCastsPlus], at: 0)

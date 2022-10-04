@@ -49,51 +49,8 @@ class DownloadsViewController: PCViewController {
         didSet {
             downloadsTable.applyInsetForMiniPlayer()
             registerTableCells()
-            registerLongPress()
             downloadsTable.estimatedRowHeight = 80.0
             downloadsTable.rowHeight = UITableView.automaticDimension
-            downloadsTable.allowsMultipleSelectionDuringEditing = true
-        }
-    }
-
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.setupNavBar()
-                self.downloadsTable.beginUpdates()
-                self.downloadsTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                self.downloadsTable.updateContentInset(multiSelectEnabled: self.isMultiSelectEnabled)
-                self.downloadsTable.endUpdates()
-
-                if self.isMultiSelectEnabled {
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.downloadsTable.selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                } else {
-                    self.selectedEpisodes.removeAll()
-                }
-            }
-        }
-    }
-
-    var multiSelectGestureInProgress = false
-    var longPressMultiSelectIndexPath: IndexPath?
-    @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
-        didSet {
-            multiSelectFooter.delegate = self
-        }
-    }
-
-    @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-
-    var selectedEpisodes = [ListEpisode]() {
-        didSet {
-            multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
-            updateSelectAllBtn()
         }
     }
 
@@ -187,11 +144,11 @@ class DownloadsViewController: PCViewController {
     }
 
     func setupNavBar() {
-        super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
-        super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
+        super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
+        super.customRightBtn?.accessibilityLabel = L10n.accessibilitySortAndOptions
 
-        navigationItem.leftBarButtonItem = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.selectAll, style: .done, target: self, action: #selector(selectAllTapped)) : nil
-        navigationItem.backBarButtonItem = isMultiSelectEnabled ? nil : UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     @objc private func doneTapped() {
@@ -200,11 +157,6 @@ class DownloadsViewController: PCViewController {
 
     @objc private func menuTapped(_ sender: UIBarButtonItem) {
         let optionsPicker = OptionsPicker(title: nil)
-
-        let MultiSelectAction = OptionAction(label: L10n.selectEpisodes, icon: "option-multiselect") { [weak self] in
-            self?.isMultiSelectEnabled = true
-        }
-        optionsPicker.addAction(action: MultiSelectAction)
 
         let settingsAction = OptionAction(label: L10n.downloadsAutoDownload, icon: "podcast-settings") { [weak self] in
             self?.navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)

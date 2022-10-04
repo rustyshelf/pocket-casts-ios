@@ -14,8 +14,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     @IBOutlet var upNextIndicator: UIImageView!
 
     @IBOutlet var leadingSpacerWidth: NSLayoutConstraint!
-    @IBOutlet var selectTickHorizontalOffset: NSLayoutConstraint!
-    @IBOutlet var selectCircleHorizontalOffset: NSLayoutConstraint!
 
     @IBOutlet var downloadingIndicator: UIActivityIndicatorView! {
         didSet {
@@ -58,25 +56,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     @IBOutlet var contentStackView: UIStackView!
-
-    @IBOutlet var selectView: UIView!
-
-    @IBOutlet var selectTickImageView: UIImageView! {
-        didSet {
-            selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01()
-            selectTickImageView.tintColor = ThemeColor.primaryInteractive02()
-            selectTickImageView.layer.cornerRadius = 12
-        }
-    }
-
-    @IBOutlet var selectCircleView: UIView! {
-        didSet {
-            selectCircleView.layer.borderColor = ThemeColor.primaryIcon02().cgColor
-            selectCircleView.layer.borderWidth = 2
-            selectCircleView.layer.cornerRadius = 12
-        }
-    }
-
+    
     var hidesArtwork = false
 
     private var inUpNext = false
@@ -121,36 +101,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {}
-
-    var isMultiSelectEnabled = false
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(false, animated: animated)
-        isMultiSelectEnabled = editing
-
-        shouldShowSelect = editing
-        if editing {
-            hideSwipe(animated: true)
-        } else {
-            showTick = false
-        }
-        accessibilityLabel = labelForAccessibility(episode: episode)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        // Workaround for iOS issue. When a table transitions to editing mode
-        // it takes over hiding/showing views and sometimes the selectivew doesn't
-        // appear.
-        if selectView.isHidden == isMultiSelectEnabled {
-            selectView.isHidden = !isMultiSelectEnabled
-            setNeedsLayout()
-        }
-        if actionButton.isHidden == !isMultiSelectEnabled {
-            actionButton.isHidden = isMultiSelectEnabled
-            setNeedsLayout()
-        }
-    }
 
     // MARK: - Populate Method
 
@@ -203,12 +153,8 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
                     episodeImage.isHidden = true
                 }
                 leadingSpacerWidth.constant = 8
-                selectTickHorizontalOffset.constant = 0
-                selectCircleHorizontalOffset.constant = 0
             } else {
                 leadingSpacerWidth.constant = 12
-                selectTickHorizontalOffset.constant = 4
-                selectCircleHorizontalOffset.constant = 4
 
                 if let userEpisode = episode as? UserEpisode {
                     episodeImage.setUserEpisode(uuid: userEpisode.uuid, size: .list)
@@ -296,13 +242,7 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if let userEpisode = episode as? UserEpisode, userEpisode.uploaded() {
             desc.append(L10n.statusUploaded)
         }
-        if isMultiSelectEnabled {
-            if showTick {
-                desc.append(L10n.statusSelected)
-            } else {
-                desc.append(L10n.statusNotSelected)
-            }
-        }
+        
         return desc.joined(separator: ". ")
     }
 
@@ -443,10 +383,6 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         PlaybackActionHelper.overrideWaitingForWifi(episodeUuid: uuid, autoDownloadStatus: .autoDownloaded)
     }
 
-    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        false
-    }
-
     private func reloadEpisode() -> BaseEpisode? {
         if let episode = episode as? Episode {
             return DataManager.sharedManager.findEpisode(uuid: episode.uuid)
@@ -467,36 +403,10 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         uploadStatusIndicator.isHidden = true
         filterUuid = nil
         podcastUuid = nil
-        showTick = false
-        shouldShowSelect = false
-        actionButton.isHidden = false
-    }
-
-    // MARK: - Multi Select icons
-
-    var shouldShowSelect = false {
-        didSet {
-            selectView.isHidden = !shouldShowSelect
-            actionButton.isHidden = shouldShowSelect
-        }
-    }
-
-    var showTick = false {
-        didSet {
-            selectTickImageView.isHidden = !showTick
-            selectCircleView.layer.borderWidth = showTick ? 0 : 2
-            selectView.accessibilityLabel = showTick ? L10n.accessibilityDeselectEpisode : L10n.accessibilitySelectEpisode
-            accessibilityLabel = labelForAccessibility(episode: episode)
-            style = showTick ? .primaryUi02Selected : .primaryUi02
-            updateColor()
-        }
     }
 
     // Handle theme change
     override func handleThemeDidChange() {
-        selectCircleView.layer.borderColor = ThemeColor.primaryIcon02().cgColor
-        selectTickImageView.backgroundColor = ThemeColor.primaryInteractive01()
-        selectTickImageView.tintColor = ThemeColor.primaryInteractive02()
         starIndicator.image = UIImage(named: "list_starred")?.tintedImage(ThemeColor.support10())
     }
 }

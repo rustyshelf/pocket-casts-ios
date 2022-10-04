@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UploadedViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="howToBtn" destination="7dT-21-aat" id="0b6-ja-Wa5"/>
-                <outlet property="multiSelectActionBar" destination="DfE-NN-7GO" id="mus-W8-HN9"/>
-                <outlet property="multiSelectActionBarBottomConstraint" destination="2yC-TR-YWc" id="40h-VD-UpT"/>
                 <outlet property="noEpisodeDetailLabel" destination="OTU-d7-cLG" id="0Bq-TY-0xa"/>
                 <outlet property="noEpisodeTitleLabel" destination="37k-UA-Fud" id="BEE-0I-lp4"/>
                 <outlet property="noEpisodesScrollView" destination="4r2-ZR-bT3" id="jmQ-eB-kic"/>
@@ -102,24 +99,14 @@ Share them with Pocket Casts,  and they’ll appear here</string>
                         <outlet property="delegate" destination="-1" id="beF-Ns-N3F"/>
                     </connections>
                 </tableView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DfE-NN-7GO" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="8" y="603" width="359" height="64"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="64" id="gBe-fU-uPr"/>
-                    </constraints>
-                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="4r2-ZR-bT3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="1fO-nq-sgd"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="DfE-NN-7GO" secondAttribute="trailing" constant="8" id="2DT-Sr-hrO"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="DfE-NN-7GO" secondAttribute="bottom" id="2yC-TR-YWc"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="7oG-Qg-Hoi" secondAttribute="trailing" id="T3I-nC-csf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="7oG-Qg-Hoi" secondAttribute="top" id="UW4-AT-oMd"/>
                 <constraint firstItem="4r2-ZR-bT3" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="baJ-JZ-i7X"/>
-                <constraint firstItem="DfE-NN-7GO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="eeN-e4-Gf2"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="leading" secondItem="7oG-Qg-Hoi" secondAttribute="leading" id="tjy-D9-4Ln"/>
                 <constraint firstItem="4r2-ZR-bT3" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="wLu-6s-x4C"/>
                 <constraint firstAttribute="bottom" secondItem="7oG-Qg-Hoi" secondAttribute="bottom" id="ylQ-qw-V4p"/>
@@ -130,8 +117,5 @@ Share them with Pocket Casts,  and they’ll appear here</string>
     </objects>
     <resources>
         <image name="no-files-light" width="160" height="160"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

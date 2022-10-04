@@ -76,81 +76,34 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
         let playerCell = tableView.dequeueReusableCell(withIdentifier: UpNextViewController.playerCell, for: indexPath) as! PlayerCell
         playerCell.themeOverride = themeOverride
-        playerCell.shouldShowSelect(show: isMultiSelectEnabled, animate: false)
-        playerCell.delegate = self
 
         if let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) {
             playerCell.populateFrom(episode: episode)
-            playerCell.showTick = selectedEpisodesContains(uuid: episode.uuid)
         }
         return playerCell
     }
 
-    // MARK: - Selection
-
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        guard !multiSelectGestureInProgress, tableData()[indexPath.section] == .upNextSection else {
-            return indexPath
-        }
-
-        if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
-            if selectedEpisodesContains(uuid: episode.episodeUuid) {
-                tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
-                return nil
-            }
-            return indexPath
-        }
-        return nil
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isMultiSelectEnabled, tableData()[indexPath.section] == .upNextSection {
-            // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
-            if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1) {
-                if !multiSelectGestureInProgress {
-                    // If the episode is already selected move to the end of the array
-                    selectedEpisodesRemove(uuid: episode.episodeUuid)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let section = tableData()[indexPath.section]
+
+        if section == .nowPlayingSection {
+            dismiss(animated: true, completion: {
+                if let miniPlayer = UIApplication.shared.appDelegate()?.miniPlayer(), miniPlayer.playerOpenState == .closed {
+                    UIApplication.shared.appDelegate()?.miniPlayer()?.openFullScreenPlayer()
                 }
+            })
 
-                if !multiSelectGestureInProgress || multiSelectGestureInProgress, !selectedEpisodesContains(uuid: episode.episodeUuid) {
-                    selectedPlayListEpisodes.append(episode)
-                    // the cell below is optional because cellForRow only returns a cell if it's visible, and we don't need to tick cells that don't exist
-                    if let cell = upNextTable.cellForRow(at: indexPath) as? PlayerCell? {
-                        cell?.showTick = true
-                    }
-                }
-            }
-        } else {
-            tableView.deselectRow(at: indexPath, animated: true)
-            let section = tableData()[indexPath.section]
-
-            if section == .nowPlayingSection {
-                dismiss(animated: true, completion: {
-                    if let miniPlayer = UIApplication.shared.appDelegate()?.miniPlayer(), miniPlayer.playerOpenState == .closed {
-                        UIApplication.shared.appDelegate()?.miniPlayer()?.openFullScreenPlayer()
-                    }
-                })
-
-                return
-            }
-
-            guard let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
-
-            let playOnTap = Settings.playUpNextOnTap()
-            if playOnTap {
-                PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-            } else {
-                showEpisodeDetailViewController(for: episode)
-            }
+            return
         }
-    }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let episode = DataManager.sharedManager.playlistEpisodeAt(index: indexPath.row + 1), let index = selectedPlayListEpisodes.firstIndex(of: episode) {
-            selectedPlayListEpisodes.remove(at: index)
-            if let cell = upNextTable.cellForRow(at: indexPath) as? PlayerCell? {
-                cell?.showTick = false
-            }
+        guard let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
+
+        let playOnTap = Settings.playUpNextOnTap()
+        if playOnTap {
+            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
+        } else {
+            showEpisodeDetailViewController(for: episode)
         }
     }
 
@@ -213,23 +166,6 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
         return PlaybackManager.shared.queue.upNextCount() > 0 ? UpNextViewController.upNextRowHeight : UpNextViewController.noUpNextRowHeight
     }
 
-    // MARK: - Multiselect
-
-    func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        Settings.multiSelectGestureEnabled()
-    }
-
-    func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
-        if isMultiSelectEnabled == false {
-            isMultiSelectEnabled = true
-        }
-        multiSelectGestureInProgress = true
-    }
-
-    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
-        multiSelectGestureInProgress = false
-    }
-
     // MARK: - Helper Functions
 
     func tableData() -> [sections] {
@@ -248,19 +184,6 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     @objc func upNextChanged() {
         if changedViaSwipeToRemove { return }
 
-        if isMultiSelectEnabled {
-            let upNextUuids = DataManager.sharedManager.allUpNextPlaylistEpisodes().map(\.episodeUuid)
-            for (index, selectedEpisode) in selectedPlayListEpisodes.enumerated() {
-                if !upNextUuids.contains(selectedEpisode.episodeUuid), index > selectedPlayListEpisodes.count {
-                    selectedPlayListEpisodes.remove(at: index)
-                }
-            }
-
-            if let currentUuid = PlaybackManager.shared.currentEpisode()?.uuid {
-                selectedEpisodesRemove(uuid: currentUuid)
-            }
-        }
-
         // this method is sometimes called during a re-arrange animation. For whatever weird reason doing this as part of that operation causes the table to flash.
         // This is only when the Lottie animation in the the now playing cell is running, so before removing this call, test that case
         DispatchQueue.main.async {
@@ -271,21 +194,5 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
     @objc func appDidBecomeActive() {
         // there's a weird issue with the drag handle tints dissapearing on the app coming back from being backgrounded, so reload the table in that case
         upNextTable.reloadData()
-    }
-
-    @objc func tableLongPressed(_ sender: UILongPressGestureRecognizer) {
-        let touchPoint = sender.location(in: upNextTable)
-        guard let indexPath = upNextTable.indexPathForRow(at: touchPoint), tableData()[indexPath.section] == .upNextSection,
-              let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
-
-        if sender.state == .began {
-            if isMultiSelectEnabled {
-                showLongPressSelectOptions(indexPath: indexPath)
-            } else if !Settings.playUpNextOnTap() {
-                PlaybackActionHelper.play(episode: episode)
-            } else {
-                showEpisodeDetailViewController(for: episode)
-            }
-        }
     }
 }

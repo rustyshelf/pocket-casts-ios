@@ -32,11 +32,9 @@ protocol PodcastActionsDelegate: AnyObject {
     func downloadableEpisodeCount(items: [ListItem]?) -> Int
 
     func didActivateSearch()
-
-    func enableMultiSelect()
 }
 
-class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate, MultiSelectActionDelegate {
+class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, SyncSigninDelegate {
     var podcast: Podcast?
     var episodeInfo = [ArraySection<String, ListItem>]()
     var uuidsThatMatchSearch = [String]()
@@ -61,13 +59,9 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
     @IBOutlet var episodesTable: UITableView! {
         didSet {
             registerCells()
-            registerLongPress()
             episodesTable.rowHeight = UITableView.automaticDimension
             episodesTable.estimatedRowHeight = 80.0
-            episodesTable.allowsMultipleSelectionDuringEditing = true
-            if #available(iOS 15.0, *) {
-                episodesTable.sectionHeaderTopPadding = 0
-            }
+            episodesTable.sectionHeaderTopPadding = 0
         }
     }
 
@@ -84,70 +78,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         }
     }
 
-    var isMultiSelectEnabled = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-
-                self.episodesTable.beginUpdates()
-                self.episodesTable.setEditing(self.isMultiSelectEnabled, animated: true)
-                if self.episodesTable.numberOfSections > 0 {
-                    self.episodesTable.reloadSections([0], with: .none)
-                }
-                self.episodesTable.endUpdates()
-                if self.isMultiSelectEnabled {
-                    if self.selectedEpisodes.count == 0, self.longPressMultiSelectIndexPath == nil, !self.multiSelectGestureInProgress {
-                        self.tableView().scrollToRow(at: IndexPath(row: NSNotFound, section: PodcastViewController.allEpisodesSection), at: .top, animated: true)
-                    }
-                    self.multiSelectFooter.setSelectedCount(count: self.selectedEpisodes.count)
-                    if let selectedIndexPath = self.longPressMultiSelectIndexPath {
-                        self.tableView().selectIndexPath(selectedIndexPath)
-                        self.longPressMultiSelectIndexPath = nil
-                    }
-                    if let podcast = self.podcast {
-                        let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
-                        self.multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-                        self.multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-                        self.multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-                        self.updateSelectAllBtn()
-                        self.multiSelectFooterBottomConstraint.constant = PlaybackManager.shared.currentEpisode() == nil ? 16 : Constants.Values.miniPlayerOffset + 16
-                        self.multiSelectHeaderView.isHidden = false
-                        self.view.bringSubviewToFront(self.multiSelectHeaderView)
-                    }
-                } else {
-                    self.multiSelectHeaderView.isHidden = true
-                    self.selectedEpisodes.removeAll()
-                }
-                self.searchController?.isOverflowButtonEnabled = !self.isMultiSelectEnabled
-            }
-        }
-    }
-
-    var multiSelectGestureInProgress = false
-    var longPressMultiSelectIndexPath: IndexPath?
-    @IBOutlet var multiSelectFooter: MultiSelectFooterView! {
-        didSet {
-            multiSelectFooter.delegate = self
-        }
-    }
-
-    @IBOutlet var multiSelectFooterBottomConstraint: NSLayoutConstraint!
-
-    var selectedEpisodes = [ListEpisode]() {
-        didSet {
-            multiSelectFooter.setSelectedCount(count: selectedEpisodes.count)
-            updateSelectAllBtn()
-        }
-    }
-
-    @IBOutlet var multiSelectCancelBtn: UIButton! {
-        didSet {
-            multiSelectCancelBtn.setTitle(L10n.cancel, for: .normal)
-        }
-    }
-
-    @IBOutlet var multiSelectAllBtn: UIButton!
-    @IBOutlet var multiSelectHeaderView: ThemeableView!
     private let operationQueue = OperationQueue()
 
     static let headerSection = 0
@@ -270,8 +200,7 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
 
         guard let window = view.window else { return }
 
-        let multiSelectFooterOffset: CGFloat = isMultiSelectEnabled ? 80 : 0
-        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: Constants.Values.miniPlayerOffset + multiSelectFooterOffset, right: 0)
+        episodesTable.contentInset = UIEdgeInsets(top: navBarHeight(window: window), left: 0, bottom: Constants.Values.miniPlayerOffset, right: 0)
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -304,10 +233,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         if let podcast = podcast {
             let podcastBgColor = ColorManager.backgroundColorForPodcast(podcast)
             updateNavColors(bgColor: ThemeColor.podcastUi03(podcastColor: podcastBgColor), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01())
-
-            multiSelectHeaderView.backgroundColor = ThemeColor.podcastUi05(podcastColor: podcastBgColor)
-            multiSelectCancelBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
-            multiSelectAllBtn.setTitleColor(ThemeColor.contrast01(), for: .normal)
         } else {
             updateNavColors(bgColor: AppTheme.defaultPodcastBackgroundColor(), titleColor: UIColor.white, buttonColor: ThemeColor.contrast01())
         }
@@ -453,9 +378,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
                 self.episodesTable.reloadData()
             }
             self.searchController?.episodesDidReload()
-            if self.isMultiSelectEnabled {
-                self.updateSelectAllBtn()
-            }
         }
 
         operationQueue.addOperation(refreshOperation)
@@ -736,10 +658,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
             }
         }
         return count
-    }
-
-    func enableMultiSelect() {
-        isMultiSelectEnabled = true
     }
 
     private func showPodcastFolderMoveOptions(currentFolderUuid: String) {

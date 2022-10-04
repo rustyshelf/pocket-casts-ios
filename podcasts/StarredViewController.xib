@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StarredViewController" customModule="podcasts" customModuleProvider="target">
             <connections>
                 <outlet property="loadingIndicator" destination="McZ-bj-10f" id="q4Y-N3-Zmd"/>
-                <outlet property="multiSelectFooter" destination="Bza-mD-9MN" id="D1n-8b-Pv7"/>
-                <outlet property="multiSelectFooterBottomConstraint" destination="54K-lA-SC0" id="49E-Ca-yqk"/>
                 <outlet property="noEpisodesDescription" destination="W93-H6-Fou" id="zCB-ZO-3uj"/>
                 <outlet property="noEpisodesIcon" destination="LDn-E9-TQd" id="LLE-Fh-QYz"/>
                 <outlet property="noEpisodesTitle" destination="910-uU-m8w" id="v1N-nw-we6"/>
@@ -85,22 +82,12 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="McZ-bj-10f" customClass="ThemeLoadingIndicator" customModule="podcasts" customModuleProvider="target">
                     <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
                 </activityIndicatorView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bza-mD-9MN" customClass="MultiSelectFooterView" customModule="podcasts" customModuleProvider="target">
-                    <rect key="frame" x="8" y="602" width="359" height="65"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="65" id="0ST-Yg-2jG"/>
-                    </constraints>
-                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Bza-mD-9MN" secondAttribute="bottom" id="54K-lA-SC0"/>
-                <constraint firstItem="Bza-mD-9MN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="8Ng-YA-dDs"/>
                 <constraint firstItem="VQm-Vl-pZf" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="9Nd-zK-Do8"/>
                 <constraint firstItem="VQm-Vl-pZf" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="Eyq-tm-PKJ"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Bza-mD-9MN" secondAttribute="trailing" constant="8" id="FO4-o2-LLI"/>
                 <constraint firstItem="McZ-bj-10f" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="Lkn-dY-d1s"/>
                 <constraint firstItem="VFM-dG-gY7" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="TX8-FA-fG1"/>
                 <constraint firstItem="VFM-dG-gY7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="b5q-Tg-IUE"/>
@@ -115,8 +102,5 @@
     </objects>
     <resources>
         <image name="nodownloads" width="124" height="124"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

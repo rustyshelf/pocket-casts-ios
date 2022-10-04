@@ -29,6 +29,24 @@
         }
       },
       {
+        "package": "JLRoutes",
+        "repositoryURL": "https://github.com/joeldev/JLRoutes",
+        "state": {
+          "branch": null,
+          "revision": "d9f74895e37e0a33a40d39637ede75de3a2d6b66",
+          "version": "2.1.1"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
+        "state": {
+          "branch": null,
+          "revision": "be1a1acb283a702b99b630f586877ba02234b4cb",
+          "version": "7.3.2"
+        }
+      },
+      {
         "package": "Lottie",
         "repositoryURL": "https://github.com/airbnb/lottie-ios.git",
         "state": {
@@ -62,15 +80,6 @@
           "branch": null,
           "revision": "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
           "version": "5.0.1"
-        }
-      },
-      {
-        "package": "SwipeCellKit",
-        "repositoryURL": "https://github.com/shiftyjelly/SwipeCellKit",
-        "state": {
-          "branch": null,
-          "revision": "3395be59bf5f60d55fb8298170ad0e3db3a99e18",
-          "version": "2.7.7"
         }
       }
     ]
