@@ -81,15 +81,6 @@
           "revision": "3395be59bf5f60d55fb8298170ad0e3db3a99e18",
           "version": "2.7.7"
         }
-      },
-      {
-        "package": "BuildkiteTestCollector",
-        "repositoryURL": "https://github.com/buildkite/test-collector-swift",
-        "state": {
-          "branch": null,
-          "revision": "87afcecfb58dd017d6e835ec8e88e9eaa18095ba",
-          "version": "0.1.1"
-        }
       }
     ]
   },

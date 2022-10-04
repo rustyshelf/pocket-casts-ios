@@ -112,11 +112,6 @@ class SyncSigninViewController: PCViewController, UITextFieldDelegate {
     }
 
     deinit {
-        emailField?.removeTarget(self, action: #selector(emailFieldDidChange), for: UIControl.Event.editingChanged)
-        emailField?.delegate = nil
-
-        passwordField?.delegate = nil
-        passwordField?.removeTarget(self, action: #selector(passwordFieldDidChange), for: UIControl.Event.editingChanged)
         NotificationCenter.default.removeObserver(self)
     }
 

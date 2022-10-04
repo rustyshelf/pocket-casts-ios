@@ -147,9 +147,6 @@ class MultiSelectActionController: UIViewController, UITableViewDelegate, UITabl
         let action = orderedActions.remove(at: fromRow)
         orderedActions.insert(action, at: toRow)
 
-        let fromName = sourceIndexPath.section == 0 ? "shelf" : "overflow_menu"
-        let toName = destinationIndexPath.section == 0 ? "shelf" : "overflow_menu"
-
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == shortcutSection, sourceIndexPath.section != shortcutSection {
             DispatchQueue.main.async {

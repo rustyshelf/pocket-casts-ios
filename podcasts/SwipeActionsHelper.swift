@@ -94,11 +94,7 @@ enum SwipeActionsHelper {
     }
 
     private static func performAction(_ action: SwipeActions, handler: SwipeHandler, willBeRemoved: Bool) {
-        let source = handler.swipeSource
-
-        guard action != .delete else {
-            return
-        }
+        guard action != .delete else { return }
 
         handler.actionPerformed(willBeRemoved: willBeRemoved)
     }

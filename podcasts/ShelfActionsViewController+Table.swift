@@ -110,9 +110,6 @@ extension ShelfActionsViewController: UITableViewDelegate, UITableViewDataSource
 
         updateAvailableActions()
 
-        let fromName = sourceIndexPath.section == 0 ? "shelf" : "overflow_menu"
-        let toName = destinationIndexPath.section == 0 ? "shelf" : "overflow_menu"
-
         // if someone has moved something into the shortcut section, move the bottom item out. Done async so that this method can return first
         if destinationIndexPath.section == ShelfActionsViewController.shortcutSection, sourceIndexPath.section != ShelfActionsViewController.shortcutSection {
             DispatchQueue.main.async {

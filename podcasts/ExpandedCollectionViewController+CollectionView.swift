@@ -12,7 +12,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let thisPodcast = podcasts[indexPath.row]
             if let delegate = delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
-                cell.onSubscribe = { [weak self] in
+                cell.onSubscribe = {
                     delegate.subscribe(podcast: thisPodcast)
                 }
             }
@@ -22,7 +22,7 @@ extension ExpandedCollectionViewController: UICollectionViewDataSource, UICollec
             let thisPodcast = podcasts[indexPath.row]
             if let delegate = delegate {
                 cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
-                cell.onSubscribe = { [weak self] in
+                cell.onSubscribe = {
                     delegate.subscribe(podcast: thisPodcast)
                 }
             }

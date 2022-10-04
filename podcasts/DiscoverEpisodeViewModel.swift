@@ -88,8 +88,6 @@ class DiscoverEpisodeViewModel: ObservableObject {
         guard let episodeUuid = discoverEpisode?.uuid,
               let podcastUuid = discoverEpisode?.podcastUuid else { return }
 
-        let listId = discoverItem?.uuid ?? listId
-
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
             .sink { [unowned self] _ in
                 // We don't need the fetched podcast but we want to make sure the episode is available.
@@ -104,9 +102,7 @@ class DiscoverEpisodeViewModel: ObservableObject {
     }
 
     public func didSelectEpisode() {
-        guard let episode = discoverEpisode,
-              let podcastUuid = episode.podcastUuid,
-              let episodeUuid = episode.uuid else { return }
+        guard let episode = discoverEpisode, let podcastUuid = episode.podcastUuid else { return }
 
         DiscoverEpisodeViewModel.loadPodcast(podcastUuid)
             .receive(on: RunLoop.main)

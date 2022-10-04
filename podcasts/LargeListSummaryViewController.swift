@@ -77,7 +77,7 @@ class LargeListSummaryViewController: DiscoverPeekViewController, DiscoverSummar
         let thisPodcast = podcasts[indexPath.row]
         if let delegate = delegate {
             cell.populateFrom(thisPodcast, isSubscribed: delegate.isSubscribed(podcast: thisPodcast))
-            cell.onSubscribe = { [weak self] in
+            cell.onSubscribe = {
                 delegate.subscribe(podcast: thisPodcast)
             }
         }
