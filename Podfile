@@ -16,11 +16,6 @@ target 'podcasts' do
   common_pods
 end
 
-target 'PocketCastsTests' do
-  platform :ios, app_ios_deployment_target.version
-  common_pods
-end
-
 target 'Pocket Casts Watch App Extension' do
   platform :watchos, '6.0'
   pod 'Kingfisher'
