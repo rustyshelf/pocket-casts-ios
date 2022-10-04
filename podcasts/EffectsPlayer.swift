@@ -262,10 +262,6 @@ class EffectsPlayer: PlaybackProtocol, Hashable {
         true
     }
 
-    func supportsGoogleCast() -> Bool {
-        false
-    }
-
     func supportsStreaming() -> Bool {
         false
     }

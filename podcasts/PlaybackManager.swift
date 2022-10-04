@@ -745,7 +745,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     func silenceRemovalAvailable() -> Bool {
         #if !os(watchOS)
             if let episode = currentEpisode() {
-                return !episode.videoPodcast() && !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+                return !episode.videoPodcast()
             }
         #endif
 
@@ -756,7 +756,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         #if os(watchOS)
             return false
         #else
-            return !GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
+            return true
         #endif
     }
 
@@ -1031,10 +1031,7 @@ class PlaybackManager: ServerPlaybackDelegate {
             FileLog.shared.addMessage("Using DefaultPlayer")
             player = DefaultPlayer()
         #else
-            if playersSupported.first == GoogleCastPlayer.self {
-                FileLog.shared.addMessage("Using GoogleCastPlayer")
-                player = GoogleCastPlayer()
-            } else if playersSupported.first == EffectsPlayer.self {
+            if playersSupported.first == EffectsPlayer.self {
                 FileLog.shared.addMessage("Using EffectsPlayer")
                 player = EffectsPlayer()
             } else {
@@ -1050,12 +1047,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let currEpisode = currentEpisode() else { return possiblePlayers }
 
         #if !os(watchOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-                possiblePlayers.append(GoogleCastPlayer.self)
-
-                return possiblePlayers // for Google Cast, only the Google Cast player is allowed
-            }
-
             if !playingOverAirplay(), !currEpisode.videoPodcast(), currEpisode.downloaded(pathFinder: DownloadManager.shared) || currEpisode.bufferedForStreaming() {
                 possiblePlayers.append(EffectsPlayer.self)
             }
@@ -1104,13 +1095,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     func activateAudioSession(completion: ((Bool) -> Void)?) {
-        #if !os(watchOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-                completion?(true)
-                return
-            }
-        #endif
-
         shouldDeactivateSession.value = false
         do {
             try setAudioSessionProperties()
@@ -1314,11 +1298,7 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - Now Playing Info
 
     @objc private func updateNowPlayingInfo() {
-        #if os(watchOS)
-            let connectedToExternalDevice = false
-        #else
-            let connectedToExternalDevice = GoogleCastManager.sharedManager.connectedOrConnectingToDevice()
-        #endif
+        let connectedToExternalDevice = false
 
         // When Google Casting in the background, control over the casting device is not available, so remove the controls
         guard let episode = currentEpisode(), !connectedToExternalDevice else {
@@ -1656,10 +1636,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     // MARK: - AVAudioSession Notifications
 
     @objc private func handleRouteChanged(_ notification: Notification) {
-        #if !os(watchOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
-        #endif
-
         guard let userInfo = notification.userInfo, let changeReason = userInfo[AVAudioSessionRouteChangeReasonKey] as? NSNumber else { return }
 
         let reason = changeReason.uintValue
@@ -1673,10 +1649,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func handleAudioInterruption(_ notification: Notification) {
-        #if !os(watchOS)
-            if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() { return } // while google casting we don't care about interruptions
-        #endif
-
         guard let userInfo = notification.userInfo else { return }
 
         let interruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as! NSNumber
@@ -1704,10 +1676,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     @objc private func handleSystemAudioReset(_ notification: Notification) {
-        #if !os(watchOS)
-            if GoogleCastManager.sharedManager.connected() { return } // while google casting we don't care about system audio events
-        #endif
-
         if currentEpisode() != nil {
             cleanupCurrentPlayer(permanent: false)
         }
@@ -1734,24 +1702,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             load(episode: episode, autoPlay: false, overrideUpNext: false)
             NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
         }
-    }
-
-    func remoteDeviceAutoConnected(_ episodeUuid: String) {
-        #if !os(watchOS)
-            if let _ = player as? GoogleCastPlayer {
-                return // we already have a Google Cast player, probably just a background resume rather than a restart
-            }
-
-            if let playingEpisode = currentEpisode(), playingEpisode.uuid != episodeUuid {
-                return // if we connected back up and a different episode is playing to what we are playing, don't switch
-            }
-
-            // if we get here then we're either not playing anything, or we're meant to be playing this episode anyway, so connect back up with it
-            if let episodePlaying = DataManager.sharedManager.findBaseEpisode(uuid: episodeUuid) {
-                let shouldPlay = GoogleCastManager.sharedManager.playing()
-                load(episode: episodePlaying, autoPlay: shouldPlay, overrideUpNext: false)
-            }
-        #endif
     }
 
     // MARK: - Background Handling

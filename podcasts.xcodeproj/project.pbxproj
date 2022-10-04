@@ -697,7 +697,6 @@
 		BD42E31B1B940AFF000EA14F /* DiscoverPodcastTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD42E3191B940AFF000EA14F /* DiscoverPodcastTableCell.xib */; };
 		BD43BDE72122AD0600E63165 /* skip_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BD43BDE52122AD0600E63165 /* skip_button.json */; };
 		BD43BEF825246CFF00ACBE11 /* CarPlayListHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */; };
-		BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */; };
 		BD44A4452302DAC6004F55B2 /* CommonUpNextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */; };
 		BD44E36D20937D9C008BD7F0 /* PodcastChapterParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */; };
 		BD44F750267C850000810148 /* DifferenceKit in Frameworks */ = {isa = PBXBuildFile; productRef = BD44F74F267C850000810148 /* DifferenceKit */; };
@@ -835,7 +834,6 @@
 		BD7BCF111F6A4F110006E008 /* SharingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7BCF101F6A4F110006E008 /* SharingHelper.swift */; };
 		BD7BCF131F6A4F920006E008 /* SharingItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7BCF121F6A4F920006E008 /* SharingItemProvider.swift */; };
 		BD7BCF151F6A5C510006E008 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7BCF141F6A5C510006E008 /* VideoPlayerView.swift */; };
-		BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C1FFC237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift */; };
 		BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7EA4DB1E52D4320014EAC5 /* PlayPauseButton.swift */; };
 		BD8032D32123EAD600BFBB03 /* EffectsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D22123EAD600BFBB03 /* EffectsButton.swift */; };
 		BD8032D52123F0AF00BFBB03 /* SleepTimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8032D42123F0AF00BFBB03 /* SleepTimerButton.swift */; };
@@ -902,12 +900,6 @@
 		BD95ED6B1BAFA532004335B0 /* CountryChooserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD95ED691BAFA532004335B0 /* CountryChooserViewController.xib */; };
 		BD95ED6E1BAFA571004335B0 /* CountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95ED6C1BAFA571004335B0 /* CountryCell.swift */; };
 		BD95ED6F1BAFA571004335B0 /* CountryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD95ED6D1BAFA571004335B0 /* CountryCell.xib */; };
-		BD9657582468FAA600873BB5 /* CastToViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9657562468FAA600873BB5 /* CastToViewController.swift */; };
-		BD9657592468FAA600873BB5 /* CastToViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD9657572468FAA600873BB5 /* CastToViewController.xib */; };
-		BD96575B2469047600873BB5 /* CastToViewController+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD96575A2469047600873BB5 /* CastToViewController+Table.swift */; };
-		BD96575E2469053600873BB5 /* GoogleCastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD96575C2469053600873BB5 /* GoogleCastCell.swift */; };
-		BD96575F2469053600873BB5 /* GoogleCastCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD96575D2469053600873BB5 /* GoogleCastCell.xib */; };
-		BD965761246906C900873BB5 /* CastDevicesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD965760246906C900873BB5 /* CastDevicesManager.swift */; };
 		BD96F4751CC9FEB900AB09B0 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD96F4731CC9FEB900AB09B0 /* ForgotPasswordViewController.swift */; };
 		BD96F4761CC9FEB900AB09B0 /* ForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD96F4741CC9FEB900AB09B0 /* ForgotPasswordViewController.xib */; };
 		BD980DA21F666A91008E381A /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD980DA11F666A91008E381A /* GridLayout.swift */; };
@@ -1002,7 +994,6 @@
 		BDA003091F7B318B00DCB4AE /* AppIcon76x76@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BDA002931F7B2C9900DCB4AE /* AppIcon76x76@2x~ipad.png */; };
 		BDA0030A1F7B318B00DCB4AE /* AppIcon76x76~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BDA002921F7B2C9900DCB4AE /* AppIcon76x76~ipad.png */; };
 		BDA0030B1F7B318B00DCB4AE /* AppIcon83.5x83.5@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BDA002B01F7B2C9C00DCB4AE /* AppIcon83.5x83.5@2x~ipad.png */; };
-		BDA028621C74466500476B28 /* GoogleCastPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA028611C74466500476B28 /* GoogleCastPlayer.swift */; };
 		BDA0E29F22DDB2DC0029EBEB /* ThemeableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E29E22DDB2DC0029EBEB /* ThemeableLabel.swift */; };
 		BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */; };
 		BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */; };
@@ -1093,7 +1084,6 @@
 		BDBEE72D267C845E00BA43FB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = BDBEE72C267C845E00BA43FB /* Lottie */; };
 		BDC063D1246A626E00208446 /* DownloadManager+SessionManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC063D0246A626E00208446 /* DownloadManager+SessionManagement.swift */; };
 		BDC063D2246A66B900208446 /* DownloadManager+SessionManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC063D0246A626E00208446 /* DownloadManager+SessionManagement.swift */; };
-		BDC14C5D24B2DED600E71889 /* CastDeviceVolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC14C5B24B2DED600E71889 /* CastDeviceVolumeView.swift */; };
 		BDC3028B1C7ABAD300FC2026 /* iPadImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */; };
 		BDC3775C1C44CFFB001FD219 /* ListHeaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC3775B1C44CFFB001FD219 /* ListHeaderDelegate.swift */; };
 		BDC377631C44E6BD001FD219 /* EmptyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC377611C44E6BD001FD219 /* EmptyHeaderView.swift */; };
@@ -1163,7 +1153,6 @@
 		BDD71CF51BA935E8006D2CE3 /* NetworkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD71CF31BA935E8006D2CE3 /* NetworkViewController.xib */; };
 		BDD71CF81BA93A6D006D2CE3 /* PodcastGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD71CF61BA93A6D006D2CE3 /* PodcastGroupCell.swift */; };
 		BDD71CF91BA93A6D006D2CE3 /* PodcastGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDD71CF71BA93A6D006D2CE3 /* PodcastGroupCell.xib */; };
-		BDD832AF214B8A8B0013D692 /* PCGoogleCastButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD832AE214B8A8B0013D692 /* PCGoogleCastButton.swift */; };
 		BDD84CE327CC8EDE001C078B /* ChoosePodcastFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD84CE227CC8EDE001C078B /* ChoosePodcastFolderView.swift */; };
 		BDD84CE527CC9353001C078B /* ChoosePodcastFolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD84CE427CC9353001C078B /* ChoosePodcastFolderModel.swift */; };
 		BDD8AABF267C858D0013494D /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = BDD8AABE267C858D0013494D /* Fuse */; };
@@ -2211,7 +2200,6 @@
 		BD42E3191B940AFF000EA14F /* DiscoverPodcastTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverPodcastTableCell.xib; sourceTree = "<group>"; };
 		BD43BDE52122AD0600E63165 /* skip_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skip_button.json; sourceTree = "<group>"; };
 		BD43BEF725246CFF00ACBE11 /* CarPlayListHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayListHelper.swift; sourceTree = "<group>"; };
-		BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleCastManager.swift; sourceTree = "<group>"; };
 		BD44A4442302DAC6004F55B2 /* CommonUpNextItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUpNextItem.swift; sourceTree = "<group>"; };
 		BD44E36C20937D9C008BD7F0 /* PodcastChapterParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastChapterParser.swift; sourceTree = "<group>"; };
 		BD47E7F91DD57F7B00C18EE7 /* ShowNotesFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowNotesFormatter.swift; sourceTree = "<group>"; };
@@ -2355,7 +2343,6 @@
 		BD7BCF101F6A4F110006E008 /* SharingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingHelper.swift; sourceTree = "<group>"; };
 		BD7BCF121F6A4F920006E008 /* SharingItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingItemProvider.swift; sourceTree = "<group>"; };
 		BD7BCF141F6A5C510006E008 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
-		BD7C1FFC237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCAlwaysVisibleCastBtn.swift; sourceTree = "<group>"; };
 		BD7D337619F7D48E00B907EA /* podcasts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = podcasts.entitlements; sourceTree = "<group>"; };
 		BD7EA4DB1E52D4320014EAC5 /* PlayPauseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayPauseButton.swift; sourceTree = "<group>"; };
 		BD8032D22123EAD600BFBB03 /* EffectsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectsButton.swift; sourceTree = "<group>"; };
@@ -2424,12 +2411,6 @@
 		BD95ED691BAFA532004335B0 /* CountryChooserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountryChooserViewController.xib; sourceTree = "<group>"; };
 		BD95ED6C1BAFA571004335B0 /* CountryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCell.swift; sourceTree = "<group>"; };
 		BD95ED6D1BAFA571004335B0 /* CountryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountryCell.xib; sourceTree = "<group>"; };
-		BD9657562468FAA600873BB5 /* CastToViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastToViewController.swift; sourceTree = "<group>"; };
-		BD9657572468FAA600873BB5 /* CastToViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CastToViewController.xib; sourceTree = "<group>"; };
-		BD96575A2469047600873BB5 /* CastToViewController+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CastToViewController+Table.swift"; sourceTree = "<group>"; };
-		BD96575C2469053600873BB5 /* GoogleCastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCastCell.swift; sourceTree = "<group>"; };
-		BD96575D2469053600873BB5 /* GoogleCastCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GoogleCastCell.xib; sourceTree = "<group>"; };
-		BD965760246906C900873BB5 /* CastDevicesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastDevicesManager.swift; sourceTree = "<group>"; };
 		BD96F4731CC9FEB900AB09B0 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		BD96F4741CC9FEB900AB09B0 /* ForgotPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordViewController.xib; sourceTree = "<group>"; };
 		BD980DA11F666A91008E381A /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
@@ -2526,7 +2507,6 @@
 		BDA002C01F7B2C9E00DCB4AE /* AppIcon-Round-Dark20x20~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Round-Dark20x20~ipad.png"; sourceTree = "<group>"; };
 		BDA002C11F7B2C9F00DCB4AE /* AppIcon-Dark20x20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Dark20x20@2x.png"; sourceTree = "<group>"; };
 		BDA002C21F7B2C9F00DCB4AE /* AppIcon-Round40x40~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Round40x40~ipad.png"; sourceTree = "<group>"; };
-		BDA028611C74466500476B28 /* GoogleCastPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleCastPlayer.swift; sourceTree = "<group>"; };
 		BDA0E29E22DDB2DC0029EBEB /* ThemeableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableLabel.swift; sourceTree = "<group>"; };
 		BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStyle.swift; sourceTree = "<group>"; };
 		BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
@@ -2620,7 +2600,6 @@
 		BDBE35DB211D735E00C334B8 /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		BDBE35DC211D735E00C334B8 /* PlayerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCell.xib; sourceTree = "<group>"; };
 		BDC063D0246A626E00208446 /* DownloadManager+SessionManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadManager+SessionManagement.swift"; sourceTree = "<group>"; };
-		BDC14C5B24B2DED600E71889 /* CastDeviceVolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastDeviceVolumeView.swift; sourceTree = "<group>"; };
 		BDC3028A1C7ABAD300FC2026 /* iPadImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPadImages.xcassets; sourceTree = "<group>"; };
 		BDC3775B1C44CFFB001FD219 /* ListHeaderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderDelegate.swift; sourceTree = "<group>"; };
 		BDC377611C44E6BD001FD219 /* EmptyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyHeaderView.swift; sourceTree = "<group>"; };
@@ -2697,7 +2676,6 @@
 		BDD71CF31BA935E8006D2CE3 /* NetworkViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NetworkViewController.xib; sourceTree = "<group>"; };
 		BDD71CF61BA93A6D006D2CE3 /* PodcastGroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastGroupCell.swift; sourceTree = "<group>"; };
 		BDD71CF71BA93A6D006D2CE3 /* PodcastGroupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PodcastGroupCell.xib; sourceTree = "<group>"; };
-		BDD832AE214B8A8B0013D692 /* PCGoogleCastButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCGoogleCastButton.swift; sourceTree = "<group>"; };
 		BDD84CE227CC8EDE001C078B /* ChoosePodcastFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePodcastFolderView.swift; sourceTree = "<group>"; };
 		BDD84CE427CC9353001C078B /* ChoosePodcastFolderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePodcastFolderModel.swift; sourceTree = "<group>"; };
 		BDDA14D4219AF8D50066441E /* DiscoverViewController+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverViewController+Search.swift"; sourceTree = "<group>"; };
@@ -4016,7 +3994,6 @@
 				40842636213777580076D82E /* RoundedLabel.swift */,
 				BDAE72D72138FB32002810A2 /* ActionIconButton.swift */,
 				BDFFC9AE2148A1460026D875 /* PCRoutePickerView.swift */,
-				BD7C1FFC237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift */,
 				BDC63BBB21A5051B00C31887 /* LayerAutoSizingView.swift */,
 				40AB3D22224C4E1000A4DC13 /* ProgressCircleView.swift */,
 				408F0B35227FF41E0019584D /* ProfileProgressCircleView.swift */,
@@ -4765,30 +4742,6 @@
 			name = Country;
 			sourceTree = "<group>";
 		};
-		BD9657552468FA8900873BB5 /* Google Cast */ = {
-			isa = PBXGroup;
-			children = (
-				BD965762246906E000873BB5 /* UI */,
-				BD43D9BF1D52D423004077FA /* GoogleCastManager.swift */,
-				BD965760246906C900873BB5 /* CastDevicesManager.swift */,
-			);
-			name = "Google Cast";
-			sourceTree = "<group>";
-		};
-		BD965762246906E000873BB5 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				BD9657562468FAA600873BB5 /* CastToViewController.swift */,
-				BD96575A2469047600873BB5 /* CastToViewController+Table.swift */,
-				BD9657572468FAA600873BB5 /* CastToViewController.xib */,
-				BDD832AE214B8A8B0013D692 /* PCGoogleCastButton.swift */,
-				BD96575C2469053600873BB5 /* GoogleCastCell.swift */,
-				BD96575D2469053600873BB5 /* GoogleCastCell.xib */,
-				BDC14C5B24B2DED600E71889 /* CastDeviceVolumeView.swift */,
-			);
-			name = UI;
-			sourceTree = "<group>";
-		};
 		BD98C5511BA808CF00E85D3B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -5047,14 +5000,6 @@
 			name = Icons;
 			sourceTree = "<group>";
 		};
-		BDA028601C74464D00476B28 /* Google Cast */ = {
-			isa = PBXGroup;
-			children = (
-				BDA028611C74466500476B28 /* GoogleCastPlayer.swift */,
-			);
-			name = "Google Cast";
-			sourceTree = "<group>";
-		};
 		BDA1E8131EDD28510098FB9D /* Sonos */ = {
 			isa = PBXGroup;
 			children = (
@@ -5226,7 +5171,6 @@
 				BD618BD31702BE1200967A6B /* Managers and Helpers */,
 				8BE36DC928734F6500E35313 /* Modules */,
 				BDDA72D41C9BA7CF003A3BEB /* Theme */,
-				BD9657552468FA8900873BB5 /* Google Cast */,
 				BDED92FA251DC416000BF622 /* CarPlay */,
 				BD2A49EE1701AA8500C2F192 /* User Interface */,
 				BD585C1C204785EF00AC842C /* AppDelegate.swift */,
@@ -5650,7 +5594,6 @@
 		BDF15A491B54E386000EC323 /* Players */ = {
 			isa = PBXGroup;
 			children = (
-				BDA028601C74464D00476B28 /* Google Cast */,
 				BD4098771B9ECA2C007F36BD /* Default Player */,
 				BD4098781B9ECA33007F36BD /* Effects */,
 				BDF15A431B54E155000EC323 /* PlaybackProtocol.swift */,
@@ -5890,7 +5833,6 @@
 				45ECEF7727E910E300C65030 /* Sources */,
 				45ECEF7827E910E300C65030 /* Frameworks */,
 				45ECEF7927E910E300C65030 /* Resources */,
-				E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */,
 				8BF0BBD5289199D2006BBECF /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -5975,7 +5917,6 @@
 				BD5231EA1E3EDA6A000F0D38 /* Embed App Extensions */,
 				BDD3018A1EFB9356004A9972 /* Embed Watch Content */,
 				40BF0B3F241F55FE003E3ABD /* Embed Frameworks */,
-				CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -6329,7 +6270,6 @@
 				BD240C40231E8BE000FB2CDD /* PCSearchBarController.xib in Resources */,
 				BD6B669C245BC28800CF5245 /* AppIcon-Red-Velvet29x29@3x.png in Resources */,
 				BD1292F322F7D066004608A6 /* AppIcon-Classic20x20@2x.png in Resources */,
-				BD9657592468FAA600873BB5 /* CastToViewController.xib in Resources */,
 				BDA002CC1F7B318B00DCB4AE /* AppIcon-Dark40x40@2x~ipad.png in Resources */,
 				BD12930D22F809F8004608A6 /* AppIcon-Electric-Pink20x20@2x~ipad.png in Resources */,
 				BD6B667C245BC25C00CF5245 /* AppIcon-Indigo40x40@2x.png in Resources */,
@@ -6412,7 +6352,6 @@
 				BD8139D31FB95C3900DBF0EC /* ProfileViewController.xib in Resources */,
 				40888F142563792300887D9A /* AppIcon-Round-Pink20x20@3x.png in Resources */,
 				8BA55A1728CA92A7002BECC5 /* PrivacySettingsViewController.xib in Resources */,
-				BD96575F2469053600873BB5 /* GoogleCastCell.xib in Resources */,
 				40888F092563792300887D9A /* AppIcon-Round-Pink20x20~ipad.png in Resources */,
 				40164A6C23DAAF8B0043907B /* PromotionAcknowledgementViewController.xib in Resources */,
 				BDA002EC1F7B318B00DCB4AE /* AppIcon-Round29x29@2x~ipad.png in Resources */,
@@ -6840,23 +6779,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CD7B4456FFD51509B59727FB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-podcasts/Pods-podcasts-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DF03311AC9ED8455DC9169CD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -6873,23 +6795,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E28B605AF2A066CC36E6500E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PocketCastsTests/Pods-PocketCastsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -7085,7 +6990,6 @@
 				40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */,
 				4053CDF7214B6B61001C92B1 /* EpisodeFilterOverlayController.swift in Sources */,
 				BD998AD327B3430700B38857 /* ColorPreviewFolderView.swift in Sources */,
-				BD7C1FFD237D16C600B3353B /* PCAlwaysVisibleCastBtn.swift in Sources */,
 				BD9324712398BB50004F19A1 /* TourView.swift in Sources */,
 				BDC5360A27C88A5700EFCF31 /* FolderPreviewWrapper.swift in Sources */,
 				BD6D4187200C802900CA8993 /* PodcastViewController+NetworkLoad.swift in Sources */,
@@ -7192,7 +7096,6 @@
 				BDE60ACE2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift in Sources */,
 				BDB3BDC11FE23F9000FD8D24 /* PodcastChooserCell.swift in Sources */,
 				BDFF77301C9929660086282A /* NavigationProtocol.swift in Sources */,
-				BD96575E2469053600873BB5 /* GoogleCastCell.swift in Sources */,
 				BDD3018C1EFB94C9004A9972 /* WatchManager.swift in Sources */,
 				BDD40A181FA1ABF500A53AE1 /* PCNavigationController.swift in Sources */,
 				40B1613822F3B66900759E41 /* ThemeableTextField.swift in Sources */,
@@ -7213,7 +7116,6 @@
 				BD36F3CE21882B87005E0BB2 /* ThemeSecondaryIcon.swift in Sources */,
 				BDC692831BA7B0B70023B9F2 /* TinyPageControl.swift in Sources */,
 				4053CE022150AC4B001C92B1 /* CheckboxCell.swift in Sources */,
-				BD96575B2469047600873BB5 /* CastToViewController+Table.swift in Sources */,
 				409C792C22237DD900386495 /* UserEpisodeDetailViewController+Table.swift in Sources */,
 				BD2E8ED31FB18A7C005E4B7C /* PodcastManager.swift in Sources */,
 				BD83DE0C2068B8E000012C06 /* MiniPlayerViewController+Gestures.swift in Sources */,
@@ -7270,7 +7172,6 @@
 				BDEDCF7124627F02005910C1 /* CustomSegmentedControl.swift in Sources */,
 				BD2F592A20468C6700AD3767 /* CustomObserver.swift in Sources */,
 				BDD62979200ECCBB00168DF7 /* EpisodeDetailViewController+ShowNotes.swift in Sources */,
-				BDD832AF214B8A8B0013D692 /* PCGoogleCastButton.swift in Sources */,
 				4573899A285BBAD500D4FE6C /* ColorSelectRow.swift in Sources */,
 				BD1C46D927B9DD8C00B1D8BB /* FolderGridCell.swift in Sources */,
 				BDD84CE327CC8EDE001C078B /* ChoosePodcastFolderView.swift in Sources */,
@@ -7369,7 +7270,6 @@
 				BDBE35DD211D735E00C334B8 /* PlayerCell.swift in Sources */,
 				BD9553C6237A7F9E002CB19A /* ShelfActionsViewController+Table.swift in Sources */,
 				40D9A4B1240746C30019E469 /* SignOutHelper.swift in Sources */,
-				BD43D9C01D52D423004077FA /* GoogleCastManager.swift in Sources */,
 				BDC3775C1C44CFFB001FD219 /* ListHeaderDelegate.swift in Sources */,
 				4029E3E02292686C0003BEEB /* ChangeEmailViewController.swift in Sources */,
 				4011B9432164641800661A7D /* EditFilterNameCell.swift in Sources */,
@@ -7391,7 +7291,6 @@
 				BDDA72D21C9B898C003A3BEB /* StorageAndDataUseViewController.swift in Sources */,
 				BD980DA21F666A91008E381A /* GridLayout.swift in Sources */,
 				466DE3F2278783F70046F722 /* EpisodeListHeaderView.swift in Sources */,
-				BDC14C5D24B2DED600E71889 /* CastDeviceVolumeView.swift in Sources */,
 				400A3EFA22703D54007361C7 /* AccountUpdatedViewController.swift in Sources */,
 				BD998AC827B2257D00B38857 /* PodcastPickerRow.swift in Sources */,
 				403946EC2285898400F55162 /* CustomStorageColorCell.swift in Sources */,
@@ -7467,7 +7366,6 @@
 				BD78A1D71FBACD4800048EB2 /* SmartInvertImageView.swift in Sources */,
 				BD03DF8C1CACDB75005A127E /* ButtonCell.swift in Sources */,
 				BD340FC521AF897400EAB091 /* PodcastArchiveViewController.swift in Sources */,
-				BD9657582468FAA600873BB5 /* CastToViewController.swift in Sources */,
 				4085299F247C9682007FE8AA /* SupporterContributionsViewController.swift in Sources */,
 				BDB165E0208078D5007B57CD /* DownloadManager+URLSessionDelegate.swift in Sources */,
 				400A3EEE226FF12B007361C7 /* SelectPaymentFreqViewController.swift in Sources */,
@@ -7559,7 +7457,6 @@
 				4084F68624DCE2F6006E5D97 /* StarredViewController+Multiselect.swift in Sources */,
 				400E3D1123F0E6D900ADAA63 /* PromotionFinishedViewController.swift in Sources */,
 				BD6F1645219AB82700F34D14 /* UISearchBar+TextColor.swift in Sources */,
-				BDA028621C74466500476B28 /* GoogleCastPlayer.swift in Sources */,
 				BDB5F0CD20450FDC00437669 /* Enumerations.swift in Sources */,
 				BD7166971ECA880D007DD36E /* IndentedTextField.swift in Sources */,
 				BD0F6D7B24BD60FF00EDFB99 /* FilterDurationViewController.swift in Sources */,
@@ -7599,7 +7496,6 @@
 				BDC8CDDA203BF8BA00D88313 /* PodcastListViewController.swift in Sources */,
 				BD43BEF825246CFF00ACBE11 /* CarPlayListHelper.swift in Sources */,
 				BD2F3BAB2366C96E00416633 /* NowPlayingPlayerItemViewController+Update.swift in Sources */,
-				BD965761246906C900873BB5 /* CastDevicesManager.swift in Sources */,
 				BD561031200DADA0002F2D53 /* Episode+Formatting.swift in Sources */,
 				BD57646A17E140BE0039CF8B /* NSNull+Length.m in Sources */,
 				BD7BCF151F6A5C510006E008 /* VideoPlayerView.swift in Sources */,

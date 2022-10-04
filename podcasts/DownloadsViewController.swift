@@ -191,7 +191,6 @@ class DownloadsViewController: PCViewController {
     }
 
     func setupNavBar() {
-        supportsGoogleCast = isMultiSelectEnabled ? false : true
         super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(menuTapped))
         super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
 

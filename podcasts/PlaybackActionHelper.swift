@@ -7,11 +7,6 @@ class PlaybackActionHelper {
     class func play(episode: BaseEpisode, filterUuid: String? = nil, podcastUuid: String? = nil) {
         HapticsHelper.triggerPlayPauseHaptic()
 
-        if GoogleCastManager.sharedManager.connectedOrConnectingToDevice() {
-            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-            return
-        }
-
         if !episode.downloaded(pathFinder: DownloadManager.shared) {
             NetworkUtils.shared.streamEpisodeRequested({
                 performPlay(episode: episode, filterUuid: filterUuid, podcastUuid: podcastUuid)

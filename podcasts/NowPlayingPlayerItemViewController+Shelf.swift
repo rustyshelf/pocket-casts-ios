@@ -10,7 +10,6 @@ protocol NowPlayingActionsDelegate: AnyObject {
     func routePickerTapped()
     func shareTapped()
     func goToTapped()
-    func chromecastTapped()
     func markPlayedTapped()
     func archiveTapped()
 
@@ -96,9 +95,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
             gotoPodcastBtn.accessibilityLabel = L10n.goToPodcast
 
             addToShelf(on: gotoPodcastBtn)
-        case .chromecast:
-            playerControlsStackView.addArrangedSubview(chromecastBtn)
-            addToShelf(on: chromecastBtn)
         case .starEpisode:
             if playingEpisode is Episode {
                 let starBtn = UIButton(frame: CGRect.zero)
@@ -172,10 +168,6 @@ extension NowPlayingPlayerItemViewController: NowPlayingActionsDelegate {
         } else if PlaybackManager.shared.currentEpisode() is UserEpisode {
             goToFiles()
         }
-    }
-
-    func chromecastTapped() {
-        googleCastTapped()
     }
 
     func markPlayedTapped() {

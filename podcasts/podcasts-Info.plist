@@ -812,19 +812,8 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Pocket Casts needs to access your bluetooth in order to detect nearby Google Cast devices.</string>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_googlecast._tcp</string>
-		<string>_2FA4D21B._googlecast._tcp</string>
-	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>This allows you to add custom images to your files</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Pocket Casts uses this to find Google Cast devices on your network. If you don't use this feature feel free to say no.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Pocket Casts needs to access your microphone in order to detect nearby Google Cast devices.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Pocket Casts needs permission to save this image to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

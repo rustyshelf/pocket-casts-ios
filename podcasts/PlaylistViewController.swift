@@ -136,7 +136,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     // MARK: - View Methods
 
     override func viewDidLoad() {
-        supportsGoogleCast = true
         super.customRightBtn = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
         super.customRightBtn?.accessibilityLabel = L10n.accessibilitySortAndOptions
 
@@ -221,7 +220,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
     func setupNavBar() {
         navigationItem.titleView = isMultiSelectEnabled ? nil : titleView
         title = isMultiSelectEnabled ? filter.playlistName : nil
-        supportsGoogleCast = isMultiSelectEnabled ? false : true
         super.customRightBtn = isMultiSelectEnabled ? UIBarButtonItem(title: L10n.cancel, style: .plain, target: self, action: #selector(cancelTapped)) : UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(moreTapped))
         super.customRightBtn?.accessibilityLabel = isMultiSelectEnabled ? L10n.accessibilityCancelMultiselect : L10n.accessibilitySortAndOptions
 

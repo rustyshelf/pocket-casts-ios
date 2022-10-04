@@ -143,7 +143,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseHeightConstraint: NSLayoutConstraint!
 
-    let chromecastBtn = PCAlwaysVisibleCastBtn()
     let routePicker = PCRoutePickerView(frame: CGRect.zero)
 
     private lazy var upNextController = UpNextViewController(source: .nowPlaying)
@@ -165,10 +164,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         let upNextPan = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerHandler(_:)))
         upNextPan.delegate = self
         view.addGestureRecognizer(upNextPan)
-
-        chromecastBtn.inactiveTintColor = ThemeColor.playerContrast02()
-        chromecastBtn.addTarget(self, action: #selector(googleCastTapped), for: .touchUpInside)
-        chromecastBtn.isPointerInteractionEnabled = true
 
         routePicker.delegate = self
     }
@@ -302,16 +297,5 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
         }
 
         options.show(statusBarStyle: preferredStatusBarStyle)
-    }
-
-    @objc func googleCastTapped() {
-        shelfButtonTapped(.chromecast)
-
-        let themeOverride = Theme.sharedTheme.activeTheme.isDark ? Theme.sharedTheme.activeTheme : .dark
-        let castController = CastToViewController(themeOverride: themeOverride)
-        let navController = SJUIUtils.navController(for: castController, themeOverride: themeOverride)
-        navController.modalPresentationStyle = .fullScreen
-
-        present(navController, animated: true, completion: nil)
     }
 }

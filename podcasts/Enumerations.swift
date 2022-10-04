@@ -155,7 +155,7 @@ enum PlaylistIcon: Int32 {
 }
 
 enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
-    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, chromecast, markPlayed, archive
+    case effects = 1, sleepTimer, routePicker, starEpisode, shareEpisode, goToPodcast, markPlayed, archive
 
     func title(episode: BaseEpisode? = nil) -> String {
         switch self {
@@ -179,9 +179,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             } else {
                 return L10n.goToPodcast
             }
-        case .chromecast:
-            // Note: Chromecast is a Propernoun and thus should not be translated.
-            return "Chromecast"
         case .markPlayed:
             return L10n.markPlayed
         case .archive:
@@ -218,8 +215,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "podcast-share"
         case .goToPodcast:
             return "gotoarrow"
-        case .chromecast:
-            return "nav_cast_off"
         case .markPlayed:
             return "episode-markasplayed"
         case .archive:
@@ -241,8 +236,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "shelf_share"
         case .goToPodcast:
             return "shelf_gotoarrow"
-        case .chromecast:
-            return "shelf_nav_cast_off"
         case .markPlayed:
             return "shelf_played"
         case .archive:
@@ -273,8 +266,6 @@ enum PlayerAction: Int, CaseIterable, AnalyticsDescribable {
             return "share_episode"
         case .goToPodcast:
             return "go_to_podcast"
-        case .chromecast:
-            return "chromecast"
         case .markPlayed:
             return "mark_as_played"
         case .archive:

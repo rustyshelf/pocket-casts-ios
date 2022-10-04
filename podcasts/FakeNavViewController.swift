@@ -120,12 +120,6 @@ class FakeNavViewController: PCViewController, UIScrollViewDelegate {
         fakeNavHeight.constant - UIUtil.statusBarHeight(in: window)
     }
 
-    func addGoogleCastBtn() {
-        let button = PCGoogleCastButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
-        button.addTarget(self, action: #selector(castButtonTapped), for: .touchUpInside)
-        addButton(button)
-    }
-
     @discardableResult func addRightAction(image: UIImage?, accessibilityLabel: String, action: Selector) -> UIButton {
         let button = UIButton(frame: CGRect(x: 320, y: 21, width: 44, height: 44))
         button.setImage(image, for: .normal)

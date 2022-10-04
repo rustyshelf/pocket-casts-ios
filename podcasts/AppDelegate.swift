@@ -47,8 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.synchronize()
         }
 
-        GoogleCastManager.sharedManager.setup()
-
         setupRoutes()
 
         ServerConfig.shared.syncDelegate = ServerSyncManager.shared
@@ -147,7 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        GoogleCastManager.sharedManager.teardown()
         RefreshManager.shared.cancelAllRefreshes()
 
         badgeHelper.teardown()

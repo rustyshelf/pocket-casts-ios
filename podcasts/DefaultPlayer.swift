@@ -174,10 +174,6 @@ class DefaultPlayer: PlaybackProtocol, Hashable {
         true
     }
 
-    func supportsGoogleCast() -> Bool {
-        false
-    }
-
     func supportsStreaming() -> Bool {
         true
     }

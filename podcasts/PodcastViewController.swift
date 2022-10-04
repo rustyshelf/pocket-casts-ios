@@ -204,7 +204,6 @@ class PodcastViewController: FakeNavViewController, PodcastActionsDelegate, Sync
         operationQueue.maxConcurrentOperationCount = 1
         scrollPointToChangeTitle = 38
         addRightAction(image: UIImage(named: "podcast-share"), accessibilityLabel: L10n.share, action: #selector(shareTapped(_:)))
-        addGoogleCastBtn()
         loadPodcastInfo()
         updateColors()
         updateTopConstraintForiPhone14Pro()
