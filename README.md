@@ -9,6 +9,26 @@
     <img src="https://img.shields.io/badge/Xcode-v14.0%2B-informational" />
 </p>
 
+## Information about this fork
+
+<p>
+Welcome to Picket Cats. It's like Pocket Casts, but with a lot of stuff removed. It's not meant to be a statement, or really an app for anyone except me. I intend to keep removing things I don't use as a fun side project just to see how few features I actually need in a podcasting app.
+</p>
+
+Things removed so far:
+- Google Cast
+- Firebase
+- Tracks
+- Sentry/Zendesk integration
+- Siri integration
+- Watch app
+- CarPlay support
+- Notification support
+- All Cocoapods 
+- Material Bottom Sheets
+- Multi select
+- Trim Silence
+
 <p align="center">
     Pocket Casts is the world's most powerful podcast platform, an app by listeners, for listeners.
 </p>
