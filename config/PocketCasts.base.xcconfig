@@ -1,6 +1,6 @@
 #include "Version.xcconfig"
 
-SWIFT_VERSION = 5.0
+SWIFT_VERSION = 5.7
 
 // Map our custom version values (used by the automation tooling) to the values
 // Xcode uses

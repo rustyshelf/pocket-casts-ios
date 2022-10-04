@@ -10,7 +10,7 @@ public class UploadManager: NSObject {
     var uploadingEpisodesCache = [String: UserEpisode]()
     let imageTaskPrefix = "Image-"
     private lazy var wifiOnlyBackgroundSession: URLSession = {
-        var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCUploadBackgroundSession")
+        var config = URLSessionConfiguration.background(withIdentifier: "net.rustyshelf.podcasts.PCUploadBackgroundSession")
         config.allowsCellularAccess = false
         addStandardConfig(to: &config)
 
@@ -19,7 +19,7 @@ public class UploadManager: NSObject {
     }()
 
     private lazy var cellularBackgroundSession: URLSession = {
-        var config = URLSessionConfiguration.background(withIdentifier: "au.com.shiftyjelly.PCUploadManualSession")
+        var config = URLSessionConfiguration.background(withIdentifier: "net.rustyshelf.podcasts.PCUploadManualSession")
         config.allowsCellularAccess = true
         addStandardConfig(to: &config)
 

@@ -155,7 +155,7 @@ struct Constants {
         static let maxWidthForPopups: CGFloat = 500
         static let tableSectionHeaderHeight: CGFloat = 38
 
-        static let refreshTaskId = "au.com.shiftyjelly.podcasts.Refresh"
+        static let refreshTaskId = "net.rustyshelf.podcasts.Refresh"
 
         /// We show the free trial by default since if the app was just downloaded
         /// there is a chance it doesn't have a receipt and we won't be able to do a server check

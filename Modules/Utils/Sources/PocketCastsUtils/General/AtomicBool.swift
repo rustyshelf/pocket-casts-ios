@@ -2,7 +2,7 @@ import Foundation
 
 public class AtomicBool {
     private lazy var atomicQueue: DispatchQueue = {
-        let queue = DispatchQueue(label: "au.com.pocketcasts.AtomicQueue")
+        let queue = DispatchQueue(label: "net.rustyshelf.podcasts.AtomicQueue")
 
         return queue
     }()

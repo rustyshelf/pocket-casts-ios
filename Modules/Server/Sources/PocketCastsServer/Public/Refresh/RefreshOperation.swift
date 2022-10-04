@@ -66,10 +66,6 @@ class RefreshOperation: Operation {
                 apiQueue.addOperation(SyncSettingsTask())
 
                 #if !os(watchOS)
-                    ServerSettings.iapUnverifiedPurchaseReceiptDate() == nil ? apiQueue.addOperation(SubscriptionStatusTask()) : apiQueue.addOperation(PurchaseReceiptTask())
-                #endif
-
-                #if !os(watchOS)
                     // update our local copy of the remote stats. Doesn't really matter if this fails or succeeds
                     StatsManager.shared.loadRemoteStats(completion: nil)
                 #endif

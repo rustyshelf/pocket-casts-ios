@@ -9,7 +9,7 @@ class DownloadProgressManager {
     private var lastUiUpdateTime: Date?
 
     init() {
-        progressItemsQueue = DispatchQueue(label: "au.com.pocketcasts.ProgressItemsQueue")
+        progressItemsQueue = DispatchQueue(label: "net.rustyshelf.podcasts.ProgressItemsQueue")
     }
 
     func progressForEpisode(_ uuid: String) -> DownloadProgress? {
