@@ -1,13 +1,10 @@
 import PocketCastsServer
-import PocketCastsUtils
 import SwiftUI
 
 struct AboutView: View {
     @EnvironmentObject var theme: Theme
 
     @ObservedObject private var model = AboutViewModel()
-
-    @State private var showLegalAndMore = false
 
     var dismissAction: () -> Void
 
@@ -44,15 +41,9 @@ struct AboutView: View {
                                 SocialsHelper.openTwitter()
                             }
                         }
-                        Section {
-                            AboutRow(mainText: L10n.aboutLegalAndMore, showChevronIcon: true) {
-                                showLegalAndMore = true
-                            }
-                        }
                     }
                     .listStyle(.insetGrouped)
                 }
-                NavigationLink(destination: LegalAndMore(), isActive: $showLegalAndMore) {}
             }
             .navigationBarHidden(true)
         }.navigationViewStyle(StackNavigationViewStyle())
@@ -65,30 +56,6 @@ struct AboutView: View {
         if application.canOpenURL(url) {
             application.open(url, options: [:], completionHandler: nil)
         }
-    }
-}
-
-struct LogoView: View {
-    @EnvironmentObject var theme: Theme
-
-    private let maxRotationDegrees: Double = 30
-
-    var logo: AboutLogo
-    var index: Int
-    var logoSize: CGFloat
-    var logoOffset: CGFloat
-
-    var body: some View {
-        ZStack {
-            Circle()
-                .foregroundColor(logo.color)
-            Image(logo.logoName)
-                .rotationEffect(logo.randomRotation(maxDegrees: maxRotationDegrees))
-                .tint(logo.logoTint(onDark: theme.activeTheme.isDark)) // tint is only available from iOS 15 onwards
-        }
-        .offset(x: -logoOffset * CGFloat(index), y: index % 2 == 0 ? -logoOffset : logoOffset)
-        .frame(width: logoSize, height: logoSize)
-        .accessibilityLabel(logo.description)
     }
 }
 
@@ -120,13 +87,5 @@ struct AboutRow: View {
             }
         }
         .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
-    }
-}
-
-// MARK: Previews
-
-struct AboutView_Previews: PreviewProvider {
-    static var previews: some View {
-        AboutView {}
     }
 }
