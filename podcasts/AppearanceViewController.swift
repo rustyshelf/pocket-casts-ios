@@ -10,7 +10,7 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
     private let plusLockedInfoCellId = "PlusLockedCell"
 
     private enum TableRow {
-        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, embeddedArtwork, plusCallout
+        case themeOption, lightTheme, darkTheme, appIcon, refreshArtwork, plusCallout
     }
 
     private var tableData = [[TableRow]]()
@@ -127,15 +127,6 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
             cell.buttonTitle.text = L10n.appearanceRefreshAllArtwork
 
             return cell
-        case .embeddedArtwork:
-            let cell = tableView.dequeueReusableCell(withIdentifier: switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.appearanceEmbeddedArtwork
-            cell.cellSwitch.isOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages)
-
-            cell.cellSwitch.removeTarget(self, action: nil, for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(loadEmbeddedArtToggled(_:)), for: UIControl.Event.valueChanged)
-
-            return cell
         case .plusCallout:
             let cell = tableView.dequeueReusableCell(withIdentifier: plusLockedInfoCellId, for: indexPath) as! PlusLockedInfoCell
             cell.lockView.delegate = self
@@ -204,14 +195,6 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         Constants.Values.tableSectionHeaderHeight
     }
 
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let firstItem = tableData[section][0]
-
-        if firstItem == .refreshArtwork { return L10n.appearanceEmbeddedArtworkSubtitle }
-
-        return nil
-    }
-
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         ThemeableTable.setHeaderFooterTextColor(on: view)
     }
@@ -239,16 +222,12 @@ class AppearanceViewController: SimpleNotificationsViewController, UITableViewDa
         }
     }
 
-    @objc private func loadEmbeddedArtToggled(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: Constants.UserDefaults.loadEmbeddedImages)
-    }
-
     private func updateTableAndData() {
         var newTableData: [[TableRow]]
         if Settings.shouldFollowSystemTheme() {
-            newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork]]
+            newTableData = [[.themeOption, .lightTheme, .darkTheme], [.appIcon], [.refreshArtwork]]
         } else {
-            newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork, .embeddedArtwork]]
+            newTableData = [[.themeOption, .lightTheme], [.appIcon], [.refreshArtwork]]
         }
 
         if !SubscriptionHelper.hasActiveSubscription(), !Settings.plusInfoDismissedOnAppearance() {

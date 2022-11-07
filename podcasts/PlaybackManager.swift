@@ -415,11 +415,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             return
         }
 
-        // check the queue isn't already full
-        if !ignoringQueueLimit, queue.upNextCount() >= ServerSettings.autoAddToUpNextLimit() {
-            return
-        }
-
         if let episode = episode as? Episode, episode.archived {
             EpisodeManager.unarchiveEpisode(episode: episode, fireNotification: true, userInitiated: false)
         }
@@ -516,29 +511,6 @@ class PlaybackManager: ServerPlaybackDelegate {
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.upNextQueueChanged)
-    }
-
-    func play(filter: EpisodeFilter) {
-        let playlistEpisodes = DataManager.sharedManager.findEpisodesWhere(customWhere: PlaylistHelper.queryFor(filter: filter, episodeUuidToAdd: filter.episodeUuidToAddToQueries(), limit: ServerSettings.autoAddToUpNextLimit()), arguments: nil)
-        guard let startingEpisode = playlistEpisodes.first else { return }
-
-        populateFromEpisodes(playlistEpisodes, startingAtEpisode: startingEpisode)
-        uuidOfPlayingList = filter.uuid
-    }
-
-    func play(episodes: [BaseEpisode], startingAtEpisode: BaseEpisode) {
-        populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-    }
-
-    func play(podcast: Podcast, startingAtEpisode: Episode) {
-        let orderDirection = (Int(podcast.episodeSortOrder) == PodcastEpisodeSortOrder.newestToOldest.rawValue) ? "DESC" : "ASC"
-        let episodes = DataManager.sharedManager.findEpisodesWhere(customWhere: "podcastUuid == ? AND archived = 0 AND (playingStatus == \(PlayingStatus.notPlayed.rawValue) OR playingStatus == \(PlayingStatus.inProgress.rawValue)) ORDER BY publishedDate \(orderDirection), addedDate \(orderDirection)", arguments: [podcast.uuid])
-
-        if episodes.count > 0 {
-            populateFromEpisodes(episodes, startingAtEpisode: startingAtEpisode)
-        } else {
-            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-        }
     }
 
     func internalPlayerForVideoPlayback() -> AVPlayer? {
@@ -945,37 +917,6 @@ class PlaybackManager: ServerPlaybackDelegate {
     }
 
     // MARK: - Helper Methods
-
-    private func populateFromEpisodes(_ episodes: [BaseEpisode]?, startingAtEpisode: BaseEpisode) {
-        if episodes == nil, queue.upNextCount() > 0 {
-            // the user has chosen to play a single episode, and they have an up next list, so add this episode into up next and push the rest down
-            switchTo(episodeToPlay: startingAtEpisode, moveExistingToUpNext: true, autoPlay: true)
-        } else {
-            // there's a new list of episodes to play, so clear what's currently playing and play that
-            load(episode: startingAtEpisode, autoPlay: true, overrideUpNext: true)
-            NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackTrackChanged)
-
-            var foundEpisode = false
-            var addedEpisodes = 0
-            for episode in episodes! {
-                if !foundEpisode {
-                    if episode.uuid == startingAtEpisode.uuid {
-                        foundEpisode = true
-                    }
-
-                    continue
-                }
-
-                queue.add(episode: episode, fireNotification: false, partOfBulkAdd: true)
-                addedEpisodes += 1
-                // honor the queue auto add limit
-                if addedEpisodes >= ServerSettings.autoAddToUpNextLimit() {
-                    break
-                }
-            }
-            queue.bulkOperationDidComplete()
-        }
-    }
 
     private func playerSwitchRequired() -> Bool {
         guard player != nil else { return true }

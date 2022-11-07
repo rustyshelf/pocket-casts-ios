@@ -24,9 +24,6 @@ class ImageManager {
 
     private let availablePodcastImageSizes = [130, 210, 280, 340, 400, 420, 680, 960]
 
-    // we store failed embed lookups in memory, just to stop us constantly parsing a file with no artwork for artwork
-    private var failedEmbeddedLookups = [] as [String]
-
     init() {
         let path = (NSHomeDirectory() as NSString).appendingPathComponent("Documents/artworkv3")
         let url = URL(fileURLWithPath: path)
@@ -115,12 +112,6 @@ class ImageManager {
     }
 
     func loadImage(episode: BaseEpisode, imageView: UIImageView, size: PodcastThumbnailSize) {
-        if let image = loadEmbeddedImageIfRequired(in: episode) {
-            imageView.image = image
-            return
-        }
-
-        // if that doesn't work, or they haven't opted in, load the podcast artwork instead
         if let userEpisode = episode as? UserEpisode {
             loadUserEpisodeImage(uuid: userEpisode.uuid, imageView: imageView, size: size, completionHandler: nil)
         } else {
@@ -179,11 +170,6 @@ class ImageManager {
     }
 
     func imageForEpisode(_ episode: BaseEpisode, size: PodcastThumbnailSize, completionHandler: @escaping ((UIImage?) -> Void)) {
-        if let image = loadEmbeddedImageIfRequired(in: episode) {
-            completionHandler(image)
-            return
-        }
-
         let imageURL: URL
         let imageCache: ImageCache
         if let userEpisode = episode as? UserEpisode {
@@ -201,19 +187,6 @@ class ImageManager {
             let image = try? result.get().image
             completionHandler(image)
         }
-    }
-
-    private func loadEmbeddedImageIfRequired(in episode: BaseEpisode) -> UIImage? {
-        // if the user has opted to use embedded artwork, try to load that however loading episode artwork can be an expensive operation, so check to see if it's previously failed for this episode
-        if UserDefaults.standard.bool(forKey: Constants.UserDefaults.loadEmbeddedImages), episode.downloaded(pathFinder: DownloadManager.shared), !failedEmbeddedLookups.contains(episode.uuid) {
-            if let embeddedImage = SJMediaMetadataHelper.embeddedImageForFile(atPath: episode.pathToDownloadedFile(pathFinder: DownloadManager.shared)) {
-                return embeddedImage
-            } else {
-                failedEmbeddedLookups.append(episode.uuid)
-            }
-        }
-
-        return nil
     }
 
     // MARK: - UserEpisode Images

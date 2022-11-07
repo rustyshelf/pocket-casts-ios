@@ -96,7 +96,6 @@ struct Constants {
 
         static let intelligentPlaybackResumption = "SJIntelligentPlaybackResumption"
         static let hideImagesInShowNotes = "HideImagesInShowNotes"
-        static let loadEmbeddedImages = "SJLoadEmbeddedArt"
         static let appBadge = "SJEppBadgeShows"
         static let pushEnabled = "PushEnabled"
         static let globalEpisodesToKeep = "SJPodcastsToKeep"

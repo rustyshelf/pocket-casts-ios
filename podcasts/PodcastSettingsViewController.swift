@@ -8,7 +8,7 @@ class PodcastSettingsViewController: PCViewController {
 
     let debounce = Debounce(delay: Constants.defaultDebounceTime)
 
-    enum TableRow { case autoDownload, upNext, globalUpNext, upNextPosition, playbackEffects, skipFirst, skipLast, autoArchive, inFilters, unsubscribe, feedError }
+    enum TableRow { case autoDownload, playbackEffects, skipFirst, skipLast, autoArchive, inFilters, unsubscribe, feedError }
 
     var existingShortcut: Any?
 

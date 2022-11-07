@@ -4,7 +4,7 @@ import UIKit
 
 class SettingsViewController: PCViewController, UITableViewDataSource, UITableViewDelegate {
     private enum TableRow: String {
-        case general, appearance, storageAndDataUse, autoArchive, autoDownload, autoAddToUpNext, customFiles, help, opml, about, pocketCastsPlus
+        case general, appearance, storageAndDataUse, autoArchive, autoDownload, customFiles, opml, about, pocketCastsPlus
 
         var display: (text: String, image: UIImage?) {
             switch self {
@@ -16,12 +16,8 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
                 return (L10n.settingsStorage, UIImage(named: "settings_storage"))
             case .autoArchive:
                 return (L10n.settingsAutoArchive, UIImage(named: "settings_archive"))
-            case .autoAddToUpNext:
-                return (L10n.settingsAutoAdd, UIImage(named: "playlast"))
             case .autoDownload:
                 return (L10n.settingsAutoDownload, UIImage(named: "settings_autodownload"))
-            case .help:
-                return (L10n.settingsHelp, UIImage(named: "settings_help"))
             case .opml:
                 return (L10n.settingsOpml, UIImage(named: "settings_importexport"))
             case .about:
@@ -96,16 +92,10 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
             navigationController?.pushViewController(AppearanceViewController(), animated: true)
         case .storageAndDataUse:
             navigationController?.pushViewController(StorageAndDataUseViewController(), animated: true)
-        case .autoAddToUpNext:
-            navigationController?.pushViewController(AutoAddToUpNextViewController(), animated: true)
         case .autoArchive:
             navigationController?.pushViewController(AutoArchiveViewController(), animated: true)
         case .autoDownload:
             navigationController?.pushViewController(DownloadSettingsViewController(), animated: true)
-        case .help:
-            if let url = URL(string: ServerConstants.Urls.support) {
-                UIApplication.shared.open(url)
-            }
         case .opml:
             navigationController?.pushViewController(ImportExportViewController(), animated: true)
         case .about:
@@ -127,7 +117,7 @@ class SettingsViewController: PCViewController, UITableViewDataSource, UITableVi
     }
 
     private func reloadTable() {
-        tableData = [[.general, .appearance], [.autoArchive, .autoDownload, .autoAddToUpNext], [.storageAndDataUse, .customFiles], [.help, .opml], [.about]]
+        tableData = [[.general, .appearance], [.autoArchive, .autoDownload], [.storageAndDataUse, .customFiles], [.opml], [.about]]
 
         if !SubscriptionHelper.hasActiveSubscription() {
             tableData.insert([.pocketCastsPlus], at: 0)
