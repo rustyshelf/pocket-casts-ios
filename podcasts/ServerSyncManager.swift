@@ -98,10 +98,6 @@ class ServerSyncManager: ServerSyncDelegate {
         Settings.defaultPodcastGrouping().rawValue
     }
 
-    func defaultShowArchived() -> Bool {
-        Settings.showArchivedDefault()
-    }
-
     func uniqueAppId() -> String {
         UserDefaults.standard.string(forKey: Constants.UserDefaults.appId) ?? ""
     }

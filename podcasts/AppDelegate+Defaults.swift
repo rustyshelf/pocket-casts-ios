@@ -65,14 +65,8 @@ extension AppDelegate {
                 ServerSettings.removeLegacySyncingEmail()
             }
         }
-        performUpdateIfRequired(updateKey: "v7_12Run") {
-            Settings.setMultiSelectGestureEnabled(true)
-        }
         performUpdateIfRequired(updateKey: "v7_15Run") {
             defaults.setValue(true, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
-        }
-        performUpdateIfRequired(updateKey: "v7_16Run") {
-            ServerSettings.setAutoAddToUpNextLimit(100)
         }
         performUpdateIfRequired(updateKey: "v7_19_1Run") {
             // we didn't previously need a default value for this key, but due to changes in this release we do, otherwise it will default to the first item in the ThemeType enum

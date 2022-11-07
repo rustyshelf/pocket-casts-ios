@@ -284,28 +284,6 @@ public class ServerSettings {
         UserDefaults.standard.removeObject(forKey: ServerConstants.UserDefaults.pushToken)
     }
 
-    // MARK: - Auto add to Up Next Limit
-
-    private static let autoAddLimitKey = "AutoAddToUpNextLimit"
-    public class func autoAddToUpNextLimit() -> Int {
-        UserDefaults.standard.integer(forKey: autoAddLimitKey)
-    }
-
-    public class func setAutoAddToUpNextLimit(_ limit: Int) {
-        UserDefaults.standard.setValue(limit, forKey: autoAddLimitKey)
-    }
-
-    private static let onAutoAddLimitReachedKey = "AutoAddLimitReachedKey"
-    public class func onAutoAddLimitReached() -> AutoAddLimitReachedAction {
-        let storedValue = UserDefaults.standard.integer(forKey: onAutoAddLimitReachedKey)
-
-        return AutoAddLimitReachedAction(rawValue: Int32(storedValue)) ?? .stopAdding
-    }
-
-    public class func setOnAutoAddLimitReached(action: AutoAddLimitReachedAction) {
-        UserDefaults.standard.setValue(action.rawValue, forKey: onAutoAddLimitReachedKey)
-    }
-
     // Sync Token
     public class func syncingV2Token() -> String? {
         KeychainHelper.string(for: ServerConstants.Values.syncingV2TokenKey)

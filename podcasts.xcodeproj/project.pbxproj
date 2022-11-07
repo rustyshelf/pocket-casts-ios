@@ -85,11 +85,6 @@
 		4029E3E52293AD410003BEEB /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4029E3E32293AD410003BEEB /* ChangePasswordViewController.xib */; };
 		4029E3ED229CD67B0003BEEB /* ProgressPieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4029E3EC229CD67B0003BEEB /* ProgressPieView.swift */; };
 		403086D02378EB1F009EF821 /* UpNextViewController+UserEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403086CF2378EB1F009EF821 /* UpNextViewController+UserEpisode.swift */; };
-		4030D4612496446000BEC7D9 /* MultiSelectActionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4030D45F2496446000BEC7D9 /* MultiSelectActionController.swift */; };
-		4030D4622496446000BEC7D9 /* MultiSelectActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4030D4602496446000BEC7D9 /* MultiSelectActionController.xib */; };
-		4030D465249653B000BEC7D9 /* MultiSelectActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4030D463249653B000BEC7D9 /* MultiSelectActionCell.swift */; };
-		4030D466249653B000BEC7D9 /* MultiSelectActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4030D464249653B000BEC7D9 /* MultiSelectActionCell.xib */; };
-		4030D4682498579D00BEC7D9 /* MultiSelectActionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4030D4672498579D00BEC7D9 /* MultiSelectActionProtocol.swift */; };
 		4031466D252568970085E76B /* WidgetEpisode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4031466C252568970085E76B /* WidgetEpisode.swift */; };
 		4036B04C25240C1B00AE08E6 /* CommonWidgetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090978625236B0400CED68C /* CommonWidgetHelper.swift */; };
 		4036B05325240C1E00AE08E6 /* PocketCastsWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4090978525236B0400CED68C /* PocketCastsWidgetBundle.swift */; };
@@ -233,11 +228,8 @@
 		409C793722387C0500386495 /* AllArchivedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C793522387C0500386495 /* AllArchivedCell.swift */; };
 		409C793822387C0500386495 /* AllArchivedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 409C793622387C0500386495 /* AllArchivedCell.xib */; };
 		409C793A223899A500386495 /* AllArchivedPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C7939223899A500386495 /* AllArchivedPlaceholder.swift */; };
-		40A0A90D24B57B1C00C29362 /* MultiSelectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */; };
 		40A4FCD0221938A700252170 /* SinglePodcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A4FCCE221938A700252170 /* SinglePodcastViewController.swift */; };
 		40A4FCD1221938A700252170 /* SinglePodcastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40A4FCCF221938A700252170 /* SinglePodcastViewController.xib */; };
-		40AA12732488AE1F006B9D48 /* MultiSelectFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AA12722488AE1F006B9D48 /* MultiSelectFooterView.swift */; };
-		40AA12752488AE3C006B9D48 /* MultiSelectFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40AA12742488AE3C006B9D48 /* MultiSelectFooterView.xib */; };
 		40AB3D23224C4E1000A4DC13 /* ProgressCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AB3D22224C4E1000A4DC13 /* ProgressCircleView.swift */; };
 		40AE73B221F00AFD00F77ACE /* SubscribeButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40AE73B121F00AFD00F77ACE /* SubscribeButton.xib */; };
 		40AE73B421F00DFA00F77ACE /* SubscribeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AE73B321F00DFA00F77ACE /* SubscribeButton.swift */; };
@@ -294,8 +286,6 @@
 		466DE3F3278783F70046F722 /* EpisodeListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466DE3F1278783F70046F722 /* EpisodeListHeaderView.xib */; };
 		466DE3F6278794D50046F722 /* EpisodeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DE3F4278794D50046F722 /* EpisodeListTableViewCell.swift */; };
 		466DE3F7278794D50046F722 /* EpisodeListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466DE3F5278794D50046F722 /* EpisodeListTableViewCell.xib */; };
-		46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46737E69272B2EEC00739C3E /* ReadOnlyTextView.swift */; };
-		46737E6C2730400500739C3E /* ThemedSwitchToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46737E6B2730400500739C3E /* ThemedSwitchToggleStyle.swift */; };
 		467BB04726CC07C900A73BAF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF15A4D1B54E8F0000EC323 /* Constants.swift */; };
 		467DF6E926E1093A00AC290C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
 		467DF6EB26E10AFD00AC290C /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DF6E826E1093A00AC290C /* Strings+Generated.swift */; };
@@ -416,7 +406,6 @@
 		BD12931A22F809F8004608A6 /* AppIcon-Electric-Pink40x40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD12930822F809F7004608A6 /* AppIcon-Electric-Pink40x40@3x.png */; };
 		BD12931B22F809F8004608A6 /* AppIcon-Electric-Pink40x40@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = BD12930922F809F7004608A6 /* AppIcon-Electric-Pink40x40@2x~ipad.png */; };
 		BD13574E27BF24B500A5D7C6 /* EditFolderPodcastsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD13574D27BF24B500A5D7C6 /* EditFolderPodcastsView.swift */; };
-		BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */ = {isa = PBXBuildFile; productRef = BD14A2F4252EBBD50028EE75 /* Agrume */; };
 		BD14BD53217074D800998296 /* UnplayedBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD14BD52217074D800998296 /* UnplayedBadge.swift */; };
 		BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD14CCD41D7D2BCE00DB4547 /* SharePublishViewController.swift */; };
 		BD14CCD71D7D2BCE00DB4547 /* SharePublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD14CCD51D7D2BCE00DB4547 /* SharePublishViewController.xib */; };
@@ -513,7 +502,6 @@
 		BD422ED026841BB40078B799 /* EpisodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD422ECF26841BB40078B799 /* EpisodeView.swift */; };
 		BD422ED226841BF10078B799 /* HungryForMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD422ED126841BF10078B799 /* HungryForMoreView.swift */; };
 		BD422ED426841C340078B799 /* UpNextStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD422ED326841C340078B799 /* UpNextStyles.swift */; };
-		BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD424AFB2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift */; };
 		BD424B0B2575F30800C9447B /* PodcastDisclosureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD424B092575F30800C9447B /* PodcastDisclosureCell.swift */; };
 		BD424B0C2575F30800C9447B /* PodcastDisclosureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD424B0A2575F30800C9447B /* PodcastDisclosureCell.xib */; };
 		BD42E31A1B940AFF000EA14F /* DiscoverPodcastTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD42E3181B940AFF000EA14F /* DiscoverPodcastTableCell.swift */; };
@@ -805,7 +793,6 @@
 		BDA0E29F22DDB2DC0029EBEB /* ThemeableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E29E22DDB2DC0029EBEB /* ThemeableLabel.swift */; };
 		BDA0E2A122DDB31A0029EBEB /* ThemeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */; };
 		BDA0E2A322DDB5550029EBEB /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */; };
-		BDA156EB187E5EE600F5D412 /* SJMediaMetadataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */; };
 		BDA1E8161EDD28700098FB9D /* SonosLinkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA1E8141EDD28700098FB9D /* SonosLinkController.swift */; };
 		BDA1E8171EDD28700098FB9D /* SonosLinkController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDA1E8151EDD28700098FB9D /* SonosLinkController.xib */; };
 		BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA2065A1BB3AF1B00D38389 /* DownloadProgressManager.swift */; };
@@ -829,8 +816,6 @@
 		BDAA3CF92122A2DA00649F81 /* player_play_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CF42122A2D900649F81 /* player_play_button.json */; };
 		BDAA3CFC2122A2DA00649F81 /* sleep_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CF72122A2DA00649F81 /* sleep_button.json */; };
 		BDAA3CFD2122A2DA00649F81 /* effects_button.json in Resources */ = {isa = PBXBuildFile; fileRef = BDAA3CF82122A2DA00649F81 /* effects_button.json */; };
-		BDADFA062574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDADFA042574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift */; };
-		BDADFA072574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDADFA052574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib */; };
 		BDAE54CC230C055600330680 /* NoSearchResultsPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAE54CB230C055600330680 /* NoSearchResultsPlaceholder.swift */; };
 		BDAE54CF230C063500330680 /* NoSearchResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */; };
 		BDAE54D0230C063500330680 /* NoSearchResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */; };
@@ -1160,11 +1145,6 @@
 		4029E3E32293AD410003BEEB /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		4029E3EC229CD67B0003BEEB /* ProgressPieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPieView.swift; sourceTree = "<group>"; };
 		403086CF2378EB1F009EF821 /* UpNextViewController+UserEpisode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UpNextViewController+UserEpisode.swift"; sourceTree = "<group>"; };
-		4030D45F2496446000BEC7D9 /* MultiSelectActionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectActionController.swift; sourceTree = "<group>"; };
-		4030D4602496446000BEC7D9 /* MultiSelectActionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultiSelectActionController.xib; sourceTree = "<group>"; };
-		4030D463249653B000BEC7D9 /* MultiSelectActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectActionCell.swift; sourceTree = "<group>"; };
-		4030D464249653B000BEC7D9 /* MultiSelectActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultiSelectActionCell.xib; sourceTree = "<group>"; };
-		4030D4672498579D00BEC7D9 /* MultiSelectActionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectActionProtocol.swift; sourceTree = "<group>"; };
 		4031466C252568970085E76B /* WidgetEpisode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEpisode.swift; sourceTree = "<group>"; };
 		4036B0A325240F5D00AE08E6 /* WidgetHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WidgetHelper.swift; sourceTree = "<group>"; };
 		403946E62285231100F55162 /* AddCustomViewController+ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddCustomViewController+ImagePicker.swift"; sourceTree = "<group>"; };
@@ -1308,11 +1288,8 @@
 		409C793522387C0500386495 /* AllArchivedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArchivedCell.swift; sourceTree = "<group>"; };
 		409C793622387C0500386495 /* AllArchivedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AllArchivedCell.xib; sourceTree = "<group>"; };
 		409C7939223899A500386495 /* AllArchivedPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllArchivedPlaceholder.swift; sourceTree = "<group>"; };
-		40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectHelper.swift; sourceTree = "<group>"; };
 		40A4FCCE221938A700252170 /* SinglePodcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePodcastViewController.swift; sourceTree = "<group>"; };
 		40A4FCCF221938A700252170 /* SinglePodcastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SinglePodcastViewController.xib; sourceTree = "<group>"; };
-		40AA12722488AE1F006B9D48 /* MultiSelectFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectFooterView.swift; sourceTree = "<group>"; };
-		40AA12742488AE3C006B9D48 /* MultiSelectFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MultiSelectFooterView.xib; sourceTree = "<group>"; };
 		40AB3D22224C4E1000A4DC13 /* ProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleView.swift; sourceTree = "<group>"; };
 		40AE73B121F00AFD00F77ACE /* SubscribeButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SubscribeButton.xib; sourceTree = "<group>"; };
 		40AE73B321F00DFA00F77ACE /* SubscribeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeButton.swift; sourceTree = "<group>"; };
@@ -1367,8 +1344,6 @@
 		466DE3F1278783F70046F722 /* EpisodeListHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeListHeaderView.xib; sourceTree = "<group>"; };
 		466DE3F4278794D50046F722 /* EpisodeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeListTableViewCell.swift; sourceTree = "<group>"; };
 		466DE3F5278794D50046F722 /* EpisodeListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeListTableViewCell.xib; sourceTree = "<group>"; };
-		46737E69272B2EEC00739C3E /* ReadOnlyTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyTextView.swift; sourceTree = "<group>"; };
-		46737E6B2730400500739C3E /* ThemedSwitchToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedSwitchToggleStyle.swift; sourceTree = "<group>"; };
 		467DF6E626E107A000AC290C /* swiftgen.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		467DF6E826E1093A00AC290C /* Strings+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Strings+Generated.swift"; sourceTree = "<group>"; };
 		4680CBF6271F5DEB00391AB8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1625,7 +1600,6 @@
 		BD422ECF26841BB40078B799 /* EpisodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeView.swift; sourceTree = "<group>"; };
 		BD422ED126841BF10078B799 /* HungryForMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HungryForMoreView.swift; sourceTree = "<group>"; };
 		BD422ED326841C340078B799 /* UpNextStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpNextStyles.swift; sourceTree = "<group>"; };
-		BD424AFB2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AutoAddToUpNextViewController+PodcastSelect.swift"; sourceTree = "<group>"; };
 		BD424B092575F30800C9447B /* PodcastDisclosureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastDisclosureCell.swift; sourceTree = "<group>"; };
 		BD424B0A2575F30800C9447B /* PodcastDisclosureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastDisclosureCell.xib; sourceTree = "<group>"; };
 		BD42E3181B940AFF000EA14F /* DiscoverPodcastTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverPodcastTableCell.swift; sourceTree = "<group>"; };
@@ -1928,8 +1902,6 @@
 		BDA0E29E22DDB2DC0029EBEB /* ThemeableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeableLabel.swift; sourceTree = "<group>"; };
 		BDA0E2A022DDB31A0029EBEB /* ThemeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStyle.swift; sourceTree = "<group>"; };
 		BDA0E2A222DDB5550029EBEB /* ThemeColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
-		BDA156E9187E5EE600F5D412 /* SJMediaMetadataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJMediaMetadataHelper.h; sourceTree = "<group>"; };
-		BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJMediaMetadataHelper.m; sourceTree = "<group>"; };
 		BDA1E8141EDD28700098FB9D /* SonosLinkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SonosLinkController.swift; sourceTree = "<group>"; };
 		BDA1E8151EDD28700098FB9D /* SonosLinkController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SonosLinkController.xib; sourceTree = "<group>"; };
 		BDA2065A1BB3AF1B00D38389 /* DownloadProgressManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadProgressManager.swift; sourceTree = "<group>"; };
@@ -1953,8 +1925,6 @@
 		BDAA3CF42122A2D900649F81 /* player_play_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = player_play_button.json; sourceTree = "<group>"; };
 		BDAA3CF72122A2DA00649F81 /* sleep_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sleep_button.json; sourceTree = "<group>"; };
 		BDAA3CF82122A2DA00649F81 /* effects_button.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = effects_button.json; sourceTree = "<group>"; };
-		BDADFA042574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoAddToUpNextViewController.swift; sourceTree = "<group>"; };
-		BDADFA052574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AutoAddToUpNextViewController.xib; sourceTree = "<group>"; };
 		BDAE54CB230C055600330680 /* NoSearchResultsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchResultsPlaceholder.swift; sourceTree = "<group>"; };
 		BDAE54CD230C063500330680 /* NoSearchResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchResultsCell.swift; sourceTree = "<group>"; };
 		BDAE54CE230C063500330680 /* NoSearchResultsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoSearchResultsCell.xib; sourceTree = "<group>"; };
@@ -2186,7 +2156,6 @@
 			files = (
 				BD11C41D2524741C00E308E6 /* CarPlay.framework in Frameworks */,
 				BD44F750267C850000810148 /* DifferenceKit in Frameworks */,
-				BD14A2F5252EBBD50028EE75 /* Agrume in Frameworks */,
 				BD7F691828EC6CF40040881F /* Kingfisher in Frameworks */,
 				8BE36DFD2873552500E35313 /* PocketCastsDataModel in Frameworks */,
 				8BE36E032873552600E35313 /* PocketCastsUtils in Frameworks */,
@@ -2426,21 +2395,6 @@
 			path = WidgetExtension;
 			sourceTree = "<group>";
 		};
-		409BF821248F09790015097B /* MultiSelect */ = {
-			isa = PBXGroup;
-			children = (
-				40AA12722488AE1F006B9D48 /* MultiSelectFooterView.swift */,
-				40AA12742488AE3C006B9D48 /* MultiSelectFooterView.xib */,
-				4030D463249653B000BEC7D9 /* MultiSelectActionCell.swift */,
-				4030D464249653B000BEC7D9 /* MultiSelectActionCell.xib */,
-				4030D45F2496446000BEC7D9 /* MultiSelectActionController.swift */,
-				4030D4602496446000BEC7D9 /* MultiSelectActionController.xib */,
-				4030D4672498579D00BEC7D9 /* MultiSelectActionProtocol.swift */,
-				40A0A90C24B57B1C00C29362 /* MultiSelectHelper.swift */,
-			);
-			name = MultiSelect;
-			sourceTree = "<group>";
-		};
 		40B23F95212537B7007EA6DE /* Large List */ = {
 			isa = PBXGroup;
 			children = (
@@ -2526,8 +2480,6 @@
 			isa = PBXGroup;
 			children = (
 				463C12792714B57800178F9E /* Themeable+SwiftUI.swift */,
-				46737E69272B2EEC00739C3E /* ReadOnlyTextView.swift */,
-				46737E6B2730400500739C3E /* ThemedSwitchToggleStyle.swift */,
 			);
 			name = SwiftUI;
 			sourceTree = "<group>";
@@ -2851,7 +2803,6 @@
 				BD1A340D2044F1B6008A5061 /* Options Picker */,
 				BDA42B6C21B794C5003919CB /* Buttons */,
 				BD240C41231F46AA00FB2CDD /* Search */,
-				409BF821248F09790015097B /* MultiSelect */,
 				BD1BA4181D07EED9001383F0 /* ActionSheetRootViewController.swift */,
 				BD7166941ECA8646007DD36E /* TopAlignedLabel.swift */,
 				BD7166961ECA880D007DD36E /* IndentedTextField.swift */,
@@ -2912,8 +2863,6 @@
 			isa = PBXGroup;
 			children = (
 				BD9FF6111B8EC90C009F075E /* ImageManager.swift */,
-				BDA156E9187E5EE600F5D412 /* SJMediaMetadataHelper.h */,
-				BDA156EA187E5EE600F5D412 /* SJMediaMetadataHelper.m */,
 			);
 			name = Image;
 			sourceTree = "<group>";
@@ -3157,9 +3106,6 @@
 				BD86D94E217EB81C0010FA1B /* FilterDownloadCell.xib */,
 				BD6FADEE24C1625D009F3183 /* PlusDetailsViewController.swift */,
 				BD6FADEF24C1625D009F3183 /* PlusDetailsViewController.xib */,
-				BDADFA042574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift */,
-				BD424AFB2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift */,
-				BDADFA052574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -4396,7 +4342,6 @@
 			);
 			name = podcasts;
 			packageProductDependencies = (
-				BD14A2F4252EBBD50028EE75 /* Agrume */,
 				BDBEE72C267C845E00BA43FB /* Lottie */,
 				BD44F74F267C850000810148 /* DifferenceKit */,
 				8BE36DFC2873552500E35313 /* PocketCastsDataModel */,
@@ -4471,7 +4416,6 @@
 			);
 			mainGroup = BDBD53E317019B290048C8C5;
 			packageReferences = (
-				BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */,
 				BDBEE72B267C845E00BA43FB /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */,
 				BD7F691628EC6CF40040881F /* XCRemoteSwiftPackageReference "Kingfisher" */,
@@ -4568,7 +4512,6 @@
 				BD6B667C245BC25C00CF5245 /* AppIcon-Indigo40x40@2x.png in Resources */,
 				BDB1E4DE1B8C5998009AD30F /* DiscoverViewController.xib in Resources */,
 				408529A0247C9682007FE8AA /* SupporterContributionsViewController.xib in Resources */,
-				40AA12752488AE3C006B9D48 /* MultiSelectFooterView.xib in Resources */,
 				400A3EEF226FF12B007361C7 /* SelectPaymentFreqViewController.xib in Resources */,
 				400A3EFF22729B85007361C7 /* SelectAccountTypeViewController.xib in Resources */,
 				BDA002F41F7B318B00DCB4AE /* AppIcon-Round60x60@3x.png in Resources */,
@@ -4583,7 +4526,6 @@
 				BD1292CF22F7CD83004608A6 /* AppIcon-Plus40x40@3x.png in Resources */,
 				BDBCE6D3244E7755004FFE13 /* AppIcon-Radioactive20x20@3x.png in Resources */,
 				BDA002C91F7B318B00DCB4AE /* AppIcon-Dark29x29@3x.png in Resources */,
-				BDADFA072574AB1800BB6FF4 /* AutoAddToUpNextViewController.xib in Resources */,
 				BDA002CA1F7B318B00DCB4AE /* AppIcon-Dark29x29~ipad.png in Resources */,
 				BD12931722F809F8004608A6 /* AppIcon-Electric-Pink20x20@2x.png in Resources */,
 				BDA002EF1F7B318B00DCB4AE /* AppIcon-Round40x40@2x.png in Resources */,
@@ -4773,7 +4715,6 @@
 				BDA003051F7B318B00DCB4AE /* AppIcon60x60@2x.png in Resources */,
 				BDA002D51F7B318B00DCB4AE /* AppIcon-Round-Dark20x20@2x.png in Resources */,
 				4053CE0A2159E477001C92B1 /* CreateFilterViewController.xib in Resources */,
-				4030D466249653B000BEC7D9 /* MultiSelectActionCell.xib in Resources */,
 				BD6B6678245BC25C00CF5245 /* AppIcon-Indigo76x76@2x~ipad.png in Resources */,
 				BDA002DD1F7B318B00DCB4AE /* AppIcon-Round-Dark40x40@2x.png in Resources */,
 				BDA002F01F7B318B00DCB4AE /* AppIcon-Round40x40@2x~ipad.png in Resources */,
@@ -4931,7 +4872,6 @@
 				BD0B68752203EFCC002CCE3F /* EpisodeLimitCell.xib in Resources */,
 				409C793822387C0500386495 /* AllArchivedCell.xib in Resources */,
 				BD12931622F809F8004608A6 /* AppIcon-Electric-Pink83.5x83.5@2x~ipad.png in Resources */,
-				4030D4622496446000BEC7D9 /* MultiSelectActionController.xib in Resources */,
 				BD6B669D245BC28800CF5245 /* AppIcon-Red-Velvet40x40@2x~ipad.png in Resources */,
 				BD1292EF22F7D066004608A6 /* AppIcon-Classic29x29@2x.png in Resources */,
 				BD6B665C245BC24C00CF5245 /* AppIcon-Pocket-Cats29x29@2x~ipad.png in Resources */,
@@ -5043,7 +4983,6 @@
 				BD3FD738202A85E900A7F609 /* ListeningHistoryViewController+Table.swift in Sources */,
 				BD2B50AD201076310099B79D /* PodcastSettingsViewController.swift in Sources */,
 				408426322134CBE60076D82E /* SmallPagedListSummaryViewController.swift in Sources */,
-				40AA12732488AE1F006B9D48 /* MultiSelectFooterView.swift in Sources */,
 				BDF15A461B54E21B000EC323 /* PlaybackEffects.swift in Sources */,
 				BDED930B251DC515000BF622 /* CarPlaySceneDelegate+Interaction.swift in Sources */,
 				BD21D4A522DED77900D5888B /* ThemeableButton.swift in Sources */,
@@ -5056,7 +4995,6 @@
 				BDBD2AC7202D66B300E0A79E /* OptionsPickerRootController.swift in Sources */,
 				4004F56524EB51F900FBEBE1 /* SceneHelper.swift in Sources */,
 				40FFAD8D2149E1C200024FCF /* EpisodeFilterChipCell.swift in Sources */,
-				4030D465249653B000BEC7D9 /* MultiSelectActionCell.swift in Sources */,
 				45ECEF8827E9253900C65030 /* ShowNotesFormatterUtils.swift in Sources */,
 				40542E35226569BC00046330 /* ProfileIntroViewController.swift in Sources */,
 				BD7EA4DC1E52D4320014EAC5 /* PlayPauseButton.swift in Sources */,
@@ -5125,7 +5063,6 @@
 				405471272163345400341BF6 /* PodcastSelectionHeaderView.swift in Sources */,
 				BD9086A7204E120C00C0C78D /* DescriptiveActionView.swift in Sources */,
 				BDF4D3162175C56F0086463E /* ThemeLoadingIndicator.swift in Sources */,
-				4030D4612496446000BEC7D9 /* MultiSelectActionController.swift in Sources */,
 				BDD40A1C1FA1B14900A53AE1 /* TintableImageButton.swift in Sources */,
 				40588AAC254131D1002BDCA6 /* LargeNavBarViewController.swift in Sources */,
 				BD95ED6E1BAFA571004335B0 /* CountryCell.swift in Sources */,
@@ -5179,7 +5116,6 @@
 				408ADBCA22B1D6A900E10AE6 /* OptionsPickerHelper.swift in Sources */,
 				BD22DF0B1BB7911F005FFA28 /* ShortcutManager.swift in Sources */,
 				BD2A8D701FD50AEA00EB485A /* SwipeActionsHelper.swift in Sources */,
-				46737E6C2730400500739C3E /* ThemedSwitchToggleStyle.swift in Sources */,
 				40FFCDB022FA817300395CA5 /* ThemeAbstractCell.swift in Sources */,
 				BDE60ACE2108597D00A7281B /* DiscoverViewController+DiscoverDelegate.swift in Sources */,
 				BDB3BDC11FE23F9000FD8D24 /* PodcastChooserCell.swift in Sources */,
@@ -5243,10 +5179,8 @@
 				40AF75A324761E920000AD9D /* PodcastHeartView.swift in Sources */,
 				407B9B6223875AA1008E7CA8 /* UpNextViewController+Table.swift in Sources */,
 				BD93F7FD247CB4B600B79E05 /* EpisodeListSearchController+Search.swift in Sources */,
-				BDA156EB187E5EE600F5D412 /* SJMediaMetadataHelper.m in Sources */,
 				40FE395F229CF424004526CD /* UserEpisode+Formatting.swift in Sources */,
 				BD14CCD61D7D2BCE00DB4547 /* SharePublishViewController.swift in Sources */,
-				46737E6A272B2EEC00739C3E /* ReadOnlyTextView.swift in Sources */,
 				4011B93B2164546E00661A7D /* FilterEditOptionsViewController.swift in Sources */,
 				4051A5762281A9DD00C13C12 /* AccountActionCell.swift in Sources */,
 				BDC63BBC21A5051B00C31887 /* LayerAutoSizingView.swift in Sources */,
@@ -5296,7 +5230,6 @@
 				BD023C622251BB4E008A9C6F /* ListHeader.swift in Sources */,
 				BD585C252047C74D00AC842C /* AppDelegate+Defaults.swift in Sources */,
 				BD6C3F02237916A200C01403 /* ShelfActionsViewController.swift in Sources */,
-				BD424AFC2575EBF900C9447B /* AutoAddToUpNextViewController+PodcastSelect.swift in Sources */,
 				463538AB26E814B300BA9D35 /* DataModel+Strings.swift in Sources */,
 				BDDF8AA8240CEBF9009BA263 /* DownloadsViewController+Swipe.swift in Sources */,
 				BDF0507C1FBA65ED00194D68 /* ListeningHistoryViewController.swift in Sources */,
@@ -5355,7 +5288,6 @@
 				BDF15A3E1B54E053000EC323 /* PlaybackManager.swift in Sources */,
 				BD77E9031B9D2CF600DC4ADF /* AngularProgressIndicator.swift in Sources */,
 				BD8032D32123EAD600BFBB03 /* EffectsButton.swift in Sources */,
-				4030D4682498579D00BEC7D9 /* MultiSelectActionProtocol.swift in Sources */,
 				BD86D94F217EB81C0010FA1B /* FilterDownloadCell.swift in Sources */,
 				BD6B432A2755F516005E4017 /* AboutViewLogos.swift in Sources */,
 				403B5B0621812E6000821A54 /* AppDelelgate+SiriShortcuts.swift in Sources */,
@@ -5421,7 +5353,6 @@
 				408ADBD022B87FF800E10AE6 /* TopShadowView.swift in Sources */,
 				BDA2065B1BB3AF1B00D38389 /* DownloadProgressManager.swift in Sources */,
 				BD27B8C52756F486007A0EA7 /* UIColor+SwiftUI.swift in Sources */,
-				40A0A90D24B57B1C00C29362 /* MultiSelectHelper.swift in Sources */,
 				BDAE54CC230C055600330680 /* NoSearchResultsPlaceholder.swift in Sources */,
 				40251CEC22BB0F6E00551C51 /* CancelledAcknowledgeViewController.swift in Sources */,
 				BDD3579527BCD6DF0000D155 /* GridHelper.swift in Sources */,
@@ -5449,7 +5380,6 @@
 				4041FE95218A828F0089D4A1 /* SiriShortcutSuggestedCell.swift in Sources */,
 				BDFFC9AF2148A1460026D875 /* PCRoutePickerView.swift in Sources */,
 				40A4FCD0221938A700252170 /* SinglePodcastViewController.swift in Sources */,
-				BDADFA062574AB1800BB6FF4 /* AutoAddToUpNextViewController.swift in Sources */,
 				403B5B0021796F2F00821A54 /* DownloadFilterOverlayController.swift in Sources */,
 				4041FEA7218FF3B80089D4A1 /* AddCell.swift in Sources */,
 				BDED9312251DD5EB000BF622 /* CarPlayImageHelper.swift in Sources */,
@@ -6116,14 +6046,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shiftyjelly/Agrume";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.6.10;
-			};
-		};
 		BD44F74E267C850000810148 /* XCRemoteSwiftPackageReference "DifferenceKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ra1028/DifferenceKit";
@@ -6174,11 +6096,6 @@
 		8BE36E022873552600E35313 /* PocketCastsUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PocketCastsUtils;
-		};
-		BD14A2F4252EBBD50028EE75 /* Agrume */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BD14A2F3252EBBD50028EE75 /* XCRemoteSwiftPackageReference "Agrume" */;
-			productName = Agrume;
 		};
 		BD44F74F267C850000810148 /* DifferenceKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -179,9 +179,9 @@ class EpisodeCell: ThemeableSwipeCell, MainEpisodeActionViewDelegate {
         if episode.archived {
             informationLabel.text = L10n.podcastArchived + " • " + episode.displayableInfo(includeSize: false)
         } else if let userEpisode = episode as? UserEpisode {
-            informationLabel.text = userEpisode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = userEpisode.displayableInfo(includeSize: false)
         } else {
-            informationLabel.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            informationLabel.text = episode.displayableInfo(includeSize: false)
         }
 
         if episode.downloading(), !downloadingIndicator.isAnimating {

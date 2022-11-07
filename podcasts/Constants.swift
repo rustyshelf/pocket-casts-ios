@@ -40,7 +40,6 @@ struct Constants {
         static let systemThemeMayHaveChanged = NSNotification.Name(rawValue: "SystemThemeChanged")
         static let followSystemThemeTurnedOn = NSNotification.Name(rawValue: "FollowSystemThemeTurnedOn")
         static let playbackEffectsChanged = NSNotification.Name(rawValue: "SJEffectsChanged")
-        static let extraMediaSessionActionsChanged = NSNotification.Name(rawValue: "SJMediaSessionActionsChanged")
         static let currentlyPlayingEpisodeUpdated = NSNotification.Name(rawValue: "SJCurrentlyPlayingEpisodeUpdated")
         static let sleepTimerChanged = NSNotification.Name(rawValue: "SJSleepTimerChanged")
         static let unhideNavBarRequested = NSNotification.Name(rawValue: "SJUnhideNavBar")
@@ -95,11 +94,8 @@ struct Constants {
         static let episodeFinishedAction = "SJPodcastFinishedAction"
         static let appId = "SJUniqueAppId"
 
-        static let keepScreenOnWhilePlaying = "SJKeepScreenOnWhenPlaying"
-        static let openPlayerAutomatically = "SJOpenPlayerAutomatically"
         static let intelligentPlaybackResumption = "SJIntelligentPlaybackResumption"
         static let hideImagesInShowNotes = "HideImagesInShowNotes"
-        static let loadEmbeddedImages = "SJLoadEmbeddedArt"
         static let appBadge = "SJEppBadgeShows"
         static let pushEnabled = "PushEnabled"
         static let globalEpisodesToKeep = "SJPodcastsToKeep"

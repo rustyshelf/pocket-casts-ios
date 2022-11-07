@@ -189,7 +189,7 @@ extension ServerPodcastManager {
         }
 
         podcast.episodeGrouping = ServerConfig.shared.syncDelegate?.defaultPodcastGrouping() ?? 0
-        podcast.showArchived = ServerConfig.shared.syncDelegate?.defaultShowArchived() ?? false
+        podcast.showArchived = false
 
         DataManager.sharedManager.save(podcast: podcast)
         DataManager.sharedManager.setPushDefaultForNewPodcast(podcast)

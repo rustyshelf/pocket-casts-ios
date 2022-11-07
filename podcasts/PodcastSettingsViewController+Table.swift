@@ -46,34 +46,6 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             cell.cellSwitch.addTarget(self, action: #selector(autoDownloadChanged(_:)), for: UIControl.Event.valueChanged)
 
             return cell
-        case .upNext:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.switchCellId, for: indexPath) as! SwitchCell
-            cell.cellLabel.text = L10n.addToUpNext
-            cell.cellSwitch.onTintColor = podcast.switchTintColor()
-            cell.setImage(imageName: "upnext")
-            cell.cellSwitch.isOn = podcast.autoAddToUpNextOn()
-
-            cell.cellSwitch.removeTarget(self, action: #selector(addToUpNextChanged(_:)), for: UIControl.Event.valueChanged)
-            cell.cellSwitch.addTarget(self, action: #selector(addToUpNextChanged(_:)), for: UIControl.Event.valueChanged)
-
-            return cell
-        case .upNextPosition:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsQueuePosition
-            cell.setImage(imageName: nil)
-
-            let upNextOrder = Int(podcast.autoAddToUpNext)
-            cell.cellSecondaryLabel.text = (upNextOrder == AutoAddToUpNextSetting.addLast.rawValue) ? L10n.bottom : L10n.top
-
-            return cell
-        case .globalUpNext:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
-            cell.cellLabel.text = L10n.settingsGlobalSettings
-            cell.setImage(imageName: nil)
-
-            cell.cellSecondaryLabel.text = L10n.settingsEpisodeLimitFormat(ServerSettings.autoAddToUpNextLimit().localized())
-
-            return cell
         case .playbackEffects:
             let cell = tableView.dequeueReusableCell(withIdentifier: PodcastSettingsViewController.disclosureCellId, for: indexPath) as! DisclosureCell
             cell.cellLabel.text = PlayerAction.effects.title()
@@ -158,9 +130,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
         tableView.deselectRow(at: indexPath, animated: true)
 
         let row = tableData()[indexPath.section][indexPath.row]
-        if row == .upNextPosition {
-            showAutoAddPositionSettings()
-        } else if row == .feedError {
+        if row == .feedError {
             let alert = UIAlertController(title: L10n.settingsFeedIssue, message: L10n.settingsFeedIssueMsg, preferredStyle: UIAlertController.Style.alert)
 
             let okAction = UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil)
@@ -178,9 +148,6 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
             alert.addAction(refreshAction)
 
             present(alert, animated: true, completion: nil)
-        } else if row == .globalUpNext {
-            let globalSettings = AutoAddToUpNextViewController()
-            navigationController?.pushViewController(globalSettings, animated: true)
         } else if row == .playbackEffects {
             let effectsController = PodcastEffectsViewController(podcast: podcast)
             navigationController?.pushViewController(effectsController, animated: true)
@@ -223,15 +190,7 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let firstRow = tableData()[section][0]
 
-        if firstRow == .upNext {
-            let upNextLimit = ServerSettings.autoAddToUpNextLimit()
-            let onLimitReached = ServerSettings.onAutoAddLimitReached()
-            if onLimitReached == .addToTopOnly {
-                return L10n.settingsUpNextLimitAddToTop(upNextLimit.localized())
-            } else {
-                return L10n.settingsUpNextLimit(upNextLimit.localized())
-            }
-        } else if firstRow == .feedError {
+        if firstRow == .feedError {
             return L10n.settingsFeedErrorMsg
         } else if firstRow == .autoArchive {
             return nil
@@ -244,30 +203,6 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         ThemeableTable.setHeaderFooterTextColor(on: view)
-    }
-
-    // MARK: - Auto Add To Up Next
-
-    private func showAutoAddPositionSettings() {
-        let positionPicker = OptionsPicker(title: L10n.autoAdd.localizedUppercase)
-
-        let topAction = OptionAction(label: L10n.top, icon: nil) {
-            self.setUpNext(.addFirst)
-        }
-        positionPicker.addAction(action: topAction)
-
-        let bottomAction = OptionAction(label: L10n.bottom, icon: nil) {
-            self.setUpNext(.addLast)
-        }
-        positionPicker.addAction(action: bottomAction)
-
-        positionPicker.show(statusBarStyle: preferredStatusBarStyle)
-    }
-
-    private func setUpNext(_ setting: AutoAddToUpNextSetting) {
-        podcast.autoAddToUpNext = setting.rawValue
-        DataManager.sharedManager.save(podcast: podcast)
-        settingsTable.reloadData()
     }
 
     // MARK: - Settings changes
@@ -295,15 +230,10 @@ extension PodcastSettingsViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     private func tableData() -> [[TableRow]] {
-        var data: [[TableRow]] = [[.autoDownload], [.upNext], [.playbackEffects, .skipFirst, .skipLast], [.autoArchive]]
+        var data: [[TableRow]] = [[.autoDownload], [.playbackEffects, .skipFirst, .skipLast], [.autoArchive]]
 
         if podcast.refreshAvailable {
             data.insert([.feedError], at: 0)
-        }
-
-        if podcast.autoAddToUpNextOn() {
-            data[1].append(.upNextPosition)
-            data[1].append(.globalUpNext)
         }
 
         if filtersPodcastCanAppearIn().count > 0 {

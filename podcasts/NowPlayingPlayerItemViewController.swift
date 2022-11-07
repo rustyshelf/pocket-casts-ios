@@ -1,4 +1,3 @@
-import Agrume
 import AVKit
 import SafariServices
 import UIKit
@@ -26,14 +25,7 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
 
     @IBOutlet var playPauseBtn: PlayPauseButton!
 
-    @IBOutlet var episodeImage: UIImageView! {
-        didSet {
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-            tapGesture.numberOfTapsRequired = 1
-            tapGesture.numberOfTouchesRequired = 1
-            episodeImage.addGestureRecognizer(tapGesture)
-        }
-    }
+    @IBOutlet var episodeImage: UIImageView!
 
     @IBOutlet var episodeName: ThemeableLabel! {
         didSet {
@@ -231,13 +223,6 @@ class NowPlayingPlayerItemViewController: PlayerItemViewController {
             let vc = SFSafariViewController(url: url, configuration: config)
             present(vc, animated: true)
         }
-    }
-
-    @objc private func imageTapped() {
-        guard let artwork = episodeImage.image else { return }
-
-        let agrume = Agrume(image: artwork, background: .blurred(.regular))
-        agrume.show(from: self)
     }
 
     @objc private func videoTapped() {

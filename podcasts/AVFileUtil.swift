@@ -59,7 +59,7 @@ class AVFileUtil: NSObject {
         for item in artworks {
             var embeddedImage: UIImage
 
-            if let data = item.dataValue, SJMediaMetadataHelper.isValidEmbeddedImage(data), let image = UIImage(data: data) {
+            if let data = item.dataValue, let image = UIImage(data: data) {
                 embeddedImage = image
                 artworkImages.append(embeddedImage)
             }

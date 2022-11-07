@@ -2,49 +2,31 @@ import UIKit
 
 public class SubscriptionHelper: NSObject {
     public class func hasActiveSubscription() -> Bool {
-        let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionPaid)
-        return status
+        return true
     }
 
     public class func hasRenewingSubscription() -> Bool {
-        let status = UserDefaults.standard.bool(forKey: ServerConstants.UserDefaults.subscriptionAutoRenewing)
-        return status
+        return false
     }
 
     public class func subscriptionGiftDays() -> Int {
-        let days = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionGiftDays)
-        return days
+        return 4000
     }
 
     public class func subscriptionPlatform() -> SubscriptionPlatform {
-        let intValue = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionPlatform)
-
-        return SubscriptionPlatform(rawValue: intValue) ?? .none
+        return .iOS
     }
 
     public class func subscriptionRenewalDate() -> Date? {
-        let renewalTimeInterval = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionExpiryDate)
-        let renewalDate = Date(timeIntervalSince1970: TimeInterval(renewalTimeInterval))
-        return renewalDate
+        return Date.init(timeIntervalSinceNow: 3650.days)
     }
 
     public class func timeToSubscriptionExpiry() -> TimeInterval? {
-        if !hasRenewingSubscription() {
-            let renewalTimeInterval = UserDefaults.standard.double(forKey: ServerConstants.UserDefaults.subscriptionExpiryDate)
-            if renewalTimeInterval == 0 { return nil } // we can't calculate an offset to an non-existent time
-
-            let expiryDate = Date(timeIntervalSince1970: renewalTimeInterval)
-            let expiryTime = expiryDate.timeIntervalSinceNow
-            return expiryTime
-        }
-        return nil
+        return 3650.days
     }
 
     public class func hasLifetimeGift() -> Bool {
-        guard SubscriptionHelper.subscriptionPlatform() == .gift else { return false }
-        let days = UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionGiftDays)
-        let tenYearsInDays = 10 * 365
-        return days > tenYearsInDays
+        return true
     }
 
     public class func subscriptionFrequencyValue() -> SubscriptionFrequency {
@@ -101,7 +83,7 @@ public class SubscriptionHelper: NSObject {
     }
 
     public class func subscriptionType() -> SubscriptionType {
-        SubscriptionType(rawValue: UserDefaults.standard.integer(forKey: ServerConstants.UserDefaults.subscriptionType)) ?? SubscriptionType.none
+        SubscriptionType.plus
     }
 
     public class func setSubscriptionPodcasts(_ value: [PodcastSubscription]) {

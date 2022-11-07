@@ -157,14 +157,14 @@ class PlayerCell: UITableViewCell {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true
             downloadedIndicator.isHidden = true
-            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            episodeInfo.text = episode.displayableInfo(includeSize: false)
         } else if episode.downloading() {
             if !downloadingIndicator.isAnimating {
                 downloadingIndicator.startAnimating()
                 downloadingIndicator.isHidden = false
                 downloadedIndicator.isHidden = true
             }
-            episodeInfo.text = episode.displayableInfo(includeSize: Settings.primaryRowAction() == .download)
+            episodeInfo.text = episode.displayableInfo(includeSize: false)
         } else if episode.downloaded(pathFinder: DownloadManager.shared) {
             downloadingIndicator.stopAnimating()
             downloadingIndicator.isHidden = true

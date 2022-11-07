@@ -92,7 +92,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PodcastManager.shared.checkForPendingAndAutoDownloads()
             UserEpisodeManager.checkForPendingUploads()
         }
-        PlaybackManager.shared.updateIdleTimer()
     }
 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {

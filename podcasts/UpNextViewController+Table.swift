@@ -99,12 +99,7 @@ extension UpNextViewController: UITableViewDelegate, UITableViewDataSource {
 
         guard let episode = PlaybackManager.shared.queue.episodeAt(index: indexPath.row) else { return }
 
-        let playOnTap = Settings.playUpNextOnTap()
-        if playOnTap {
-            PlaybackManager.shared.load(episode: episode, autoPlay: true, overrideUpNext: false)
-        } else {
-            showEpisodeDetailViewController(for: episode)
-        }
+        showEpisodeDetailViewController(for: episode)
     }
 
     // MARK: - Rearrange

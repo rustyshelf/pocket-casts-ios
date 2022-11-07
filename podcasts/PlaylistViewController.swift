@@ -244,15 +244,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
             self.filterOptionsTapped()
         }
 
-        let playAllAction = OptionAction(label: L10n.playAll, icon: "filter_play") { [weak self] in
-            guard let self = self else { return }
-
-            let playableEpisodeCount = min(ServerSettings.autoAddToUpNextLimit(), self.episodes.count)
-            OptionsPickerHelper.playAllWarning(episodeCount: playableEpisodeCount, confirmAction: {
-                PlaybackManager.shared.play(filter: self.filter)
-            })
-        }
-
         let downloadAllAction = OptionAction(label: L10n.downloadAll, icon: "filter_downloaded") { [weak self] in
             guard let self = self else { return }
 
@@ -287,7 +278,6 @@ class PlaylistViewController: PCViewController, TitleButtonDelegate {
         }
 
         optionsPicker.addAction(action: sortAction)
-        optionsPicker.addAction(action: playAllAction)
         optionsPicker.addAction(action: downloadAllAction)
         optionsPicker.addAction(action: editAction)
 
