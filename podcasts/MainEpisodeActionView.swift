@@ -105,7 +105,6 @@ class MainEpisodeActionView: UIView {
 
         // update button state
         let isPlaying = (isCurrent && PlaybackManager.shared.playing())
-        let primaryRowActionIsDownload = Settings.primaryRowAction() == .download
         if isCurrent {
             state = isPlaying ? .pause : .play
         } else if episode.played() {
@@ -114,14 +113,10 @@ class MainEpisodeActionView: UIView {
             state = .error
         } else if isCurrent {
             state = isPlaying ? .pause : .play
-        } else if primaryRowActionIsDownload, episode.downloading() || episode.queued() {
-            state = .pauseDownload
         } else if episode.waitingForWifi() {
             state = .waitingForWifi
-        } else if episode.downloaded(pathFinder: DownloadManager.shared) {
-            state = .play
         } else {
-            state = primaryRowActionIsDownload ? .download : .play
+            state = .play
         }
     }
 

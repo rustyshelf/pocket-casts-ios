@@ -65,9 +65,6 @@ extension AppDelegate {
                 ServerSettings.removeLegacySyncingEmail()
             }
         }
-        performUpdateIfRequired(updateKey: "v7_12Run") {
-            Settings.setMultiSelectGestureEnabled(true)
-        }
         performUpdateIfRequired(updateKey: "v7_15Run") {
             defaults.setValue(true, forKey: Constants.UserDefaults.intelligentPlaybackResumption)
         }

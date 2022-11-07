@@ -29,7 +29,6 @@ public protocol ServerSyncDelegate {
     func isPushEnabled() -> Bool
 
     func defaultPodcastGrouping() -> Int32
-    func defaultShowArchived() -> Bool
 
     func uniqueAppId() -> String
     func appVersion() -> String

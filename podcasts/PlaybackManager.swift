@@ -71,7 +71,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSkipTimesChanged), name: Constants.Notifications.skipTimesChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidUpdate(_:)), name: Constants.Notifications.userEpisodeUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleEpisodeDidDownload(_:)), name: Constants.Notifications.episodeDownloaded, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateExtraActions), name: Constants.Notifications.extraMediaSessionActionsChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlayingInfo), name: Constants.Notifications.userEpisodeUpdated, object: nil)
 
         // run these on a background queue because some of them might call our singleton instance back, causing a crash because PlaybackManager.shared is called from the init method
@@ -212,8 +211,6 @@ class PlaybackManager: ServerPlaybackDelegate {
             if currEpisode.videoPodcast() {
                 self.setAudioSessionVideoProperties()
             }
-
-            self.updateIdleTimer()
         })
     }
 
@@ -236,8 +233,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playbackPaused)
         cancelUpdateTimer()
         deactiveAudioSession()
-
-        updateIdleTimer()
     }
 
     func playPause() {
@@ -1328,10 +1323,7 @@ class PlaybackManager: ServerPlaybackDelegate {
         commandCenter.playCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
-            if Settings.legacyBluetoothModeEnabled() {
-                FileLog.shared.addMessage("Remote control: playCommand, treating as play (Legacy BT Mode is on)")
-                if !strongSelf.playing() { strongSelf.play() }
-            } else if let lastPlayTime = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastPlayEvent) as? Date, fabs(lastPlayTime.timeIntervalSinceNow) < 10.seconds {
+            if let lastPlayTime = UserDefaults.standard.object(forKey: Constants.UserDefaults.lastPlayEvent) as? Date, fabs(lastPlayTime.timeIntervalSinceNow) < 10.seconds {
                 // iOS will sometimes issue two remotePlay commands, so if it's been less than 10 seconds since the last one, just play don't try to playPause
                 FileLog.shared.addMessage("Remote control: playCommand, treating as play")
                 if !strongSelf.playing() { strongSelf.play() }
@@ -1369,16 +1361,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipBack(amount: skipEvent.interval)
             } else {
-                if let previousChapter = strongSelf.chapterManager.previousChapter(), Settings.remoteSkipShouldSkipChapters() {
-                    FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
-                    strongSelf.seekTo(time: ceil(previousChapter.startTime.seconds))
+                if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
+                    strongSelf.lastSeekTime = Date()
+                    strongSelf.skipBack()
                 } else {
-                    if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
-                        strongSelf.lastSeekTime = Date()
-                        strongSelf.skipBack()
-                    } else {
-                        FileLog.shared.addMessage("Remote control: previousTrackCommand ignored, too soon since previous command")
-                    }
+                    FileLog.shared.addMessage("Remote control: previousTrackCommand ignored, too soon since previous command")
                 }
             }
 
@@ -1394,16 +1381,11 @@ class PlaybackManager: ServerPlaybackDelegate {
             if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                 strongSelf.skipForward(amount: skipEvent.interval)
             } else {
-                if let nextChapter = strongSelf.chapterManager.nextChapter(), Settings.remoteSkipShouldSkipChapters() {
-                    FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
-                    strongSelf.seekTo(time: ceil(nextChapter.startTime.seconds))
+                if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
+                    strongSelf.lastSeekTime = Date()
+                    strongSelf.skipForward()
                 } else {
-                    if fabs(strongSelf.lastSeekTime.timeIntervalSinceNow) > Constants.Limits.minTimeBetweenRemoteSkips {
-                        strongSelf.lastSeekTime = Date()
-                        strongSelf.skipForward()
-                    } else {
-                        FileLog.shared.addMessage("Remote control: nextTrackCommand ignored, too soon since previous command")
-                    }
+                    FileLog.shared.addMessage("Remote control: nextTrackCommand ignored, too soon since previous command")
                 }
             }
 
@@ -1414,12 +1396,8 @@ class PlaybackManager: ServerPlaybackDelegate {
             guard let strongSelf = self, let _ = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
 
             if let seekEvent = event as? MPChangePlaybackPositionCommandEvent {
-                if Settings.legacyBluetoothModeEnabled(), seekEvent.positionTime < 1 {
-                    FileLog.shared.addMessage("Remote control: ignoring changePlaybackPositionCommand, it's to 0 and legacy bluetooth mode is on")
-                } else {
-                    FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
-                    strongSelf.seekTo(time: seekEvent.positionTime)
-                }
+                FileLog.shared.addMessage("Remote control: changePlaybackPositionCommand")
+                strongSelf.seekTo(time: seekEvent.positionTime)
 
                 return .success
             }
@@ -1447,47 +1425,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         }
 
         updateCommandCenterSkipTimes(addTarget: true)
-
-        updateExtraActions()
-    }
-
-    @objc private func updateExtraActions() {
-        let actionsEnabled = Settings.extraMediaSessionActionsEnabled()
-
-        let markPlayedCommand = MPRemoteCommandCenter.shared().dislikeCommand
-        let starCommand = MPRemoteCommandCenter.shared().likeCommand
-
-        if actionsEnabled {
-            #if !os(watchOS)
-                markPlayedCommand.setTitle(title: L10n.markPlayedShort)
-            #endif
-            markPlayedCommand.removeTarget(self)
-            markPlayedCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
-                guard let strongSelf = self, let episode = strongSelf.currentEpisode() else { return .noActionableNowPlayingItem }
-
-                EpisodeManager.markAsPlayed(episode: episode, fireNotification: true)
-                return .success
-            }
-            markPlayedCommand.isEnabled = true
-
-            #if !os(watchOS)
-                starCommand.setTitle(title: L10n.starEpisodeShort)
-            #endif
-            starCommand.removeTarget(self)
-            starCommand.addTarget { [weak self] _ -> MPRemoteCommandHandlerStatus in
-                guard let strongSelf = self, let episode = strongSelf.currentEpisode() as? Episode else { return .noActionableNowPlayingItem }
-
-                EpisodeManager.setStarred(true, episode: episode, updateSyncStatus: SyncManager.isUserLoggedIn())
-                return .success
-            }
-            starCommand.isEnabled = true
-        } else {
-            markPlayedCommand.removeTarget(self)
-            markPlayedCommand.isEnabled = false
-
-            starCommand.removeTarget(self)
-            starCommand.isEnabled = false
-        }
     }
 
     // MARK: - Skip Time Changes
@@ -1502,17 +1439,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         let skipBackAmount = TimeInterval(ServerSettings.skipBackTime())
         if addTarget {
             setInterval(commandCenter.skipBackwardCommand, interval: skipBackAmount) { event -> MPRemoteCommandHandlerStatus in
-                // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if Settings.remoteSkipShouldSkipChapters(), let previousChapter = self.chapterManager.previousChapter() {
-                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipBackTime())
-                    if Int(interval) == ServerSettings.skipBackTime() {
-                        FileLog.shared.addMessage("Skipping to previous chapter because Remote Skip Chapters is turned on")
-                        self.seekTo(time: ceil(previousChapter.startTime.seconds))
-
-                        return .success
-                    }
-                }
-
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipBack(amount: skipEvent.interval)
                 } else {
@@ -1528,17 +1454,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         let skipFwdAmount = TimeInterval(ServerSettings.skipForwardTime())
         if addTarget {
             setInterval(commandCenter.skipForwardCommand, interval: skipFwdAmount) { event -> MPRemoteCommandHandlerStatus in
-                // if the user has remote chapter skipping on, try to honour that setting if there's no interval that comes through, or the interval matches the default one
-                if Settings.remoteSkipShouldSkipChapters(), let nextChapter = self.chapterManager.nextChapter() {
-                    let interval = (event as? MPSkipIntervalCommandEvent)?.interval ?? TimeInterval(ServerSettings.skipForwardTime())
-                    if Int(interval) == ServerSettings.skipForwardTime() {
-                        FileLog.shared.addMessage("Skipping to next chapter because Remote Skip Chapters is turned on")
-                        self.seekTo(time: ceil(nextChapter.startTime.seconds))
-
-                        return .success
-                    }
-                }
-
                 if let skipEvent = event as? MPSkipIntervalCommandEvent, skipEvent.interval > 0 {
                     self.skipForward(amount: skipEvent.interval)
                 } else {
@@ -1692,21 +1607,6 @@ class PlaybackManager: ServerPlaybackDelegate {
         guard let episode = currentEpisode() as? Episode, let parentPodcast = episode.parentPodcast() else { return 0 }
 
         return TimeInterval(parentPodcast.skipLast)
-    }
-
-    // MARK: - Keep Screen on
-
-    func updateIdleTimer() {
-        #if !os(watchOS)
-            DispatchQueue.main.async {
-                if self.playing() {
-                    let keepScreenOn = UserDefaults.standard.bool(forKey: Constants.UserDefaults.keepScreenOnWhilePlaying)
-                    UIApplication.shared.isIdleTimerDisabled = keepScreenOn
-                } else {
-                    UIApplication.shared.isIdleTimerDisabled = false
-                }
-            }
-        #endif
     }
 
     // MARK: - Analytics

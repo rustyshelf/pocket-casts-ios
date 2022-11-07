@@ -179,8 +179,7 @@ class MiniPlayerViewController: SimpleNotificationsViewController {
         if let episode = PlaybackManager.shared.currentEpisode() {
             setupForEpisode(episode)
             showMiniPlayer()
-            let shouldOpenAutomatically = UserDefaults.standard.bool(forKey: Constants.UserDefaults.openPlayerAutomatically)
-            if shouldOpenAutomatically || episode.videoPodcast(), lastEpisodeUuidAutoOpened != episode.uuid {
+            if episode.videoPodcast(), lastEpisodeUuidAutoOpened != episode.uuid {
                 lastEpisodeUuidAutoOpened = episode.uuid
 
                 // we called show mini player above, which might have spent time animating itself into view, so give that time to finish

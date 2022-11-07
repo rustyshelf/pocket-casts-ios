@@ -112,36 +112,6 @@ class Settings: NSObject {
         UserDefaults.standard.setValue(finishedAction.rawValue, forKey: Constants.UserDefaults.episodeFinishedAction)
     }
 
-    // MARK: - Default Archive Hiding
-
-    private static let defaultArchiveBehaviour = "SJDefaultArchive"
-    class func showArchivedDefault() -> Bool {
-        UserDefaults.standard.bool(forKey: defaultArchiveBehaviour)
-    }
-
-    class func setShowArchivedDefault(_ showArchived: Bool) {
-        UserDefaults.standard.set(showArchived, forKey: defaultArchiveBehaviour)
-    }
-
-    // MARK: - Primary Row Action
-
-    private static let primaryRowActionKey = "SJRowAction"
-    private static var cachedPrimaryRowAction: PrimaryRowAction? // we cache this because it's used in lists
-    class func primaryRowAction() -> PrimaryRowAction {
-        if let action = cachedPrimaryRowAction { return action }
-
-        let storedValue = UserDefaults.standard.integer(forKey: primaryRowActionKey)
-        let primaryAction = PrimaryRowAction(rawValue: Int32(storedValue)) ?? .stream
-        cachedPrimaryRowAction = primaryAction
-
-        return primaryAction
-    }
-
-    class func setPrimaryRowAction(_ action: PrimaryRowAction) {
-        UserDefaults.standard.set(action.rawValue, forKey: primaryRowActionKey)
-        cachedPrimaryRowAction = action
-    }
-
     // MARK: - Podcast Sort Order
 
     class func homeFolderSortOrder() -> LibrarySort {
@@ -193,17 +163,6 @@ class Settings: NSObject {
     class func setPrimaryUpNextSwipeAction(_ action: PrimaryUpNextSwipeAction) {
         UserDefaults.standard.set(action.rawValue, forKey: primaryUpNextSwipeActionKey)
         cachedPrimaryUpNextSwipeAction = action
-    }
-
-    // MARK: - Play Up Next On Tap
-
-    private static let playUpNextOnTapKey = "SJPlayUpNextOnTap"
-    class func playUpNextOnTap() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.playUpNextOnTapKey)
-    }
-
-    class func setPlayUpNextOnTap(_ isOn: Bool) {
-        UserDefaults.standard.set(isOn, forKey: Settings.playUpNextOnTapKey)
     }
 
     // MARK: - Discover Region
@@ -305,41 +264,6 @@ class Settings: NSObject {
     class func setCustomSleepTime(_ time: TimeInterval) {
         let adjustedTime = time < Constants.Limits.minSleepTime ? Constants.Limits.minSleepTime : time
         UserDefaults.standard.set(adjustedTime, forKey: "CustomSleepTime")
-    }
-
-    // MARK: - Chapter skipping
-
-    private static let remoteChapterSkipKey = "RemoteChapterSkip"
-    class func remoteSkipShouldSkipChapters() -> Bool {
-        UserDefaults.standard.bool(forKey: remoteChapterSkipKey)
-    }
-
-    class func setRemoteSkipShouldSkipChapters(_ value: Bool) {
-        UserDefaults.standard.set(value, forKey: remoteChapterSkipKey)
-    }
-
-    // MARK: - CarPlay/Lock Screen actions
-
-    private static let mediaSessionActionsKey = "MediaSessionActions"
-    class func extraMediaSessionActionsEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.mediaSessionActionsKey)
-    }
-
-    class func setExtraMediaSessionActionsEnabled(_ enabled: Bool) {
-        UserDefaults.standard.set(enabled, forKey: Settings.mediaSessionActionsKey)
-
-        NotificationCenter.postOnMainThread(notification: Constants.Notifications.extraMediaSessionActionsChanged)
-    }
-
-    // MARK: - Legacy Bluetooth Support
-
-    private static let legacyBtSupportKey = "LegacyBtSupport"
-    class func legacyBluetoothModeEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: Settings.legacyBtSupportKey)
-    }
-
-    class func setLegacyBluetoothModeEnabled(_ enabled: Bool) {
-        UserDefaults.standard.set(enabled, forKey: Settings.legacyBtSupportKey)
     }
 
     // MARK: - Publish Chapter Titles
@@ -533,17 +457,6 @@ class Settings: NSObject {
         UserDefaults.standard.set(actionInts, forKey: Settings.playerActionsKey)
 
         NotificationCenter.postOnMainThread(notification: Constants.Notifications.playerActionsUpdated)
-    }
-
-    // MARK: Multi Select Gesture
-
-    private static let multiSelectGestureKey = "MultiSelectGestureEnabled"
-    class func multiSelectGestureEnabled() -> Bool {
-        UserDefaults.standard.bool(forKey: multiSelectGestureKey)
-    }
-
-    class func setMultiSelectGestureEnabled(_ enabled: Bool) {
-        UserDefaults.standard.set(enabled, forKey: multiSelectGestureKey)
     }
 
     // MARK: Multi Select Actions
