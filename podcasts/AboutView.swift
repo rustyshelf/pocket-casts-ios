@@ -3,11 +3,6 @@ import PocketCastsUtils
 import SwiftUI
 
 struct AboutView: View {
-    private let logoCellHeight: CGFloat = 120
-    private let familyCellHeight: CGFloat = 160
-    private let logoOffsetAmount: CGFloat = 30
-    private let familyCellTopPadding: CGFloat = 6
-
     @EnvironmentObject var theme: Theme
 
     @ObservedObject private var model = AboutViewModel()
@@ -38,13 +33,6 @@ struct AboutView: View {
                     }
                     .padding(.top, 30)
                     List {
-                        if model.shouldShowWhatsNew, let whatsNewInfo = model.whatsNewInfo {
-                            Section {
-                                AboutRow(mainText: model.whatsNewText) {
-                                    NavigationManager.sharedManager.navigateTo(NavigationManager.showWhatsNewPageKey, data: [NavigationManager.whatsNewInfoKey: whatsNewInfo])
-                                }
-                            }
-                        }
                         Section {
                             AboutRow(mainText: L10n.aboutWebsite, secondaryText: L10n.websiteShort) {
                                 openUrl(ServerConstants.Urls.pocketcastsDotCom)
@@ -61,40 +49,6 @@ struct AboutView: View {
                                 showLegalAndMore = true
                             }
                         }
-                        Section {
-                            VStack(alignment: .leading) {
-                                Text(L10n.aboutA8cFamily)
-                                    .textStyle(PrimaryText())
-                                    .padding(.top, familyCellTopPadding)
-                                GeometryReader { geometry in
-                                    HStack(alignment: .bottom) {
-                                        ForEach(Array(AboutLogo.allCases.enumerated()), id: \.element) { index, logo in
-                                            LogoView(logo: logo, index: index, logoSize: calculateLogoSize(geometry: geometry), logoOffset: logoOffsetAmount)
-                                        }
-                                    }
-                                    .offset(y: logoCellHeight - logoOffsetAmount - calculateLogoSize(geometry: geometry) + familyCellTopPadding)
-                                }
-                                .frame(height: logoCellHeight)
-                            }
-                            .frame(height: familyCellHeight)
-                            .onTapGesture {
-                                openUrl(ServerConstants.Urls.automatticDotCom)
-                            }
-                        }
-                        .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
-                        Section {
-                            VStack(alignment: .leading) {
-                                Text(L10n.aboutWorkWithUs)
-                                    .textStyle(PrimaryText())
-                                Text(L10n.aboutJoinFromAnywhere)
-                                    .textStyle(SecondaryText())
-                                    .font(.subheadline)
-                            }
-                            .onTapGesture {
-                                openUrl(ServerConstants.Urls.automatticWorkWithUs)
-                            }
-                        }
-                        .listRowBackground(ThemeColor.primaryUi02(for: theme.activeTheme).color)
                     }
                     .listStyle(.insetGrouped)
                 }
@@ -102,12 +56,6 @@ struct AboutView: View {
             }
             .navigationBarHidden(true)
         }.navigationViewStyle(StackNavigationViewStyle())
-    }
-
-    private func calculateLogoSize(geometry: GeometryProxy) -> CGFloat {
-        let sizeToFit = geometry.size.width / CGFloat(AboutLogo.allCases.count) * 1.4
-
-        return sizeToFit.clamped(to: 45 ..< 80)
     }
 
     private func openUrl(_ urlStr: String) {
