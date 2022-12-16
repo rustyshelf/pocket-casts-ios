@@ -3,20 +3,15 @@ import WidgetKit
 
 struct UpNextLockScreenWidget: Widget {
     var body: some WidgetConfiguration {
-        if #available(iOSApplicationExtension 16.0, *) {
-            return StaticConfiguration(kind: "Up_Next_Lock_Screen_Widget", provider: UpNextProvider()) { entry in
-                UpNextLockScreenWidgetEntryView(entry: entry)
-            }
-            .configurationDisplayName(L10n.upNext)
-            .description(L10n.widgetsUpNextDescription)
-            .supportedFamilies([.accessoryCircular, .accessoryRectangular])
-        } else {
-            return EmptyWidgetConfiguration()
+        return StaticConfiguration(kind: "Up_Next_Lock_Screen_Widget", provider: UpNextProvider()) { entry in
+            UpNextLockScreenWidgetEntryView(entry: entry)
         }
+        .configurationDisplayName(L10n.upNext)
+        .description(L10n.widgetsUpNextDescription)
+        .supportedFamilies([.accessoryCircular, .accessoryRectangular])
     }
 }
 
-@available(iOSApplicationExtension 16.0, *)
 struct UpNextLockScreenWidgetEntryView: View {
     @State var entry: UpNextProvider.Entry
     @Environment(\.widgetFamily) private var family
@@ -37,7 +32,6 @@ struct UpNextLockScreenWidgetEntryView: View {
 
 // MARK: - Circular View
 
-@available(iOSApplicationExtension 16.0, *)
 struct UpNextCircularWidgetView: View {
     let entry: UpNextEntry
 
@@ -76,7 +70,6 @@ struct UpNextCircularWidgetView: View {
 
 // MARK: - Rectangle View
 
-@available(iOSApplicationExtension 16.0, *)
 struct UpNextRectangularWidgetView: View {
     let entry: UpNextEntry
 
@@ -133,7 +126,6 @@ struct UpNextRectangularWidgetView: View {
     }
 }
 
-@available(iOSApplicationExtension 16.0, *)
 struct Previews_UpNextLockScreenWidget_Previews: PreviewProvider {
     static var previews: some View {
         UpNextLockScreenWidgetEntryView(entry: UpNextEntry(date: Date(), isPlaying: false, upNextEpisodesCount: 18))

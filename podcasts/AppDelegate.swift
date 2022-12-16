@@ -8,9 +8,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private static let initialRefreshDelay = 2.seconds
     private static let minTimeBetweenRefreshes = 5.minutes
 
-    private let shortcutManager = ShortcutManager()
-    private let badgeHelper = BadgeHelper()
-
     @objc var backgroundSessionCompletionHandler: (() -> Void)?
 
     var window: UIWindow?
@@ -18,8 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var modalController: UINavigationController?
 
     lazy var lenticularFilter: LenticularFilter = .init()
-
-    private var backgroundSignOutListener: BackgroundSignOutListener?
 
     // MARK: - App Lifecycle
 
@@ -51,16 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WidgetHelper.shared.cleanupAppGroupImages()
         }
 
-        badgeHelper.setup()
-        shortcutManager.listenForShortcutChanges()
-
         setupBackgroundRefresh()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleThemeChanged), name: Constants.Notifications.themeChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hideOverlays), name: Constants.Notifications.openingNonOverlayableWindow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showOverlays), name: Constants.Notifications.closedNonOverlayableWindow, object: nil)
 
-        setupSignOutListener()
         return true
     }
 
@@ -72,7 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         scheduleNextBackgroundRefresh()
 
         UserDefaults.standard.set(Date(), forKey: Constants.UserDefaults.lastAppCloseDate)
-        badgeHelper.updateBadge()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -80,8 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func handleBecomeActive() {
-        setupSignOutListener()
-
         // give the network a few seconds to come up before refreshing, also only refresh if the last refresh was more than 5 minutes ago
         let lastUpdateTime = ServerSettings.lastRefreshEndTime()
         if DateUtil.hasEnoughTimePassed(since: lastUpdateTime, time: AppDelegate.minTimeBetweenRefreshes) {
@@ -103,7 +91,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
             completionHandler(self.convertRefreshResult(result: refreshFetchResult))
         })
-        badgeHelper.updateBadge()
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -122,9 +109,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         RefreshManager.shared.cancelAllRefreshes()
-
-        badgeHelper.teardown()
-        shortcutManager.stopListeningForShortcutChanges()
 
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
@@ -225,7 +209,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RefreshManager.shared.refreshPodcasts(completion: { refreshFetchResult in
             task.setTaskCompleted(success: refreshFetchResult != .failed)
         })
-        badgeHelper.updateBadge()
     }
 
     private func postLaunchSetup() {
@@ -274,30 +257,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         let role = connectingSceneSession.role
 
-        if role == UISceneSession.Role.carTemplateApplication {
-            return UISceneConfiguration(name: "Pocket Casts Car", sessionRole: UISceneSession.Role.carTemplateApplication)
-        }
-
         return UISceneConfiguration(name: "Default Configuration", sessionRole: role)
     }
 
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) { }
 
     // MARK: Secrets
 
     private func setupSecrets() {
         ServerCredentials.sharing = ApiCredentials.sharingServerSecret
-    }
-
-    private func setupSignOutListener() {
-        guard backgroundSignOutListener == nil, let rootController = SceneHelper.rootViewController() else {
-            return
-        }
-
-        backgroundSignOutListener = BackgroundSignOutListener(presentingViewController: rootController)
     }
 }

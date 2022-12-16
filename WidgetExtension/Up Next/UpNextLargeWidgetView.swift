@@ -111,7 +111,7 @@ struct LargeFilterView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(episodes[0 ... min(4, episodes.count - 1)], id: \.self) { episode in
                             HStack {
-                                EpisodeView.createCompactWhenNecessaryView(episode: episode)
+                                EpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
                                     .frame(minHeight: 42, maxHeight: 56)
                                 Spacer()
                             }

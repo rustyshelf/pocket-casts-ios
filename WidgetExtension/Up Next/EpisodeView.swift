@@ -2,16 +2,17 @@ import Foundation
 import SwiftUI
 
 struct EpisodeView: View {
+    @Environment(\.dynamicTypeSize) var typeSize
+    
     @State var episode: WidgetEpisode
     @State var topText: Text
-    @State var compactView: Bool = false
 
     var body: some View {
         Link(destination: CommonWidgetHelper.urlForEpisodeUuid(uuid: episode.episodeUuid)!) {
             HStack(spacing: 12) {
                 SmallArtworkView(imageData: episode.imageData)
                 VStack(alignment: .leading) {
-                    if !compactView {
+                    if typeSize <= .xxLarge {
                         topText
                             .textCase(.uppercase)
                             .font(.caption2)
@@ -23,7 +24,7 @@ struct EpisodeView: View {
                         .foregroundColor(Color.primary)
                         .lineLimit(1)
                     HStack(alignment: .center, spacing: 5) {
-                        if compactView {
+                        if typeSize >= .xxLarge {
                             topText
                                 .textCase(.uppercase)
                                 .font(.caption2)
@@ -41,10 +42,5 @@ struct EpisodeView: View {
                 }
             }
         }
-    }
-
-    @ViewBuilder
-    static func createCompactWhenNecessaryView(episode: WidgetEpisode) -> some View {
-        CompactWhenNecessaryEpisodeView(episode: episode, topText: Text(CommonWidgetHelper.durationString(duration: episode.duration)))
     }
 }

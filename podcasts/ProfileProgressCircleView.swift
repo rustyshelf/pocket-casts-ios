@@ -1,4 +1,8 @@
 import UIKit
+import CryptoKit
+import Kingfisher
+import PocketCastsServer
+
 
 class ProfileProgressCircleView: ThemeableView {
     var isSubscribed = false {
@@ -45,6 +49,7 @@ class ProfileProgressCircleView: ThemeableView {
         }
     }
 
+    private var gravatarImageView: UIImageView!
     private var profileImageView: UIImageView!
     private var profileGradientView: UIView!
     private var profileGradientLayer: CAGradientLayer!
@@ -64,10 +69,12 @@ class ProfileProgressCircleView: ThemeableView {
     }
 
     private func commonInit() {
+        gravatarImageView = UIImageView()
         profileImageView = UIImageView()
         profileGradientView = UIView()
         addSubview(profileGradientView)
         addSubview(profileImageView)
+        addSubview(gravatarImageView)
 
         profileGradientLayer = CAGradientLayer()
         profileGradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
@@ -93,6 +100,11 @@ class ProfileProgressCircleView: ThemeableView {
 
         expiryGradientLayer.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
         expiryShapeLayer.frame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: frame.height)
+        
+        gravatarImageView.frame = CGRect(x: origin, y: origin, width: imageSize, height: imageSize)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAvatar), name: .userLoginDidChange, object: nil)
+        updateAvatar()
     }
 
     override func draw(_ rect: CGRect) {
@@ -112,5 +124,31 @@ class ProfileProgressCircleView: ThemeableView {
         profileGradientView.backgroundColor = ThemeColor.primaryUi05()
         profileGradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
         expiryGradientLayer.colors = [ThemeColor.gradient01A().cgColor, ThemeColor.gradient01E().cgColor]
+    }
+    
+    @objc private func updateAvatar() {
+        if let email = ServerSettings.syncingEmail() {
+            let imageSize = frame.size.width - (4 * lineWidth)
+            let gravatar = "https://www.gravatar.com/avatar/\(email.md5)?d=404"
+            let processor = RoundCornerImageProcessor(cornerRadius: imageSize)
+            let options: KingfisherOptionsInfo = [
+                .processor(processor),
+                .cacheSerializer(FormatIndicatedCacheSerializer.png)
+            ]
+
+            gravatarImageView.kf.setImage(with: URL(string: gravatar), placeholder: nil, options: options)
+        } else {
+            gravatarImageView.image = nil
+        }
+    }
+}
+
+private extension String {
+    var md5: String {
+        let digest = Insecure.MD5.hash(data: data(using: .utf8) ?? Data())
+
+        return digest.map {
+            String(format: "%02hhx", $0)
+        }.joined()
     }
 }
