@@ -19,8 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - App Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        FileLog.shared.setup()
-
         setupSecrets()
 
         let defaults = UserDefaults.standard
